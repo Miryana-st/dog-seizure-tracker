@@ -1,0 +1,73 @@
+button,
+.button {
+    display: inline-block;
+    padding: 1em 3em;
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 0.3em;
+    transition: background-color 0.3s ease;
+}
+
+button {
+    border: 0.3em solid rgb(49, 122, 205);
+}
+
+.login-button,
+.logout-button,
+.save-button,
+.delete-button,
+.change-role-button {
+    background-color: rgb(239, 238, 228);
+    color: rgb(49, 122, 205);
+    border: 0.1em solid rgb(49, 122, 205);
+}
+
+.add-dog-button {
+    background-color: rgb(104 97 166);
+    color: rgb(225 230 234);
+    border: 0.1em solid rgb(43 40 71);
+}
+
+.login-button:hover,
+.logout-button:hover,
+.save-button:hover,
+.register-button:hover,
+.my-dog-button:hover,
+.edit-button:hover,
+.delete-button:hover,
+.add-dog-button:hover {
+    background-color: #2b2847;
+    color: #ffffff;
+    border: 0.1em solid #2b2847;
+}
+
+.register-button, .my-dog-button, .edit-button {
+    background-color: rgb(49, 122, 205);
+    color: rgb(239, 238, 228);
+    border: 0.1em solid rgb(49, 122, 205);
+}
+
+.buttons {
+    padding: 0.5em;
+}
+
+.buttons * {
+    margin-right: 1.5em;
+}
+
+.save-button {
+    width: 8em;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.change-role-button {
+    width: 12em;
+    padding-right: 0;
+    padding-left: 0;
+    margin-left: 1em;
+}

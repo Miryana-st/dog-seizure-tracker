@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+</head>
+<body>
+<header class="section section-header">
+    <div class="site-title">
+        <div class="logo-container">
+            <a href="/"><img src="/images/primary-logo-removedbg-preview.png" alt="DST Logo"></a>
+        </div>
+    </div>
+    <nav class="nav">
+        <a th:href="@{/register}" class="button register-button">Register</a>
+        <a th:href="@{/login}" class="button login-button">Login</a>
+    </nav>
+</header>
+<main class="main-content">
+    <section class="heading">
+        <img src="/images/husky-image-index-page.png" alt="Image of a husky sitting" class="husky-img">
+        <section class="intro">
+            <h1>Simple Tracking and Better Care</h1>
+            <p>Dog Seizure Tracker (DST) helps you track seizures and share reports with your
+                veterinarian.</p>
+            <div class="buttons">
+                <a th:href="@{/login}" class="button login-button">Login</a>
+                <a th:href="@{/register}" class="button register-button">Create Account</a>
+            </div>
+            <div class="icons">
+                <ul class="icons-list">
+                    <li><i class="fa-solid fa-list-ul"></i>Track Episodes</li>
+                    <li><i class="fa-solid fa-dog"></i>Edit Dog Profile</li>
+                    <li><i class="fa-solid fa-chart-line"></i>View Trends</li>
+                    <li><i class="fa-regular fa-file"></i>Export Reports</li>
+                </ul>
+            </div>
+        </section>
+    </section>
+</main>
+<footer th:insert="fragments/footer :: footer"></footer>
+</body>
+</html>

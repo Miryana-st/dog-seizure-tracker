@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<header class="section section-header">
+    <div class="site-title">
+        <div class="logo-container">
+            <a href="/"><img src="/images/primary-logo-removedbg-preview.png" alt="DST Logo"></a>
+        </div>
+    </div>
+    <nav class="nav">
+        <a th:href="@{/register}" class="button register-button">Create Account</a>
+    </nav>
+</header>
+<main class="main-content">
+    <section class="heading">
+        <section class="intro centered">
+            <h1>Welcome Back</h1>
+            <p>Please sign in to continue tracking and managing your dog's care.</p>
+            <div class="form-panel">
+                <form class="login-form" th:action="@{/login}" th:method="POST" th:object="${userLoginRequest}">
+
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="username">Username</label>
+                            <input type="text" placeholder="Username" id="username" th:field="*{username}" required>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('username')}"
+                               th:errors="*{username}"></small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="password">Password</label>
+                            <input type="password" placeholder="••••••••" id="password" th:field="*{password}" required>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('password')}"
+                               th:errors="*{password}"></small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="button login-button">Login</button>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+    </section>
+</main>
+<footer th:insert="fragments/footer :: footer"></footer>
+</body>
+</html>

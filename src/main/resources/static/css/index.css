@@ -1,0 +1,54 @@
+.husky-img {
+    width: 30%;
+    height: auto;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.heading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10em;
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5em;
+}
+
+h1 {
+    font-size: 3em;
+    color: rgba(106, 78, 165);
+    margin: 0;
+    max-width: 20ch;
+}
+
+h1 + p {
+    font-weight: bold;
+    max-width: 50ch;
+    color: rgb(10, 39, 72);
+
+}
+
+.icons-list {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5em;
+}
+
+
+

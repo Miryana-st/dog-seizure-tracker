@@ -1,0 +1,74 @@
+.login-form,
+.register-form,
+.form-edit,
+.add-dog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.login-form input,
+.register-form input,
+.form-edit input,
+.add-dog-form input {
+    padding: 0.6em;
+    border-radius: 0.5em;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+
+.form-panel {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 1.2em;
+    border-radius: 0.6em;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    margin: 1em auto;
+    max-width: 72ch;
+}
+.form-panel .form-actions {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-data {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+}
+
+.form-row label {
+    text-align: right;
+    flex: 0 0 10em;
+}
+
+.form-row input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.form-note {
+    font-size: 0.9em;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+select {
+    border: 1px solid rgb(0 0 0 / 0.21);
+    padding: 0.5em;
+    border-radius: 0.6em;
+    width: 20em;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/side-nav-bar.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+</head>
+<body>
+<header class="section section-header">
+    <div class="site-title">
+        <div class="logo-container">
+            <a href="/home"><img src="/images/primary-logo-removedbg-preview.png" alt="DST Logo"></a>
+        </div>
+    </div>
+    <nav class="nav">
+        <a th:href="@{/logout}" class="button logout-button">Logout</a>
+    </nav>
+</header>
+<main class="main-content">
+    <section th:insert="fragments/side-nav-bar :: side-nav-bar"></section>
+    <section class="info-container">
+        <section class="welcome-section">
+            <h1 th:utext="|Welcome to DST, ${user.firstName}! <i class='fa-solid fa-paw'></i>|"></h1>
+                <p>Your trusted companion for tracking and managing your dog's seizures.</p>
+        </section>
+
+        <section class="profile-info">
+            <h2> Your Profile Information:</h2>
+            <div class="profile-info-container">
+                <strong>Username: </strong>
+                <p th:text="${user.username}"></p>
+            </div>
+            <div class="profile-info-container">
+                <strong>First Name: </strong>
+                <p th:text="${user.firstName}"></p>
+            </div>
+            <div class="profile-info-container">
+                <strong>Last Name: </strong>
+                <p th:text="${user.lastName}"></p>
+            </div>
+
+            <div class="profile-info-container">
+                <strong>Email: </strong>
+                <p th:text="${user.email}"></p>
+            </div>
+            <div class="profile-info-container">
+                <strong>Phone number: </strong>
+                <p th:text="${user.phoneNumber}"></p>
+            </div>
+        </section>
+
+        <section class="buttons">
+            <a th:href="@{/users/{id}/profile(id=${user.id})}" class="button edit-button">Edit Profile</a>
+            <a th:href="@{/users/{id}/profile(id=${user.id})}" class="button delete-button">Delete Profile</a>
+        </section>
+
+    </section>
+
+    <section class="image-container">
+        <img src="/images/image-dog-with-owner-playing.png" alt="A dog happily playing with it's owner"
+             class="dog-and-owner-image">
+    </section>
+</main>
+<footer th:insert="fragments/footer :: footer"></footer>
+</body>
+</html>
+
+<!--TODO: Add a delete button-->

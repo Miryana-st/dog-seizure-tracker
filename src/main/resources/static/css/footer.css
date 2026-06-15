@@ -1,0 +1,42 @@
+footer {
+    position: fixed;
+    bottom: 0;
+    height: 5.5em;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em 0.5em;
+    background-color: rgb(212, 216, 237);
+    color: rgb(49, 122, 205);
+}
+
+.footer-container p {
+    margin: 0.3em 0;
+    line-height: 1;
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.footer-container p:first-child {
+    font-size: 1em;
+}
+
+.text-security {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+}
+
+.copyright {
+    margin-top: 1em;
+    font-size: 0.7em;
+    color: rgb(8, 34, 68);
+    font-weight: normal;
+    align-self: flex-end;
+}
+

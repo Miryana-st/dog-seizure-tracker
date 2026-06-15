@@ -1,0 +1,13 @@
+<div th:fragment="side-nav-bar" class="side-nav-bar">
+    <div class="side-bar-container">
+        <nav>
+            <ul>
+                <li><a href="/home"><i class="fa-regular fa-house"></i>My Profile</a></li>
+                <li><a href="/dogs"><i class="fa-solid fa-dog"></i>My Dogs</a></li>
+                <li><a href="/seizures"><i class="fa-solid fa-chart-bar"></i>Seizure Logs</a></li>
+                <li th:if="${user != null and user.role != null and user.role.name() == 'ADMIN'}"><a href="/users"><i class="fa-solid fa-list"></i>Users</a></li>
+            </ul>
+
+        </nav>
+    </div>
+</div>

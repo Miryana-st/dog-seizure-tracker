@@ -1,0 +1,68 @@
+h1 {
+    width: 17em;
+}
+
+.welcome-section p {
+    padding-top: 0.5em;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 70%;
+}
+
+.profile-info {
+    padding: 1em 1em;
+    margin: 1em;
+    border-radius: 0.5em;
+    background: white;
+    box-shadow: 0.2em 1em 3em rgba(95, 92, 92, 0.2);
+}
+
+.profile-info-container * {
+    padding-top: 0.8em;
+}
+
+.profile-info-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    padding-top: 0.5em;
+}
+
+.buttons {
+    margin: 0.5em 0.5em;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container img {
+    padding-top: 2em;
+    width: 85%;
+    display: block;
+}
+
+.image-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 40%;
+
+    background: linear-gradient(
+            to right,
+            rgb(239, 238, 228) 0%,
+            rgba(255, 255, 255, 0.9) 30%,
+            rgba(255, 255, 255, 0) 100%
+    );
+}
