@@ -1,4 +1,4 @@
-_# **Project Title: Seizure Tracker Application**_
+# Project Title: Seizure Tracker Application
 
 Summary: Dog Seizure Tracker is a Java-based application designed to help dog owners monitor and manage their pets' seizure activity. The application provides a centralized platform for recording dog information, and logging seizure events to help owners and veterinarians better understand and manage canine epilepsy and other seizure-related conditions.
 

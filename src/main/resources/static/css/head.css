@@ -1,0 +1,41 @@
+.section-header {
+    padding: 1em 2em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.logo-container {
+    height: 5em;
+}
+
+.logo-container img {
+    height: 5em;
+    max-height: 5em;
+    width: auto;
+    display: inline-block;
+}
+.navigation {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+}
+
+.nav div {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}

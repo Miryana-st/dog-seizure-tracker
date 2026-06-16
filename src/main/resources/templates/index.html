@@ -8,20 +8,11 @@
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/button.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/head.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
 </head>
 <body>
-<header class="section section-header">
-    <div class="site-title">
-        <div class="logo-container">
-            <a href="/"><img src="/images/primary-logo-removedbg-preview.png" alt="DST Logo"></a>
-        </div>
-    </div>
-    <nav class="nav">
-        <a th:href="@{/register}" class="button register-button">Register</a>
-        <a th:href="@{/login}" class="button login-button">Login</a>
-    </nav>
-</header>
+<header th:insert="fragments/head :: navigation" class="section section-header"></header>
 <main class="main-content">
     <section class="heading">
         <img src="/images/husky-image-index-page.png" alt="Image of a husky sitting" class="husky-img">

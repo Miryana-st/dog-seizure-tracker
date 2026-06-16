@@ -56,31 +56,6 @@ label {
     font-weight: bold;
 }
 
-.logo-container {
-    height: 5em;
-}
-
-.logo-container img {
-    height: 5em;
-    max-height: 5em;
-    width: auto;
-    display: inline-block;
-}
-
-.section-header {
-    padding: 1em 2em;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1em;
-}
-
-.section-header .site-title {
-    flex: 1;
-    min-width: 150px;
-}
-
 i {
     font-size: 2em;
 }

@@ -1,0 +1,13 @@
+h1 {
+    text-align: center;
+}
+
+.form-edit {
+    align-items: center;
+}
+
+input {
+    width: 20em;
+    padding-right: 0;
+    padding-left: 0;
+}

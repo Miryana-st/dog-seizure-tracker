@@ -1,15 +1,17 @@
 package app.service.user;
 
+import app.model.dto.UserEditRequest;
 import app.model.dto.UserLoginRequest;
 import app.model.dto.UserRegisterRequest;
 import app.model.entity.user.User;
+import app.model.entity.user.UserRole;
 import app.repository.user.UserRepository;
-import app.service.dog.DogService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,13 +21,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final DogService dogService;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, DogService dogService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.dogService = dogService;
     }
 
     public void register(UserRegisterRequest userRegisterRequest) {
@@ -42,6 +42,7 @@ public class UserService {
                 .lastName(userRegisterRequest.getLastName())
                 .email(userRegisterRequest.getEmail())
                 .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
+                .role(UserRole.USER)
                 .build();
 
         userRepository.save(user);
@@ -62,9 +63,37 @@ public class UserService {
         return user;
     }
 
+    public User update(String id, UserEditRequest userEditRequest) {
+        User user = userRepository.findById(UUID.fromString(id))
+                .orElseThrow(
+                        () -> new RuntimeException("User with id [%s] not found!".formatted(id)));
+
+        user.setFirstName(userEditRequest.getFirstName());
+        user.setLastName(userEditRequest.getLastName());
+        user.setEmail(userEditRequest.getEmail());
+        user.setPhoneNumber(userEditRequest.getPhoneNumber());
+
+        return userRepository.save(user);
+    }
+
+
+    public void switchRole(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new RuntimeException("User with id [%s] not found!".formatted(id)));
+
+        user.setRole(user.getRole() == UserRole.USER ? UserRole.ADMIN : UserRole.USER);
+        userRepository.save(user);
+    }
+
     public User getById(UUID userId) {
 
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User with id [%s] not found!".formatted(userId)));
     }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
 }

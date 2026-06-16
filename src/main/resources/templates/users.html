@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/users.css">
+    <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+</head>
+<body>
+<header th:insert="fragments/head :: navigation" class="section section-header"></header>
+<main class="main-content">
+    <section class="users-section">
+        <h1>Registered Users</h1>
+        <div class="users-table">
+            <table>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Full name</th>
+                    <th>Email</th>
+                    <th>Phone number</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.getId()}"></td>
+                    <td th:text="${user.getUsername()}"></td>
+                    <td th:text="${user.getFirstName() + ' ' + user.getLastName()}"></td>
+                    <td th:text="${user.getEmail()}"></td>
+                    <td th:text="${user.getPhoneNumber()}"></td>
+                    <td class="button-table">
+
+                        <div class="button-in-table">
+                            <form th:action="@{/users/{id}/delete(id=${user.id})}" th:method="DELETE">
+                                <button type="submit" class="button delete-button"
+                                        onclick="return confirm('Delete user?');">Delete
+                                </button>
+                            </form>
+                            <form th:action="@{/users/{id}/role(id=${user.id})}" th:method="PUT">
+                                <input type="hidden" name="targetRole"
+                                       th:value="${user.role.name() == 'ADMIN' ? 'USER' : 'ADMIN'}"/>
+                                <button type="submit" class="button change-role-button"
+                                        th:text="${user.role.name() == 'ADMIN' ? 'Change to USER' : 'Change to ADMIN'}"
+                                        th:attr="onclick='return confirm(\'Are you sure you want to change role?\')'"></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(users)}">
+                    <td colspan="6">No users found.</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="button create-user-button-container">
+                <a th:href="@{/register}" class="button register-button">Create User</a>
+            </div>
+        </div>
+    </section>
+</main>
+<footer th:insert="fragments/footer :: footer"></footer>
+</body>
+</html>

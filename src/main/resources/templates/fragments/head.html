@@ -1,0 +1,16 @@
+<section th:fragment="navigation" class="navigation">
+    <div class="site-title">
+        <div class="logo-container">
+            <a href="/home"><img src="/images/primary-logo-removedbg-preview.png" alt="DST Logo"></a>
+        </div>
+    </div>
+    <nav class="nav">
+        <div th:unless="${user}">
+            <a th:href="@{/register}" class="button register-button">Register</a>
+            <a th:href="@{/login}" class="button login-button">Login</a>
+        </div>
+        <div th:if="${user}">
+            <a th:href="@{/logout}" class="button logout-button">Logout</a>
+        </div>
+    </nav>
+</section>
