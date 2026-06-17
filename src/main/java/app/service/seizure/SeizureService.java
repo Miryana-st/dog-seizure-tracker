@@ -25,6 +25,20 @@ public class SeizureService {
         this.dogService = dogService;
     }
 
+    public void create(CreateNewSeizureRequest createNewSeizureRequest, Dog dog) {
+
+        Seizure seizure = Seizure.builder()
+                .dog(dog)
+                .date(createNewSeizureRequest.getDate())
+                .time(createNewSeizureRequest.getTime())
+                .duration(createNewSeizureRequest.getDuration())
+                .severity(createNewSeizureRequest.getSeverity())
+                .recovery(createNewSeizureRequest.getRecovery())
+                .build();
+
+        seizureRepository.save(seizure);
+    }
+
     public List<Seizure> getAllSeizuresByDogId(UUID dogId) {
         return seizureRepository.findAllByDog_Id(dogId);
     }

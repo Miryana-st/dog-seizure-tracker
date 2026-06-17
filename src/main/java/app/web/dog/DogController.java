@@ -98,14 +98,4 @@ public class DogController {
         return new ModelAndView("redirect:/dogs");
     }
 
-    @GetMapping("/{id}/seizures")
-    public ModelAndView getSeizuresPerDog (@PathVariable String id){
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("seizures");
-        modelAndView.addObject("seizures", seizureService.getAllSeizuresByDogId(UUID.fromString(id)));
-
-        return modelAndView;
-    }
-
 }

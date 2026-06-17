@@ -66,7 +66,7 @@
                                     <a th:href="@{/dogs/{id}/dog-profile(id=${dog.id})}" class="button delete-button">Delete Dog</a>
                                 </div>
                                 <div class="button-seizures">
-                                    <a th:href="@{/dogs/{id}/seizures(id=${dog.id})}"><i class="fa-solid fa-chart-bar"></i>Seizure Logs</a>
+                                    <a th:href="@{/seizures/dog/{id}(id=${dog.id})}"><i class="fa-solid fa-chart-bar"></i>Seizure Logs</a>
                                 </div>
                             </td>
                         </tr>
