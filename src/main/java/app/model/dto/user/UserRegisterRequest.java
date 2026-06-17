@@ -1,4 +1,4 @@
-package app.model.dto;
+package app.model.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

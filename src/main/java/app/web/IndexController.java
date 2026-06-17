@@ -1,7 +1,7 @@
 package app.web;
 
-import app.model.dto.UserLoginRequest;
-import app.model.dto.UserRegisterRequest;
+import app.model.dto.user.UserLoginRequest;
+import app.model.dto.user.UserRegisterRequest;
 import app.model.entity.user.User;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;

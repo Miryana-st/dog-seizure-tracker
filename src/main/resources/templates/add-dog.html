@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Dog - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/edit-page.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/head.css">
+
+</head>
+<body>
+<header th:insert="fragments/head :: navigation" class="section section-header"></header>
+<main class="main-content">
+    <h1>Add New Dog</h1>
+    <section class="form-panel">
+        <form class="add-dog-form" th:method="POST" th:action="@{/dogs}" th:object="${createNewDogRequest}">
+            <div class="form-row">
+                <div class="form-data">
+                    <label for="name">Dog Name</label>
+                    <input type="text" id="name" placeholder="Dog Name" th:field="*{name}" required>
+                </div>
+                <small class="alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+            </div>
+
+            <div class="form-row">
+                <div class="form-data">
+                    <label for="breed">Breed</label>
+                    <input type="text" id="breed" placeholder="Breed" th:field="*{breed}" required>
+                </div>
+                <small class="alert-warning" th:if="${#fields.hasErrors('breed')}" th:errors="*{breed}"></small>
+            </div>
+
+            <div class="form-row">
+                <div class="form-data">
+                    <label for="dogPicture">Picture</label>
+                    <input type="text" id="dogPicture" placeholder="Picture" th:field="*{dogPicture}">
+                </div>
+                <small class="alert-warning" th:if="${#fields.hasErrors('dogPicture')}"
+                       th:errors="*{dogPicture}"></small>
+            </div>
+
+            <div class="form-row">
+                <div class="form-data">
+                    <label for="gender">Gender</label>
+                    <select id="gender" th:field="*{gender}">
+                        <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}"
+                                th:value="${gender}"
+                                th:text="${gender}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-data">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}">
+                </div>
+                <small class="alert-warning" th:if="${#fields.hasErrors('dateOfBirth')}"
+                       th:errors="*{dateOfBirth}"></small>
+            </div>
+
+            <div class="form-row">
+                <div class="form-data">
+                    <label for="food">Food</label>
+                    <input type="text" id="food" placeholder="Food" th:field="*{food}">
+                </div>
+            </div>
+
+            <button class="button save-button">
+                <p>Save</p>
+            </button>
+        </form>
+    </section>
+</main>
+<footer th:insert="fragments/footer :: footer"></footer>
+</body>
+</html>

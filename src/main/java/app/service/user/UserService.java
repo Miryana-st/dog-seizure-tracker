@@ -1,8 +1,8 @@
 package app.service.user;
 
-import app.model.dto.UserEditRequest;
-import app.model.dto.UserLoginRequest;
-import app.model.dto.UserRegisterRequest;
+import app.model.dto.user.UserEditRequest;
+import app.model.dto.user.UserLoginRequest;
+import app.model.dto.user.UserRegisterRequest;
 import app.model.entity.user.User;
 import app.model.entity.user.UserRole;
 import app.repository.user.UserRepository;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;

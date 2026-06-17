@@ -1,0 +1,91 @@
+
+main {
+    display: flex;
+    gap: 3em;
+}
+
+.img-container-dog-picture {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 25em;
+}
+
+.dog-picture {
+    border-radius: 3em;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 2em;
+}
+
+.dogs-horizontal .dog-card .dog-table {
+    border: none;
+    box-shadow: none;
+    border-collapse: collapse;
+    width: 90%;
+    margin: 1em 0;
+}
+
+.dogs-horizontal .dog-card .dog-table td,
+.dogs-horizontal .dog-card .dog-table th {
+    border: none;
+    padding: 0.5em;
+}
+.dogs-horizontal .dog-card img {
+    width: auto;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    margin: 1em 2em;
+    border: 1px solid #ccc;
+}
+
+.button-in-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-button {
+    margin-left: 0.5em;
+}
+
+th {
+    width: 15em;
+    text-align: left;
+}
+
+.delete-button,
+.edit-button {
+    width: 9em;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+p, .no-dogs {
+    padding: 0.5em;
+}
+
+.no-dogs {
+    font-weight: bold;
+}
+
+.dogs-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.dogs-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    margin-top: 2em;
+}

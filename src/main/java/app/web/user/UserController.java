@@ -1,6 +1,6 @@
 package app.web.user;
 
-import app.model.dto.UserEditRequest;
+import app.model.dto.user.UserEditRequest;
 import app.model.entity.user.User;
 import app.service.user.UserService;
 import jakarta.validation.Valid;

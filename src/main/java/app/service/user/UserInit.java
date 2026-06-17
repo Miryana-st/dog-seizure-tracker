@@ -1,6 +1,6 @@
 package app.service.user;
 
-import app.model.dto.UserRegisterRequest;
+import app.model.dto.user.UserRegisterRequest;
 import app.model.entity.user.User;
 import app.property.user.UserProperties;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dogs - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/dogs.css">
+    <link rel="stylesheet" href="/css/side-nav-bar.css">
+    <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+
+</head>
+<body>
+<header th:insert="fragments/head :: navigation" class="section section-header"></header>
+<main class="main-content">
+    <section th:insert="fragments/side-nav-bar :: side-nav-bar"></section>
+
+    <section class="heading centered">
+        <h1><i class='fa-solid fa-paw'></i>My Dogs</h1>
+        <p>Manage your dogs and their health information all in one place.</p>
+        <div class="dogs-container">
+            <div class="dogs-horizontal">
+                <div th:each="dog : ${dogs}" class="dog-card">
+                    <table class="dog-table">
+                        <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <div class="img-container-dog-picture">
+                                    <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+                                         th:src="${dog.dogPicture}" alt="Dog Image" class="dog-picture"/>
+                                    <span th:if="${dog.dogPicture == null or #strings.isEmpty(dog.dogPicture)}">
+                                    <img th:src="@{/images/dog-placeholder.png}" alt="Dog Image" class="dog-picture">
+                                </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Dog Name</th>
+                            <td th:text="${dog.name}"></td>
+                        </tr>
+                        <tr>
+                            <th>Breed</th>
+                            <td th:text="${dog.breed}"></td>
+                        </tr>
+                        <tr>
+                            <th>Gender</th>
+                            <td th:text="${dog.gender}"></td>
+                        </tr>
+                        <tr>
+                            <th>Food</th>
+                            <td th:text="${dog.food}"></td>
+                        </tr>
+                        <tr>
+                            <th>Date of Birth</th>
+                            <td th:text="${dog.dateOfBirth != null ? (T(java.time.format.DateTimeFormatter).ofPattern('MMMM d, yyyy').format(dog.dateOfBirth)) : ''}"></td>
+                        </tr>
+                        <tr>
+                            <th>Actions</th>
+                            <td class="button-table">
+                                <div class="button-in-table">
+                                    <a th:href="@{/dogs/{id}/dog-profile(id=${dog.id})}" class="button edit-button">Edit Info</a>
+                                    <a th:href="@{/dogs/{id}/dog-profile(id=${dog.id})}" class="button delete-button">Delete Dog</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div th:if="${dogs == null or #lists.isEmpty(dogs)}" class="no-dogs">
+                    You have not added any dogs yet.
+                </div>
+            </div>
+            <section class="buttons">
+                <a th:href="@{/dogs/new}" class="button add-dog-button">Add New Dog</a>
+            </section>
+        </div>
+    </section>
+</main>
+<footer th:insert="fragments/footer :: footer"></footer>
+</body>
+</html>
