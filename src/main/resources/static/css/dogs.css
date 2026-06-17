@@ -78,6 +78,7 @@ p, .no-dogs {
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 2em;
 }
 .dogs-container {
     display: flex;
@@ -89,3 +90,47 @@ p, .no-dogs {
 .buttons {
     margin-top: 2em;
 }
+
+i {
+    font-size: 1.5em;
+}
+
+.button-seizures {
+    padding-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-seizures a {
+    color: rgb(75 67 122);
+    display: flex;
+    gap: 1em;
+    padding: 1em;
+    transition: color 0.3s ease;
+    width: 15em;
+    border: 0.1em solid rgb(75 67 122);
+    border-radius: 0.5em;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-seizures i {
+    color: rgb(104 97 166);
+    transition: color 0.3s ease;
+}
+
+.button-seizures a:hover,
+.button-seizures a:hover i{
+    background-color: #4b437a;
+    color: #ffffff;
+    border-radius: 0.5em;
+}
+
+.dog-card {
+    background: white;
+    border-radius: 0.5em;
+    padding: 1em;
+
+}
+

@@ -22,7 +22,9 @@ public class UserController {
 
     @GetMapping("/{id}/profile")
     public ModelAndView profile(@PathVariable String id){
+
         User user = userService.getById(UUID.fromString(id));
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("profile");
         modelAndView.addObject("user", user);

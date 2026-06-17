@@ -1,6 +1,7 @@
 package app.service.dog;
 
 import app.model.dto.dog.CreateNewDogRequest;
+import app.model.dto.dog.EditDogRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.user.User;
 import app.repository.dog.DogRepository;
@@ -40,4 +41,28 @@ public class DogService {
     public List<Dog> getAllDogsByOwnerId(UUID ownerId) {
         return dogRepository.findAllByOwner_Id(ownerId);
     }
+
+    public Dog getDogById(UUID dogId) {
+        return dogRepository.findById(dogId)
+                .orElseThrow(() -> new RuntimeException("Dog with id [%s] not found!".formatted(dogId)));
+
+    }
+
+    public Dog update(String id, EditDogRequest editDogRequest) {
+        Dog dog = dogRepository.findById(UUID.fromString(id))
+                .orElseThrow(
+                        () -> new RuntimeException("Dog with id [%s] not found!".formatted(id)));
+
+        dog.setName(editDogRequest.getName());
+        dog.setBreed(editDogRequest.getBreed());
+        dog.setDogPicture(editDogRequest.getDogPicture());
+        dog.setGender(editDogRequest.getGender());
+        dog.setFood(editDogRequest.getFood());
+        dog.setDateOfBirth(editDogRequest.getDateOfBirth());
+
+        return dogRepository.save(dog);
+    }
+
+
+
 }

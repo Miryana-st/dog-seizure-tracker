@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class CreateNewDogRequest {
 
     @NotBlank(message = "Name cannot be empty")

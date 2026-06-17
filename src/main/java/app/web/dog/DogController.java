@@ -1,17 +1,18 @@
 package app.web.dog;
 
 import app.model.dto.dog.CreateNewDogRequest;
+import app.model.dto.dog.EditDogRequest;
+import app.model.entity.dog.Dog;
 import app.model.entity.user.User;
 import app.service.dog.DogService;
+import app.service.seizure.SeizureService;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -22,11 +23,13 @@ public class DogController {
 
     private final DogService dogService;
     private final UserService userService;
+    private final SeizureService seizureService;
 
     @Autowired
-    public DogController(DogService dogService, UserService userService) {
+    public DogController(DogService dogService, UserService userService, SeizureService seizureService) {
         this.dogService = dogService;
         this.userService = userService;
+        this.seizureService = seizureService;
     }
 
     @GetMapping
@@ -72,4 +75,37 @@ public class DogController {
 
         return "redirect:/dogs";
     }
+
+    @GetMapping("/{id}/dog-profile")
+    public ModelAndView dogProfile (@PathVariable String id){
+
+        Dog dog = dogService.getDogById(UUID.fromString(id));
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("dog-profile");
+        modelAndView.addObject("dog", dog);
+
+        return modelAndView;
+    }
+
+    @PutMapping("/{id}/dog-profile")
+    public ModelAndView dogProfile(@PathVariable String id, @Valid @ModelAttribute EditDogRequest editDogRequest){
+        Dog updatedDog = dogService.update(id, editDogRequest);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("dog", updatedDog);
+
+        return new ModelAndView("redirect:/dogs");
+    }
+
+    @GetMapping("/{id}/seizures")
+    public ModelAndView getSeizuresPerDog (@PathVariable String id){
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("seizures");
+        modelAndView.addObject("seizures", seizureService.getAllSeizuresByDogId(UUID.fromString(id)));
+
+        return modelAndView;
+    }
+
 }

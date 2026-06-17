@@ -9,7 +9,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UserEditRequest {
 
     @Size(min = 3, message = "*First Name must be at least 3 characters long")

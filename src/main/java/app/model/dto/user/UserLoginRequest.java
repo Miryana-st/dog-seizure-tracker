@@ -9,7 +9,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UserLoginRequest {
 
     @NotBlank(message = "*Username is required")

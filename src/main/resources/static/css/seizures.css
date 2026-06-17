@@ -1,0 +1,42 @@
+h1 {
+    padding: 0.5em;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+    font-size: 0.9em;
+    margin: 1em 2em;
+    border: 1px solid #ccc;
+}
+
+tr {
+    padding: 1em;
+}
+
+td {
+    padding: 1em;
+    border: 1px solid #ccc;
+}
+
+th {
+    padding: 1em;
+    border: 1px solid #ccc;
+}
+
+.button-in-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+thead {
+    background: rgb(225 230 234);
+}
+
+.add-seizure-button-container {
+    display: flex;
+    justify-content: center;
+}
