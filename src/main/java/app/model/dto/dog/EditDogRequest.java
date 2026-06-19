@@ -14,10 +14,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EditDogRequest {
 
-        @NotBlank(message = "*Name cannot be empty")
+        @NotBlank
         private String name;
 
-        @NotBlank(message = "*Breed cannot be empty")
+        @NotBlank
         private String breed;
 
         @URL(message = "*Invalid URL")

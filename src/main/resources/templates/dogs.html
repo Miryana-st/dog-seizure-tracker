@@ -48,7 +48,7 @@
                         </tr>
                         <tr>
                             <th>Gender</th>
-                            <td th:text="${dog.gender.displayGender}"></td>
+                            <td th:text="${dog.gender?.displayGender ?: 'Not specified'}"></td>
                         </tr>
                         <tr>
                             <th>Food</th>

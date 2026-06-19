@@ -15,7 +15,7 @@
 <body>
 <header th:insert="fragments/head :: navigation" class="section section-header"></header>
 <main class="main-content">
-    <h1>My Dog's Information:</h1>
+    <h1 th:text="${dog.name + '''s Information:'}"></h1>
     <section class="form-panel">
         <form class="form-edit" th:action="@{'/dogs/' + ${dog.id} + '/dog-profile'}" th:object="${editDogRequest}"
               th:method="PUT">
@@ -47,9 +47,11 @@
                 <div class="form-data">
                     <label for="gender">Gender</label>
                     <select id="gender" th:field="*{gender}">
+                        <option value="">-- Select gender --</option>
+
                         <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}"
                                 th:value="${gender}"
-                                th:text="${gender.displayGender}">
+                                th:text="${dog.gender?.displayGender ?: 'Not specified'}">
                         </option>
                     </select>
                 </div>

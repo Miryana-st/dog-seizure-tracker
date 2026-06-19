@@ -9,11 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 public class UserLoginRequest {
 
-    @NotBlank(message = "*Username is required")
+    @NotBlank
     @Size(min = 3, message = "*Username must be at least 3 characters long")
     private String username;
 
-    @NotBlank(message = "*Password is required")
+    @NotBlank
     @Size(min = 3, message = "*Password must be at least 3 characters long")
     private String password;
 }

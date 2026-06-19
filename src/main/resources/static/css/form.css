@@ -46,7 +46,7 @@
 
 .form-row label {
     text-align: right;
-    flex: 0 0 10em;
+    flex: 0 0 7em;
 }
 
 .form-row input {
@@ -71,4 +71,15 @@ select {
     padding: 0.5em;
     border-radius: 0.6em;
     width: 20em;
+    color: #2b6cb0;
+    background-color: #f7fafc;
+}
+
+input {
+    background-color: #f7fafc;
+}
+
+input:required:user-invalid {
+    border: 2px solid #ff4d4d;
+    background-color: #ffe6e6;
 }

@@ -2,15 +2,8 @@ h1 {
     padding: 0.5em;
 }
 
-.create-user-button-container {
-    padding-left: 2em;
-    text-align: center;
-    padding-right: 2em;
-}
-
 table {
     border-collapse: collapse;
-    width: 90%;
     font-size: 0.9em;
     margin: 1em 2em;
     border: 1px solid #ccc;
@@ -38,4 +31,18 @@ th {
 
 thead {
     background: rgb(225 230 234);
+}
+
+.main-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 2em;
+    width: 100%;
+    padding: 2em;
+}
+
+.create-user-button-container {
+    padding-left: 2em;
+    text-align: center;
+    padding-right: 2em;
 }

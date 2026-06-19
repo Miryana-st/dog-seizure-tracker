@@ -1,7 +1,10 @@
-
 main {
     display: flex;
     gap: 3em;
+}
+
+h1 {
+    padding-bottom: 0.5em;
 }
 
 .img-container-dog-picture {
@@ -65,12 +68,9 @@ th {
     padding-left: 1em;
 }
 
-p, .no-dogs {
-    padding: 0.5em;
-}
-
 .no-dogs {
     font-weight: bold;
+    padding-top: 0.5em;
 }
 
 .dogs-horizontal {

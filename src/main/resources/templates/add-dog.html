@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/button.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/edit-page.css">
+    <link rel="stylesheet" href="/css/add-page.css">
     <link rel="stylesheet" href="/css/form.css">
     <link rel="stylesheet" href="/css/head.css">
 
@@ -17,7 +17,7 @@
 <main class="main-content">
     <h1>Add New Dog</h1>
     <section class="form-panel">
-        <form class="add-dog-form" th:method="POST" th:action="@{/dogs}" th:object="${createNewDogRequest}">
+        <form class="add-dog-form add-form" th:method="POST" th:action="@{/dogs}" th:object="${createNewDogRequest}">
             <div class="form-row">
                 <div class="form-data">
                     <label for="name">Dog Name</label>
@@ -47,9 +47,11 @@
                 <div class="form-data">
                     <label for="gender">Gender</label>
                     <select id="gender" th:field="*{gender}">
+                        <option value="">-- Select gender --</option>
+
                         <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}"
                                 th:value="${gender}"
-                                th:text="${gender.displayGender}">
+                                th:text="${gender?.displayGender ?: 'Not specified'}">
                         </option>
                     </select>
                 </div>

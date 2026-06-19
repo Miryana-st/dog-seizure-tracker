@@ -3,6 +3,7 @@ package app.web.user;
 import app.model.dto.user.UserEditRequest;
 import app.model.entity.user.User;
 import app.service.user.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -54,11 +55,15 @@ public class UserController {
     }
 
     @GetMapping()
-    public ModelAndView getAllUsers() {
+    public ModelAndView getAllUsers(HttpSession session) {
+
+        UUID userUUID = (UUID) session.getAttribute("user_id");
+        User user = userService.getById(userUUID);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
         modelAndView.addObject("users", userService.getAllUsers());
+        modelAndView.addObject("user", user);
 
         return modelAndView;
     }

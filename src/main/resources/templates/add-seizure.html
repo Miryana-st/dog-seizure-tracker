@@ -17,7 +17,7 @@
 <main class="main-content">
     <h1>Add New Seizure</h1>
     <section class="form-panel">
-        <form class="add-dog-form" th:method="POST" th:action="@{'/dogs/' + ${dog.id} + '/seizures'}" th:object="${createNewSeizureRequest}">
+        <form class="add-dog-form add-form" th:method="POST" th:action="@{'/dogs/' + ${dog.id} + '/seizures'}" th:object="${createNewSeizureRequest}">
             <div class="form-row">
                 <div class="form-data">
                     <label for="name">Date</label>
@@ -47,9 +47,11 @@
                 <div class="form-data">
                     <label for="severity">Severity</label>
                     <select id="severity" th:field="*{severity}">
+                        <option value="">-- Select severity --</option>
+
                         <option th:each="severity : ${T(app.model.entity.seizure.SeizureSeverity).values()}"
                                 th:value="${severity}"
-                                th:text="${severity.displaySeverity}">
+                                th:text="${severity?.displaySeverity ?: 'Not specified'}">
                         </option>
                     </select>
                 </div>
@@ -59,9 +61,11 @@
                 <div class="form-data">
                     <label for="recovery">Recovery</label>
                     <select id="recovery" th:field="*{recovery}">
+                        <option value="">-- Select recovery --</option>
+
                         <option th:each="recovery : ${T(app.model.entity.seizure.SeizureRecovery).values()}"
                                 th:value="${recovery}"
-                                th:text="${recovery.displayRecovery}">
+                                th:text="${recovery?.displayRecovery ?: 'Not Specified'}">
                         </option>
                     </select>
                 </div>

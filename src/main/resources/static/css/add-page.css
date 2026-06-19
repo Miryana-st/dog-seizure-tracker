@@ -1,0 +1,20 @@
+
+
+h1 {
+    text-align: center;
+}
+
+.add-form {
+    align-items: center;
+}
+
+input {
+    width: 20em;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+select {
+    width: 20em;
+}
+

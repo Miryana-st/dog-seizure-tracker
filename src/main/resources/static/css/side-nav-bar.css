@@ -40,3 +40,11 @@ i {
     color: #ffffff;
     border-radius: 0.5em;
 }
+
+.admin-tab {
+    display: flex;
+    padding: 1em;
+    justify-content: center;
+    border-radius: 1em;
+    background: rgb(75 67 122 / 0.16);
+}

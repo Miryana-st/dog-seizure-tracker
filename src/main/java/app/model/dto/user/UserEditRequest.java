@@ -12,15 +12,15 @@ import lombok.*;
 @NoArgsConstructor
 public class UserEditRequest {
 
-    @NotBlank(message = "*First name is required")
+    @NotBlank
     @Size(min = 3, max = 20, message = "*First name must be between 3 and 20 characters long")
     private String firstName;
 
-    @NotBlank(message = "*Last name is required")
+    @NotBlank
     @Size(min = 3, max = 20, message = "*Last name must be between 3 and 20 characters long")
     private String lastName;
 
-    @NotBlank(message = "*Email is required")
+    @NotBlank
     @Email(message = "*Email should be valid")
     @Column(unique = true)
     private String email;

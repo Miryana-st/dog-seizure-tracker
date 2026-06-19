@@ -10,6 +10,7 @@
 
 select {
     font: 18px/1.5 Lato;
+
 }
 
 body {
@@ -78,9 +79,6 @@ i:nth-child(1) {
     margin: 0 auto;
 }
 
-.main-content {
-    margin-left: 3em;
-}
 
 .alert-warning {
     font-size: 0.8em;

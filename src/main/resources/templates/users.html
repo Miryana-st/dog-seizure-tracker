@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/users.css">
     <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="/css/side-nav-bar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
 </head>
 <body>
 <header th:insert="fragments/head :: navigation" class="section section-header"></header>
 <main class="main-content">
+    <section th:insert="fragments/side-nav-bar :: side-nav-bar"></section>
     <section class="users-section">
         <h1>Registered Users</h1>
         <div class="users-table">
