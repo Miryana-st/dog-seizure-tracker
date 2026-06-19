@@ -48,7 +48,7 @@ public class IndexController {
             return new ModelAndView("register");
         }
 
-        userService.register(userRegisterRequest);
+        userService.registerUser(userRegisterRequest);
 
         return new ModelAndView("redirect:/login");
     }
@@ -72,7 +72,7 @@ public class IndexController {
             return new ModelAndView("login");
         }
 
-        User user = userService.login(userLoginRequest);
+        User user = userService.loginUser(userLoginRequest);
         session.setAttribute("user_id", user.getId());
 
         return new ModelAndView("redirect:/home");

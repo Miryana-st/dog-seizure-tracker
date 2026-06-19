@@ -28,7 +28,7 @@ public class UserService{
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void register(UserRegisterRequest userRegisterRequest) {
+    public void registerUser(UserRegisterRequest userRegisterRequest) {
 
         Optional<User> optionalUser = userRepository.findByUsernameOrEmail(userRegisterRequest.getUsername(), userRegisterRequest.getEmail());
 
@@ -48,7 +48,7 @@ public class UserService{
         userRepository.save(user);
     }
 
-    public User login(UserLoginRequest userLoginRequest) {
+    public User loginUser(UserLoginRequest userLoginRequest) {
 
         Optional<User> optionalUser = userRepository.findByUsername(userLoginRequest.getUsername());
         if (optionalUser.isEmpty()) {
@@ -63,7 +63,7 @@ public class UserService{
         return user;
     }
 
-    public void update(UUID id, UserEditRequest userEditRequest) {
+    public void updateUser(UUID id, UserEditRequest userEditRequest) {
         User user = userRepository.findById(id)
                 .orElseThrow(
                         () -> new RuntimeException("User with id [%s] not found!".formatted(id)));

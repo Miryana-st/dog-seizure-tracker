@@ -39,7 +39,7 @@ public class UserInit implements ApplicationRunner {
                     .email(userProperties.getDefaultUser().getEmail())
                     .build();
 
-            userService.register(userRegisterRequest);
+            userService.registerUser(userRegisterRequest);
         }
     }
 }

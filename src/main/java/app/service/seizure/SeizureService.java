@@ -1,10 +1,10 @@
 package app.service.seizure;
 
 import app.model.dto.seizure.CreateNewSeizureRequest;
+import app.model.dto.seizure.EditSeizureRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
 import app.repository.seizure.SeizureRepository;
-import app.service.dog.DogService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +16,14 @@ import java.util.UUID;
 @Transactional
 public class SeizureService {
 
-    private final DogService dogService;
     SeizureRepository seizureRepository;
 
     @Autowired
-    public SeizureService(SeizureRepository seizureRepository, DogService dogService) {
+    public SeizureService(SeizureRepository seizureRepository) {
         this.seizureRepository = seizureRepository;
-        this.dogService = dogService;
     }
 
-    public void create(CreateNewSeizureRequest createNewSeizureRequest, Dog dog) {
+    public void createSeizureEntry(CreateNewSeizureRequest createNewSeizureRequest, Dog dog) {
 
         Seizure seizure = Seizure.builder()
                 .dog(dog)
@@ -39,7 +37,29 @@ public class SeizureService {
         seizureRepository.save(seizure);
     }
 
-    public List<Seizure> getAllSeizuresByDogId(UUID dogId) {
-        return seizureRepository.findAllByDog_Id(dogId);
+    public List<Seizure> findAllByDog_IdOrderByDateDescTimeDesc(UUID dogId) {
+        return seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
     }
+
+    public void updateSeizureEntry(UUID id, EditSeizureRequest editSeizureRequest) {
+        Seizure seizure = seizureRepository.findById(id)
+                .orElseThrow(
+                        () -> new RuntimeException("Seizure with id [%s] not found!".formatted(id)));
+
+        seizure.setDate(editSeizureRequest.getDate());
+        seizure.setTime(editSeizureRequest.getTime());
+        seizure.setDuration(editSeizureRequest.getDuration());
+        seizure.setSeverity(editSeizureRequest.getSeverity());
+        seizure.setRecovery(editSeizureRequest.getRecovery());
+
+        seizureRepository.save(seizure);
+    }
+
+
+    public Seizure getSeizureById(UUID seizureId) {
+        return seizureRepository.findById(seizureId)
+                .orElseThrow(() -> new RuntimeException("Seizure with id [%s] not found!".formatted(seizureId)));
+    }
+
+
 }

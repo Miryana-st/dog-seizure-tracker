@@ -23,7 +23,7 @@ public class DogService {
         this.dogRepository = dogRepository;
     }
 
-    public void create(CreateNewDogRequest createNewDogRequest, User user) {
+    public void createDog(CreateNewDogRequest createNewDogRequest, User user) {
 
         Dog dog = Dog.builder()
                 .owner(user)
@@ -48,7 +48,7 @@ public class DogService {
 
     }
 
-    public void update(UUID id, EditDogRequest editDogRequest) {
+    public void updateDogInformation(UUID id, EditDogRequest editDogRequest) {
         Dog dog = dogRepository.findById(id)
                 .orElseThrow(
                         () -> new RuntimeException("Dog with id [%s] not found!".formatted(id)));

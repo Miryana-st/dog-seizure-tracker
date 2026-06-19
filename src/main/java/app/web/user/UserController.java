@@ -48,7 +48,7 @@ public class UserController {
             return modelAndView;
         }
 
-        userService.update(id, userEditRequest);
+        userService.updateUser(id, userEditRequest);
 
         return new ModelAndView("redirect:/home");
     }
@@ -64,9 +64,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}/role")
-    public ModelAndView switchUserRole(@PathVariable String id) {
+    public ModelAndView switchUserRole(@PathVariable UUID id) {
 
-        userService.switchRole(UUID.fromString(id));
+        userService.switchRole(id);
 
         return new ModelAndView("redirect:/users");
     }

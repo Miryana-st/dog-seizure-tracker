@@ -57,9 +57,9 @@ public class DogController {
     }
 
     @PostMapping()
-    public ModelAndView createNewDog(@Valid @ModelAttribute("createNewDogRequest") CreateNewDogRequest createNewDogRequest,
-                               BindingResult result,
-                               HttpSession session) {
+    public ModelAndView createNewDogPage(@Valid @ModelAttribute("createNewDogRequest") CreateNewDogRequest createNewDogRequest,
+                                         BindingResult result,
+                                         HttpSession session) {
 
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("add-dog");
@@ -75,14 +75,14 @@ public class DogController {
         UUID userUUID = (UUID) session.getAttribute("user_id");
         User user = userService.getById(userUUID);
 
-        dogService.create(createNewDogRequest, user);
+        dogService.createDog(createNewDogRequest, user);
 
         return new ModelAndView("redirect:/dogs");
     }
 
     @GetMapping("/{id}/dog-profile")
-    public ModelAndView dogProfile (@PathVariable UUID id,
-                                    HttpSession session){
+    public ModelAndView getDogProfilePage(@PathVariable UUID id,
+                                       HttpSession session){
 
         UUID userUUID = (UUID) session.getAttribute("user_id");
         User user = userService.getById(userUUID);
@@ -101,9 +101,9 @@ public class DogController {
     }
 
     @PutMapping("/{id}/dog-profile")
-    public ModelAndView dogProfile(@Valid @ModelAttribute("editDogRequest") EditDogRequest editDogRequest,
-                                   BindingResult bindingResult,
-                                   @PathVariable UUID id){
+    public ModelAndView updateDogProfilePage(@Valid @ModelAttribute("editDogRequest") EditDogRequest editDogRequest,
+                                             BindingResult bindingResult,
+                                             @PathVariable UUID id){
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("dog-profile");
 
@@ -115,7 +115,7 @@ public class DogController {
             return modelAndView;
         }
 
-        dogService.update(id, editDogRequest);
+        dogService.updateDogInformation(id, editDogRequest);
 
         return new ModelAndView("redirect:/dogs");
     }
