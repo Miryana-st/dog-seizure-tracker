@@ -17,7 +17,7 @@
 <main class="main-content">
     <h1>My Profile</h1>
     <section class="form-panel">
-        <form class="form-edit" th:action="@{/users/{id}/profile(id=${user.getId()})}" th:object="${user}"
+        <form class="form-edit" th:action="@{'/users/' + ${user.id} + '/profile'}" th:object="${userEditRequest}"
               th:method="PUT">
             <div class="form-row">
                 <div class="form-data">
@@ -55,6 +55,10 @@
             </button>
         </form>
     </section>
+    <div class="button-container-back">
+        <a th:href="@{/home}" class="button back-button">Back</a>
+
+    </div>
 </main>
 <footer th:insert="fragments/footer :: footer"></footer>
 </body>

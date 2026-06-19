@@ -17,7 +17,7 @@
 <main class="main-content">
     <h1>My Dog's Information:</h1>
     <section class="form-panel">
-        <form class="form-edit" th:action="@{/dogs/{id}/dog-profile(id=${dog.getId()})}" th:object="${dog}"
+        <form class="form-edit" th:action="@{'/dogs/' + ${dog.id} + '/dog-profile'}" th:object="${editDogRequest}"
               th:method="PUT">
             <div class="form-row">
                 <div class="form-data">
@@ -37,7 +37,7 @@
             <div class="form-row">
                 <div class="form-data">
                     <label for="dogPicture">Dog Picture</label>
-                    <input type="text" id="dogPicture" placeholder="dogPicture" th:field="*{dogPicture}">
+                    <input type="text" id="dogPicture" placeholder="Dog Picture" th:field="*{dogPicture}">
                 </div>
                 <small class="alert-warning" th:if="${#fields.hasErrors('dogPicture')}"
                        th:errors="*{dogPicture}"></small>
@@ -49,7 +49,7 @@
                     <select id="gender" th:field="*{gender}">
                         <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}"
                                 th:value="${gender}"
-                                th:text="${gender}">
+                                th:text="${gender.displayGender}">
                         </option>
                     </select>
                 </div>
@@ -76,6 +76,9 @@
             </button>
         </form>
     </section>
+    <div class="button-container-back">
+        <a th:href="@{/dogs}" class="button back-button">Back</a>
+    </div>
 </main>
 <footer th:insert="fragments/footer :: footer"></footer>
 </body>

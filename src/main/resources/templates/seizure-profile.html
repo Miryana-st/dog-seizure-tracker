@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Seizure - Dog Seizure Tracker</title>
+    <title>Seizure Profile - Dog Seizure Tracker</title>
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/button.css">
     <link rel="stylesheet" href="/css/footer.css">
@@ -15,13 +15,14 @@
 <body>
 <header th:insert="fragments/head :: navigation" class="section section-header"></header>
 <main class="main-content">
-    <h1>Add New Seizure</h1>
+    <h1>Seizure Information:</h1>
     <section class="form-panel">
-        <form class="add-dog-form" th:method="POST" th:action="@{'/dogs/' + ${dog.id} + '/seizures'}" th:object="${createNewSeizureRequest}">
+        <form class="form-edit" th:action="@{'/dogs/' + ${dogId} + '/seizures/' + ${seizureId} + '/seizure-profile'}" th:object="${editSeizureRequest}"
+              th:method="PUT">
             <div class="form-row">
                 <div class="form-data">
-                    <label for="name">Date</label>
-                    <input type="date" id="name" placeholder="Date" th:field="*{date}" required>
+                    <label for="date">Date</label>
+                    <input type="date" id="date" placeholder="Date" th:field="*{date}" required>
                 </div>
                 <small class="alert-warning" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></small>
             </div>
@@ -29,7 +30,7 @@
             <div class="form-row">
                 <div class="form-data">
                     <label for="time">Time</label>
-                    <input type="time" id="time" placeholder="Time" th:field="*{time}" required>
+                    <input type="time" id="time" placeholder="time" th:field="*{time}" required>
                 </div>
                 <small class="alert-warning" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></small>
             </div>
@@ -37,7 +38,7 @@
             <div class="form-row">
                 <div class="form-data">
                     <label for="duration">Duration</label>
-                    <input type="text" id="duration" placeholder="Duration" th:field="*{duration}">
+                    <input type="text" id="duration" placeholder="duration" th:field="*{duration}">
                 </div>
                 <small class="alert-warning" th:if="${#fields.hasErrors('duration')}"
                        th:errors="*{duration}"></small>
@@ -73,7 +74,7 @@
         </form>
     </section>
     <div class="button-container-back">
-        <a th:href="@{/dogs/{id}/seizures(id=${dog.id})}" class="button back-button">Back</a>
+        <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}" class="button back-button">Back</a>
     </div>
 </main>
 <footer th:insert="fragments/footer :: footer"></footer>

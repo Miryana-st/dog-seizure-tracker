@@ -43,7 +43,7 @@
                                         onclick="return confirm('Delete user?');">Delete
                                 </button>
                             </form>
-                            <form th:action="@{/users/{id}/role(id=${user.id})}" th:method="PUT">
+                            <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">
                                 <input type="hidden" name="targetRole"
                                        th:value="${user.role.name() == 'ADMIN' ? 'USER' : 'ADMIN'}"/>
                                 <button type="submit" class="button change-role-button"

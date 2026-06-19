@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/seizures.css">
     <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="/css/side-nav-bar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
 </head>
 <body>
 <header th:insert="fragments/head :: navigation" class="section section-header"></header>
 <main class="main-content">
+    <section th:insert="fragments/side-nav-bar :: side-nav-bar"></section>
     <section class="seizures-section">
         <h1>Seizure Log</h1>
         <div class="seizures-table">
@@ -29,26 +31,34 @@
                 </tr>
                 </thead>
                 <tbody>
-                                <tr th:each="seizure : ${seizures}">
-                                    <td th:text="${seizure.date}"></td>
-                                    <td th:text="${seizure.time}"></td>
-                                    <td th:text="${seizure.duration}"></td>
-                                    <td th:text="${seizure.severity}"></td>
-                                    <td th:text="${seizure.recovery}"></td>
-                                    <td class="button-table">
-                                        <div class="button-in-table">
-                                            <a th:href="@{/seizure/{id}/seizure-profile(id=${seizure.id})}" class="button edit-button">Edit Info</a>
-                                            <a th:href="@{/seizure/{id}/seizure-profile(id=${seizure.id})}" class="button delete-button">Delete</a>
-                                        </div>
-                                    </td>
-                                </tr>
+                <tr th:each="seizure : ${seizures}">
+                    <td th:text="${seizure.date!= null ? (T(java.time.format.DateTimeFormatter).ofPattern('MMMM d, yyyy').format(seizure.date)) : ''}"></td>
+                    <td th:text="${seizure.time}"></td>
+                    <td th:text="${seizure.duration}"></td>
+                    <td>
+                        <p th:if="${seizure.severity.name() == 'MILD'}" class="severity-mild" >Mild</p>
+                        <p th:if="${seizure.severity.name() == 'SEVERE'}" class="severity-severe">Severe</p>
+                        <p th:if="${seizure.severity.name() == 'MODERATE'}" class="severity-moderate">Moderate</p>
+                    </td>
+                    <td>
+                        <p th:if="${seizure.recovery.name() == 'SLOW'}" class="severity-severe">Slow</p>
+                        <p th:if="${seizure.recovery.name() == 'NORMAL'}" class="severity-moderate">Normal</p>
+                        <p th:if="${seizure.recovery.name() == 'FAST'}" class="severity-mild">Fast</p>
+                    </td>
+                    <td class="button-table">
+                        <div class="button-in-table">
+                            <a th:href="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id} + '/seizure-profile'}" class="button edit-button">Edit Info</a>
+                            <a th:href="@{/dogs/{dogId}/seizures/{seizureId}/seizure-profile(dogId=${dog.id}, seizureId=${seizure.id})}" class="button delete-button">Delete</a>
+                        </div>
+                    </td>
+                </tr>
                 <tr th:if="${#lists.isEmpty(seizures)}">
                     <td colspan="5">No seizures logged in.</td>
                 </tr>
                 </tbody>
             </table>
-            <div class="button add-seizure-button-container">
-                <a href="/seizures/new" class="button add-seizure">Add New Seizure</a>
+            <div class="button button-container">
+                <a th:href="@{/dogs/{id}/seizures/new(id=${dog.id})}" class="button add-seizure">Add New Seizure</a>
             </div>
 
         </div>

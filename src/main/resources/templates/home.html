@@ -49,7 +49,7 @@
         </section>
 
         <section class="buttons">
-            <a th:href="@{/users/{id}/profile(id=${user.id})}" class="button edit-button">Edit Profile</a>
+            <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="button edit-button">Edit Profile</a>
             <a th:href="@{/users/{id}/profile(id=${user.id})}" class="button delete-button">Delete Profile</a>
         </section>
 
