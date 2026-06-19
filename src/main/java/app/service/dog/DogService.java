@@ -48,8 +48,8 @@ public class DogService {
 
     }
 
-    public Dog update(String id, EditDogRequest editDogRequest) {
-        Dog dog = dogRepository.findById(UUID.fromString(id))
+    public void update(UUID id, EditDogRequest editDogRequest) {
+        Dog dog = dogRepository.findById(id)
                 .orElseThrow(
                         () -> new RuntimeException("Dog with id [%s] not found!".formatted(id)));
 
@@ -60,7 +60,7 @@ public class DogService {
         dog.setFood(editDogRequest.getFood());
         dog.setDateOfBirth(editDogRequest.getDateOfBirth());
 
-        return dogRepository.save(dog);
+        dogRepository.save(dog);
     }
 
 

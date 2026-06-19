@@ -4,6 +4,7 @@ import app.model.entity.seizure.Seizure;
 import app.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,12 +27,14 @@ public class Dog {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String breed;
 
+    @URL
     private String dogPicture;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(nullable = false)
     private GenderDog gender;
 
     private LocalDate dateOfBirth;
@@ -43,6 +46,5 @@ public class Dog {
     private User owner;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dog")
-    @Builder.Default
     private List<Seizure> seizures = new ArrayList<>();
 }

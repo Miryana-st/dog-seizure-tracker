@@ -10,5 +10,4 @@ import java.util.UUID;
 @Repository
 public interface DogRepository extends JpaRepository<Dog, UUID> {
     List<Dog> findAllByOwner_Id(UUID ownerId);
-    Dog findDogById(UUID id);
 }

@@ -5,7 +5,6 @@ import app.model.dto.dog.EditDogRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.user.User;
 import app.service.dog.DogService;
-import app.service.seizure.SeizureService;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -23,13 +22,11 @@ public class DogController {
 
     private final DogService dogService;
     private final UserService userService;
-    private final SeizureService seizureService;
 
     @Autowired
-    public DogController(DogService dogService, UserService userService, SeizureService seizureService) {
+    public DogController(DogService dogService, UserService userService) {
         this.dogService = dogService;
         this.userService = userService;
-        this.seizureService = seizureService;
     }
 
     @GetMapping
@@ -60,12 +57,19 @@ public class DogController {
     }
 
     @PostMapping()
-    public String createNewDog(@Valid CreateNewDogRequest createNewDogRequest,
+    public ModelAndView createNewDog(@Valid @ModelAttribute("createNewDogRequest") CreateNewDogRequest createNewDogRequest,
                                BindingResult result,
                                HttpSession session) {
 
         if (result.hasErrors()) {
-            return "add-dog";
+            ModelAndView modelAndView = new ModelAndView("add-dog");
+
+            modelAndView.addObject("createNewDogRequest", createNewDogRequest);
+
+            UUID userUUID = (UUID) session.getAttribute("user_id");
+            modelAndView.addObject("user", userService.getById(userUUID));
+
+            return modelAndView;
         }
 
         UUID userUUID = (UUID) session.getAttribute("user_id");
@@ -73,27 +77,45 @@ public class DogController {
 
         dogService.create(createNewDogRequest, user);
 
-        return "redirect:/dogs";
+        return new ModelAndView("redirect:/dogs");
     }
 
     @GetMapping("/{id}/dog-profile")
-    public ModelAndView dogProfile (@PathVariable String id){
+    public ModelAndView dogProfile (@PathVariable UUID id,
+                                    HttpSession session){
 
-        Dog dog = dogService.getDogById(UUID.fromString(id));
+        UUID userUUID = (UUID) session.getAttribute("user_id");
+        User user = userService.getById(userUUID);
+
+        Dog dog = dogService.getDogById(id);
 
         ModelAndView modelAndView = new ModelAndView();
+
         modelAndView.setViewName("dog-profile");
+
+        modelAndView.addObject("user", user);
         modelAndView.addObject("dog", dog);
+        modelAndView.addObject("editDogRequest", new EditDogRequest());
 
         return modelAndView;
     }
 
     @PutMapping("/{id}/dog-profile")
-    public ModelAndView dogProfile(@PathVariable String id, @Valid @ModelAttribute EditDogRequest editDogRequest){
-        Dog updatedDog = dogService.update(id, editDogRequest);
+    public ModelAndView dogProfile(@Valid @ModelAttribute("editDogRequest") EditDogRequest editDogRequest,
+                                   BindingResult bindingResult,
+                                   @PathVariable UUID id){
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("dog-profile");
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("dog", updatedDog);
+            Dog dog = dogService.getDogById(id);
+
+            modelAndView.addObject("dog", dog);
+            modelAndView.addObject("editDogRequest", editDogRequest);
+
+            return modelAndView;
+        }
+
+        dogService.update(id, editDogRequest);
 
         return new ModelAndView("redirect:/dogs");
     }

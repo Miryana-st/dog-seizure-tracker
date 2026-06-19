@@ -2,6 +2,7 @@ package app.model.entity.seizure;
 
 import app.model.entity.dog.Dog;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -21,11 +22,14 @@ public class Seizure {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false)
     private LocalDate date;
 
+    @Column(nullable = false)
     private LocalTime time;
 
-    private LocalTime duration;
+    @NotBlank
+    private String duration;
 
     @Enumerated(EnumType.STRING)
     private SeizureSeverity severity;

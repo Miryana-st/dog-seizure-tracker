@@ -5,6 +5,7 @@ import app.model.entity.user.User;
 import app.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,37 +22,50 @@ public class UserController {
     }
 
     @GetMapping("/{id}/profile")
-    public ModelAndView profile(@PathVariable String id){
+    public ModelAndView getProfilePage(@PathVariable UUID id) {
 
-        User user = userService.getById(UUID.fromString(id));
+        User user = userService.getById(id);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("profile");
         modelAndView.addObject("user", user);
+        modelAndView.addObject("userEditRequest", new UserEditRequest());
 
         return modelAndView;
     }
 
     @PutMapping("/{id}/profile")
-    public ModelAndView profile(@PathVariable String id, @Valid @ModelAttribute UserEditRequest userEditRequest){
-        User updatedUser = userService.update(id, userEditRequest);
+    public ModelAndView updateProfilePage(@Valid @ModelAttribute("userEditRequest") UserEditRequest userEditRequest,
+                                          BindingResult result,
+                                          @PathVariable UUID id) {
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", updatedUser);
+        if (result.hasErrors()) {
+
+            ModelAndView modelAndView = new ModelAndView("profile");
+            modelAndView.addObject("user", userService.getById(id));
+            modelAndView.addObject("userEditRequest", userEditRequest);
+
+            return modelAndView;
+        }
+
+        userService.update(id, userEditRequest);
 
         return new ModelAndView("redirect:/home");
     }
 
     @GetMapping()
-    public ModelAndView getAllUsers(){
+    public ModelAndView getAllUsers() {
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
         modelAndView.addObject("users", userService.getAllUsers());
+
         return modelAndView;
     }
 
     @PutMapping("/{id}/role")
     public ModelAndView switchUserRole(@PathVariable String id) {
+
         userService.switchRole(UUID.fromString(id));
 
         return new ModelAndView("redirect:/users");

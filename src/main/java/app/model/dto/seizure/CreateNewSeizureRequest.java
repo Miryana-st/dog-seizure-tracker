@@ -10,23 +10,19 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateNewSeizureRequest {
 
-    @NotBlank
-    @DateTimeFormat(pattern = "MMMM d, yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
 
-    @NotBlank
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime time;
 
-    @NotBlank
-    @DateTimeFormat(pattern = "mm:ss")
-    private LocalTime duration;
+    @NotBlank (message = "*Duration cannot be empty")
+    private String duration;
 
     private SeizureSeverity severity;
 

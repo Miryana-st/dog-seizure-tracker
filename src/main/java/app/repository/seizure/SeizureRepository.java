@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface SeizureRepository extends JpaRepository<Seizure, UUID> {
-    List<Seizure> findAllByDog_Id(UUID dogId);
+    List<Seizure> findAllByDog_IdOrderByDateDescTimeDesc(UUID dogId);
 }

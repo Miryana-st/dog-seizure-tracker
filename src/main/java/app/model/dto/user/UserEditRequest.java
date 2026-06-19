@@ -1,23 +1,28 @@
 package app.model.dto.user;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEditRequest {
 
-    @Size(min = 3, message = "*First Name must be at least 3 characters long")
+    @NotBlank(message = "*First name is required")
+    @Size(min = 3, max = 20, message = "*First name must be between 3 and 20 characters long")
     private String firstName;
 
-    @Size(min = 3, message = "*Last Name must be at least 3 characters long")
+    @NotBlank(message = "*Last name is required")
+    @Size(min = 3, max = 20, message = "*Last name must be between 3 and 20 characters long")
     private String lastName;
 
+    @NotBlank(message = "*Email is required")
     @Email(message = "*Email should be valid")
+    @Column(unique = true)
     private String email;
 
     private String phoneNumber;

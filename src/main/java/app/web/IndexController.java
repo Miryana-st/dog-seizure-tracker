@@ -26,7 +26,7 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String getIndexPage() {
         return "index";
     }
 
@@ -41,16 +41,16 @@ public class IndexController {
     }
 
     @PostMapping("/register")
-    public String registerNewUser(@Valid UserRegisterRequest userRegisterRequest,
+    public ModelAndView registerNewUser(@Valid UserRegisterRequest userRegisterRequest,
                                  BindingResult result) {
 
         if (result.hasErrors()) {
-            return "register";
+            return new ModelAndView("register");
         }
 
         userService.register(userRegisterRequest);
 
-        return "redirect:/login";
+        return new ModelAndView("redirect:/login");
     }
 
     @GetMapping("/login")
@@ -64,18 +64,18 @@ public class IndexController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@Valid UserLoginRequest userLoginRequest,
+    public ModelAndView loginUser(@Valid UserLoginRequest userLoginRequest,
                               BindingResult result,
                               HttpSession session) {
 
         if (result.hasErrors()) {
-            return "login";
+            return new ModelAndView("login");
         }
 
         User user = userService.login(userLoginRequest);
         session.setAttribute("user_id", user.getId());
 
-        return "redirect:/home";
+        return new ModelAndView("redirect:/home");
     }
 
     @GetMapping("/home")

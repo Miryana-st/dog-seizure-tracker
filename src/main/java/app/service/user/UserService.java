@@ -63,8 +63,8 @@ public class UserService{
         return user;
     }
 
-    public User update(String id, UserEditRequest userEditRequest) {
-        User user = userRepository.findById(UUID.fromString(id))
+    public void update(UUID id, UserEditRequest userEditRequest) {
+        User user = userRepository.findById(id)
                 .orElseThrow(
                         () -> new RuntimeException("User with id [%s] not found!".formatted(id)));
 
@@ -73,7 +73,7 @@ public class UserService{
         user.setEmail(userEditRequest.getEmail());
         user.setPhoneNumber(userEditRequest.getPhoneNumber());
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
 

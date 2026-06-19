@@ -9,24 +9,23 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditDogRequest {
 
-        @NotBlank(message = "Name cannot be empty")
+        @NotBlank(message = "*Name cannot be empty")
         private String name;
 
-        @NotBlank(message = "Breed cannot be empty")
+        @NotBlank(message = "*Breed cannot be empty")
         private String breed;
 
-        @URL(message = "Invalid URL")
+        @URL(message = "*Invalid URL")
         private String dogPicture;
 
         private GenderDog gender;
 
-        @DateTimeFormat(pattern = "MMMM d, yyyy")
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         private LocalDate dateOfBirth;
 
         private String food;
