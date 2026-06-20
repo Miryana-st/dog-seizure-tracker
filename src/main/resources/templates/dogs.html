@@ -39,7 +39,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Dog Name</th>
+                            <th>Name</th>
                             <td th:text="${dog.name}"></td>
                         </tr>
                         <tr>
@@ -73,14 +73,18 @@
                         </tbody>
                     </table>
                 </div>
+                <section class="add-new-dog-container">
+                    <a th:href="@{/dogs/new}" class="button add-dog-button">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <p>Start tracking your dog's seizures</p>
+                        <div class="add-dog">Add Dog</div>
 
+                    </a>
+                </section>
                 <div th:if="${dogs == null or #lists.isEmpty(dogs)}" class="no-dogs">
                     You have not added any dogs yet.
                 </div>
             </div>
-            <section class="buttons">
-                <a th:href="@{/dogs/new}" class="button add-dog-button">Add New Dog</a>
-            </section>
         </div>
     </section>
 </main>

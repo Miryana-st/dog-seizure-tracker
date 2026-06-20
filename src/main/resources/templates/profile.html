@@ -10,54 +10,60 @@
     <link rel="stylesheet" href="/css/edit-page.css">
     <link rel="stylesheet" href="/css/form.css">
     <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="/css/banner.css">
 
 </head>
 <body>
 <header th:insert="fragments/head :: navigation" class="section section-header"></header>
 <main class="main-content">
     <h1>My Profile</h1>
-    <section class="form-panel">
-        <form class="form-edit" th:action="@{'/users/' + ${user.id} + '/profile'}" th:object="${userEditRequest}"
-              th:method="PUT">
-            <div class="form-row">
-                <div class="form-data">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" placeholder="First Name" th:field="*{firstName}" required>
+    <div class="container-table-image">
+        <section class="banner-wrapper" th:insert="fragments/banner-husky-golden :: banner-husky-golden"></section>
+        <section class="form-panel">
+            <form class="form-edit" th:action="@{'/users/' + ${user.id} + '/profile'}" th:object="${userEditRequest}"
+                  th:method="PUT">
+                <div class="form-row">
+                    <div class="form-data">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" placeholder="First Name" th:field="*{firstName}" required>
+                    </div>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('firstName')}"
+                           th:errors="*{firstName}"></small>
                 </div>
-                <small class="alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></small>
-            </div>
 
-            <div class="form-row">
-                <div class="form-data">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" placeholder="Last Name" th:field="*{lastName}" required>
+                <div class="form-row">
+                    <div class="form-data">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" placeholder="Last Name" th:field="*{lastName}" required>
+                    </div>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('lastName')}"
+                           th:errors="*{lastName}"></small>
                 </div>
-                <small class="alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
-            </div>
 
-            <div class="form-row">
-                <div class="form-data">
-                    <label for="email">Email</label>
-                    <input type="text" id="email" placeholder="Email" th:field="*{email}" required>
+                <div class="form-row">
+                    <div class="form-data">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" placeholder="Email" th:field="*{email}" required>
+                    </div>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
                 </div>
-                <small class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
-            </div>
 
-            <div class="form-row">
-                <div class="form-data">
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" placeholder="Phone Number" th:field="*{phoneNumber}">
-            </div>
-            </div>
+                <div class="form-row">
+                    <div class="form-data">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" placeholder="Phone Number" th:field="*{phoneNumber}">
+                    </div>
+                </div>
 
-            <button class="button save-button">
-                <p>Save</p>
-            </button>
-        </form>
-    </section>
+                <button class="button save-button">
+                    <div>Save</div>
+                </button>
+            </form>
+        </section>
+        <section class="banner-wrapper" th:insert="fragments/banner-shepards :: banner-shepards"></section>
+    </div>
     <div class="button-container-back">
         <a th:href="@{/home}" class="button back-button">Back</a>
-
     </div>
 </main>
 <footer th:insert="fragments/footer :: footer"></footer>

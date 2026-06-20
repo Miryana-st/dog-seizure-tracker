@@ -1,6 +1,6 @@
 main {
     display: flex;
-    gap: 3em;
+    gap: 2em;
 }
 
 h1 {
@@ -11,7 +11,7 @@ h1 {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 25em;
+    height: 20em;
 }
 
 .dog-picture {
@@ -19,7 +19,7 @@ h1 {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    padding: 2em;
+    padding: 0.5em;
 }
 
 .dogs-horizontal .dog-card .dog-table {
@@ -33,16 +33,13 @@ h1 {
 .dogs-horizontal .dog-card .dog-table td,
 .dogs-horizontal .dog-card .dog-table th {
     border: none;
-    padding: 0.5em;
-}
-.dogs-horizontal .dog-card img {
-    width: auto;
+    padding: 0.2em;
 }
 
 table {
     border-collapse: collapse;
     font-size: 0.9em;
-    margin: 1em 2em;
+    margin: 0.5em 0.5em;
     border: 1px solid #ccc;
 }
 
@@ -57,7 +54,7 @@ table {
 }
 
 th {
-    width: 15em;
+    width: 10em;
     text-align: left;
 }
 
@@ -79,7 +76,9 @@ th {
     justify-content: center;
     flex-wrap: wrap;
     gap: 2em;
+    margin-top: 1em;
 }
+
 .dogs-container {
     display: flex;
     flex-direction: column;
@@ -121,16 +120,58 @@ i {
 }
 
 .button-seizures a:hover,
-.button-seizures a:hover i{
+.button-seizures a:hover i {
     background-color: #4b437a;
     color: #ffffff;
     border-radius: 0.5em;
 }
 
-.dog-card {
+.dog-card,
+.add-dog-button {
     background: white;
     border-radius: 0.5em;
     padding: 1em;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0.2em 1em 3em rgba(95, 92, 92, 0.2);
 }
 
+.add-dog-button {
+    border: 0.2em dashed rgb(43 40 71);
+    height: 38.5em;
+    width: 27em;
+    color: rgb(43 40 71);
+    background: rgb(46 46 66 / 0.06);
+}
+
+.add-new-dog-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.add-new-dog-container i {
+    font-size: 5em;
+    color: rgb(43 40 71);
+}
+
+.add-dog-button {
+    margin-right: 0;
+}
+
+.add-new-dog-container p {
+    font-size: 0.8em;
+    margin-top: 2em;
+}
+
+.add-dog {
+    border: rgb(43 40 71);
+    padding: 1em;
+    color: #cccccc;
+    background: rgb(43 40 71);
+    border-radius: 0.5em;
+    margin: 2em;
+}

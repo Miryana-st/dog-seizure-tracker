@@ -13,11 +13,12 @@ i {
 }
 
 .side-nav-bar {
-    height: 80vh;
+    height: 70vh;
     position:sticky;
     top: 20px;
     background-color: #ffffff;
     border-radius: 0.5em;
+    margin-left: 1em;
 }
 
 .side-nav-bar ul li a {
