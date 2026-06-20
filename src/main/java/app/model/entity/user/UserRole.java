@@ -12,5 +12,4 @@ public enum UserRole {
     UserRole(String displayRole) {
         this.displayRole = displayRole;
     }
-
 }

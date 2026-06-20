@@ -12,5 +12,4 @@ public enum GenderDog {
     GenderDog(String displayGender) {
         this.displayGender = displayGender;
     }
-
 }

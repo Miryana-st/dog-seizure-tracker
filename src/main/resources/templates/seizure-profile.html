@@ -17,7 +17,8 @@
 <main class="main-content">
     <h1>Seizure Information:</h1>
     <section class="form-panel">
-        <form class="form-edit" th:action="@{'/dogs/' + ${dogId} + '/seizures/' + ${seizureId} + '/seizure-profile'}" th:object="${editSeizureRequest}"
+        <form class="form-edit" th:action="@{'/dogs/' + ${dogId} + '/seizures/' + ${seizureId} + '/seizure-profile'}"
+              th:object="${editSeizureRequest}"
               th:method="PUT">
             <div class="form-row">
                 <div class="form-data">
@@ -73,7 +74,7 @@
             </div>
 
             <button class="button save-button">
-                <p>Save</p>
+                <div>Save</div>
             </button>
         </form>
     </section>

@@ -22,6 +22,28 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping()
+    public ModelAndView getAllUsers(HttpSession session) {
+
+        UUID userUUID = (UUID) session.getAttribute("user_id");
+        User user = userService.getById(userUUID);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("users");
+        modelAndView.addObject("users", userService.getAllUsers());
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
+
+    @PutMapping("/{id}/role")
+    public ModelAndView switchUserRole(@PathVariable UUID id) {
+
+        userService.switchRole(id);
+
+        return new ModelAndView("redirect:/users");
+    }
+
     @GetMapping("/{id}/profile")
     public ModelAndView getProfilePage(@PathVariable UUID id) {
 
@@ -52,27 +74,5 @@ public class UserController {
         userService.updateUser(id, userEditRequest);
 
         return new ModelAndView("redirect:/home");
-    }
-
-    @GetMapping()
-    public ModelAndView getAllUsers(HttpSession session) {
-
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("users");
-        modelAndView.addObject("users", userService.getAllUsers());
-        modelAndView.addObject("user", user);
-
-        return modelAndView;
-    }
-
-    @PutMapping("/{id}/role")
-    public ModelAndView switchUserRole(@PathVariable UUID id) {
-
-        userService.switchRole(id);
-
-        return new ModelAndView("redirect:/users");
     }
 }

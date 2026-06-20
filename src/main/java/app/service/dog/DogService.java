@@ -37,7 +37,6 @@ public class DogService {
         dogRepository.save(dog);
     }
 
-
     public List<Dog> getAllDogsByOwnerId(UUID ownerId) {
         return dogRepository.findAllByOwner_Id(ownerId);
     }
@@ -45,7 +44,6 @@ public class DogService {
     public Dog getDogById(UUID dogId) {
         return dogRepository.findById(dogId)
                 .orElseThrow(() -> new RuntimeException("Dog with id [%s] not found!".formatted(dogId)));
-
     }
 
     public void updateDogInformation(UUID id, EditDogRequest editDogRequest) {
@@ -62,7 +60,4 @@ public class DogService {
 
         dogRepository.save(dog);
     }
-
-
-
 }

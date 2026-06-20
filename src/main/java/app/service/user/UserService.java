@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @Transactional
-public class UserService{
+public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -44,6 +44,10 @@ public class UserService{
                 .password(passwordEncoder.encode(userRegisterRequest.getPassword()))
                 .role(UserRole.USER)
                 .build();
+
+        if (userRepository.findAll().isEmpty()) {
+            user.setRole(UserRole.ADMIN);
+        }
 
         userRepository.save(user);
     }
@@ -76,7 +80,6 @@ public class UserService{
         userRepository.save(user);
     }
 
-
     public void switchRole(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(
@@ -95,5 +98,4 @@ public class UserService{
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-
 }

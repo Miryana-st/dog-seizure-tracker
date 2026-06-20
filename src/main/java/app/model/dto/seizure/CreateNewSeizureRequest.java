@@ -21,7 +21,7 @@ public class CreateNewSeizureRequest {
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime time;
 
-    @NotBlank (message = "*Duration cannot be empty")
+    @NotBlank(message = "*Duration cannot be empty")
     private String duration;
 
     private SeizureSeverity severity;

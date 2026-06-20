@@ -55,11 +55,8 @@ public class SeizureService {
         seizureRepository.save(seizure);
     }
 
-
     public Seizure getSeizureById(UUID seizureId) {
         return seizureRepository.findById(seizureId)
                 .orElseThrow(() -> new RuntimeException("Seizure with id [%s] not found!".formatted(seizureId)));
     }
-
-
 }

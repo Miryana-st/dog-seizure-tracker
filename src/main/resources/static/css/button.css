@@ -46,7 +46,7 @@ button {
     border: 0.1em solid #2b2847;
 }
 
-.register-button, .my-dog-button, .edit-button{
+.register-button, .my-dog-button, .edit-button {
     background-color: rgb(49, 122, 205);
     color: rgb(239, 238, 228);
     border: 0.1em solid rgb(49, 122, 205);
@@ -83,7 +83,7 @@ button {
     margin-left: 1em;
 }
 
-.add-seizure  {
+.add-seizure {
     padding: 0.3em 5em;
     background-color: rgb(246 246 250);
     border: 0.1em solid rgb(200 24 24);

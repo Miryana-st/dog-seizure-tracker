@@ -82,7 +82,7 @@ public class DogController {
 
     @GetMapping("/{id}/dog-profile")
     public ModelAndView getDogProfilePage(@PathVariable UUID id,
-                                       HttpSession session){
+                                          HttpSession session) {
 
         UUID userUUID = (UUID) session.getAttribute("user_id");
         User user = userService.getById(userUUID);
@@ -103,7 +103,7 @@ public class DogController {
     @PutMapping("/{id}/dog-profile")
     public ModelAndView updateDogProfilePage(@Valid @ModelAttribute("editDogRequest") EditDogRequest editDogRequest,
                                              BindingResult bindingResult,
-                                             @PathVariable UUID id){
+                                             @PathVariable UUID id) {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("dog-profile");
 

@@ -52,38 +52,40 @@
                         </tr>
                         <tr>
                             <th>Food</th>
-                            <td th:text="${dog.food}"></td>
+                            <td th:text="${dog.food ?: 'Not specified'}"></td>
                         </tr>
                         <tr>
                             <th>Date of Birth</th>
-                            <td th:text="${dog.dateOfBirth != null ? (T(java.time.format.DateTimeFormatter).ofPattern('MMMM d, yyyy').format(dog.dateOfBirth)) : ''}"></td>
+                            <td th:text="${dog.dateOfBirth != null ? (T(java.time.format.DateTimeFormatter).ofPattern('MMMM d, yyyy').format(dog.dateOfBirth)) : 'Not specified'}"></td>
                         </tr>
                         <tr>
                             <th>Actions</th>
                             <td class="button-table">
                                 <div class="button-in-table">
-                                    <a th:href="@{'/dogs/' + ${dog.id} + '/dog-profile'}" class="button edit-button">Edit Info</a>
-                                    <a th:href="@{/dogs/{id}/dog-profile(id=${dog.id})}" class="button delete-button">Delete Dog</a>
+                                    <a th:href="@{'/dogs/' + ${dog.id} + '/dog-profile'}" class="button edit-button">Edit
+                                        Info</a>
+                                    <a th:href="@{/dogs/{id}/dog-profile(id=${dog.id})}" class="button delete-button">Delete
+                                        Dog</a>
                                 </div>
                                 <div class="button-seizures">
-                                    <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}"><i class="fa-solid fa-chart-bar"></i>Seizure Logs</a>
+                                    <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}"><i
+                                            class="fa-solid fa-chart-bar"></i>Seizure Logs</a>
                                 </div>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+                <div th:if="${dogs == null or #lists.isEmpty(dogs)}" class="no-dogs">
+                    You have not added any dogs yet.
+                </div>
                 <section class="add-new-dog-container">
                     <a th:href="@{/dogs/new}" class="button add-dog-button">
                         <i class="fa-solid fa-circle-plus"></i>
                         <p>Start tracking your dog's seizures</p>
                         <div class="add-dog">Add Dog</div>
-
                     </a>
                 </section>
-                <div th:if="${dogs == null or #lists.isEmpty(dogs)}" class="no-dogs">
-                    You have not added any dogs yet.
-                </div>
             </div>
         </div>
     </section>

@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum SeizureSeverity {
-    MILD ("Mild"),
-    MODERATE ("Moderate"),
-    SEVERE ("Severe"),
+    MILD("Mild"),
+    MODERATE("Moderate"),
+    SEVERE("Severe"),
     ;
 
     private final String displaySeverity;

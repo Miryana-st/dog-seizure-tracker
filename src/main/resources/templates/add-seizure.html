@@ -17,7 +17,8 @@
 <main class="main-content">
     <h1>Add New Seizure</h1>
     <section class="form-panel">
-        <form class="add-dog-form add-form" th:method="POST" th:action="@{'/dogs/' + ${dog.id} + '/seizures'}" th:object="${createNewSeizureRequest}">
+        <form class="add-dog-form add-form" th:method="POST" th:action="@{'/dogs/' + ${dog.id} + '/seizures'}"
+              th:object="${createNewSeizureRequest}">
             <div class="form-row">
                 <div class="form-data">
                     <label for="name">Date</label>

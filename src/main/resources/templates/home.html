@@ -19,8 +19,8 @@
     <section th:insert="fragments/side-nav-bar :: side-nav-bar"></section>
     <section class="info-container">
         <section class="welcome-section">
-            <h1 th:utext="|Welcome to DST, ${user.firstName}! <i class='fa-solid fa-paw'></i>|"></h1>
-                <p>Your trusted companion for tracking and managing your dog's seizures.</p>
+            <h1 th:utext="'Welcome to DST, ' + ${user.firstName} + '! <i class=&quot;fa-solid fa-paw&quot;></i>'"></h1>
+            <p>Your trusted companion for tracking and managing your dog's seizures.</p>
         </section>
 
         <section class="profile-info">

@@ -42,7 +42,7 @@ public class IndexController {
 
     @PostMapping("/register")
     public ModelAndView registerNewUser(@Valid UserRegisterRequest userRegisterRequest,
-                                 BindingResult result) {
+                                        BindingResult result) {
 
         if (result.hasErrors()) {
             return new ModelAndView("register");
@@ -65,8 +65,8 @@ public class IndexController {
 
     @PostMapping("/login")
     public ModelAndView loginUser(@Valid UserLoginRequest userLoginRequest,
-                              BindingResult result,
-                              HttpSession session) {
+                                  BindingResult result,
+                                  HttpSession session) {
 
         if (result.hasErrors()) {
             return new ModelAndView("login");

@@ -14,20 +14,20 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EditDogRequest {
 
-        @NotBlank
-        private String name;
+    @NotBlank
+    private String name;
 
-        @NotBlank
-        private String breed;
+    @NotBlank
+    private String breed;
 
-        @URL(message = "*Invalid URL")
-        private String dogPicture;
+    @URL(message = "*Invalid URL")
+    private String dogPicture;
 
-        private GenderDog gender;
+    private GenderDog gender;
 
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        private LocalDate dateOfBirth;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate dateOfBirth;
 
-        private String food;
-    }
+    private String food;
+}
 
