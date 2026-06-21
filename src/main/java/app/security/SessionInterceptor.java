@@ -47,11 +47,21 @@ public class SessionInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        User user = userService.getById(userId);
+        try {
+            User user = userService.getById(userId);
 
-        if (ADMIN_ENDPOINTS.contains(endpoint) && !user.getRole().name().equals("ADMIN")) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().println("Access denied. You are not authorized to access this page.");
+            if (ADMIN_ENDPOINTS.contains(endpoint)
+                    && !user.getRole().name().equals("ADMIN")) {
+
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().println(
+                        "Access denied. You are not authorized to access this page.");
+                return false;
+            }
+
+        } catch (RuntimeException e) {
+            session.invalidate();
+            response.sendRedirect("/login");
             return false;
         }
 
