@@ -1,6 +1,7 @@
 package app.web.dog;
 
 import app.model.dto.dog.CreateNewDogRequest;
+import app.model.dto.dog.DogDtoMapper;
 import app.model.dto.dog.EditDogRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.user.User;
@@ -88,6 +89,7 @@ public class DogController {
         User user = userService.getById(userUUID);
 
         Dog dog = dogService.getDogById(id);
+        EditDogRequest editDogRequest = DogDtoMapper.fromDog(dog);
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -95,7 +97,7 @@ public class DogController {
 
         modelAndView.addObject("user", user);
         modelAndView.addObject("dog", dog);
-        modelAndView.addObject("editDogRequest", new EditDogRequest());
+        modelAndView.addObject("editDogRequest", editDogRequest);
 
         return modelAndView;
     }

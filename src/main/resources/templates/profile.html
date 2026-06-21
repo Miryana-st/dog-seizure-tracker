@@ -50,9 +50,10 @@
 
                 <div class="form-row">
                     <div class="form-data">
-                        <label for="phone">Phone Number</label>
-                        <input type="text" id="phone" placeholder="Phone Number" th:field="*{phoneNumber}">
+                        <label for="phoneNumber">Phone Number</label>
+                        <input type="text" id="phoneNumber" placeholder="Phone Number" th:field="*{phoneNumber}">
                     </div>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></small>
                 </div>
 
                 <button class="button save-button">

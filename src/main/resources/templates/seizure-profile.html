@@ -52,8 +52,8 @@
                         <option value="">-- Select severity --</option>
 
                         <option th:each="severity : ${T(app.model.entity.seizure.SeizureSeverity).values()}"
-                                th:value="${severity}"
-                                th:text="${severity?.displaySeverity ?: 'Not specified'}">
+                                th:value="${severity.name()}"
+                                th:text="${severity?.displaySeverity}">
                         </option>
                     </select>
                 </div>
@@ -66,8 +66,8 @@
                         <option value="">-- Select recovery --</option>
 
                         <option th:each="recovery : ${T(app.model.entity.seizure.SeizureRecovery).values()}"
-                                th:value="${recovery}"
-                                th:text="${recovery?.displayRecovery ?: 'Not specified'}">
+                                th:value="${recovery.name()}"
+                                th:text="${recovery?.displayRecovery}">
                         </option>
                     </select>
                 </div>

@@ -32,6 +32,7 @@ public class DogService {
                 .dogPicture(createNewDogRequest.getDogPicture())
                 .food(createNewDogRequest.getFood())
                 .dateOfBirth(createNewDogRequest.getDateOfBirth())
+                .gender(createNewDogRequest.getGender())
                 .build();
 
         dogRepository.save(dog);

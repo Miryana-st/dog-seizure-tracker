@@ -48,7 +48,8 @@
                         </tr>
                         <tr>
                             <th>Gender</th>
-                            <td th:text="${dog.gender?.displayGender ?: 'Not specified'}"></td>
+                            <td th:if="${dog.gender != null}" th:text="${dog.gender.displayGender}"></td>
+                            <td th:unless="${dog.gender != null}">Not specified</td>
                         </tr>
                         <tr>
                             <th>Food</th>

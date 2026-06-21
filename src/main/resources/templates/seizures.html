@@ -36,16 +36,12 @@
                     <td th:text="${seizure.time}"></td>
                     <td th:text="${seizure.duration}"></td>
                     <td>
-                        <p th:if="${seizure.severity == null}" class="severity-none" th:text="' ---------- '"></p>
-                        <p th:if="${seizure.severity == T(app.model.entity.seizure.SeizureSeverity).MILD}" class="severity-mild" th:text="${seizure.severity.displaySeverity}"></p>
-                        <p th:if="${seizure.severity == T(app.model.entity.seizure.SeizureSeverity).SEVERE}" class="severity-severe" th:text="${seizure.severity.displaySeverity}"></p>
-                        <p th:if="${seizure.severity == T(app.model.entity.seizure.SeizureSeverity).MODERATE}" class="severity-moderate" th:text="${seizure.severity.displaySeverity}"></p>
+                        <p th:if="${seizure.severity != null}" th:class="${'severity-' + seizure.severity.name().toLowerCase()}" th:text="${seizure.severity.displaySeverity}"></p>
+                        <p th:unless="${seizure.severity != null}" class="severity-none">----------</p>
                     </td>
                     <td>
-                        <p th:if="${seizure.recovery == null}" class="recovery-none" th:text="' ---------- '"></p>
-                        <p th:if="${seizure.recovery == T(app.model.entity.seizure.SeizureRecovery).SLOW}" class="severity-severe" th:text="${seizure.recovery.displayRecovery}"></p>
-                        <p th:if="${seizure.recovery == T(app.model.entity.seizure.SeizureRecovery).NORMAL}" class="severity-moderate" th:text="${seizure.recovery.displayRecovery}"></p>
-                        <p th:if="${seizure.recovery == T(app.model.entity.seizure.SeizureRecovery).FAST}" class="severity-mild" th:text="${seizure.recovery.displayRecovery}"></p>
+                        <p th:if="${seizure.recovery != null}" th:class="${'severity-' + seizure.recovery.name().toLowerCase()}" th:text="${seizure.recovery.displayRecovery}"></p>
+                        <p th:unless="${seizure.recovery != null}" class="recovery-none">----------</p>
                     </td>
                     <td class="button-table">
                         <div class="button-in-table">

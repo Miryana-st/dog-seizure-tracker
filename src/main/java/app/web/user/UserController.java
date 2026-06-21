@@ -1,5 +1,6 @@
 package app.web.user;
 
+import app.model.dto.user.UserDtoMapper;
 import app.model.dto.user.UserEditRequest;
 import app.model.entity.user.User;
 import app.service.user.UserService;
@@ -48,11 +49,12 @@ public class UserController {
     public ModelAndView getProfilePage(@PathVariable UUID id) {
 
         User user = userService.getById(id);
+        UserEditRequest userEditRequest = UserDtoMapper.fromUser(user);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("profile");
         modelAndView.addObject("user", user);
-        modelAndView.addObject("userEditRequest", new UserEditRequest());
+        modelAndView.addObject("userEditRequest", userEditRequest);
 
         return modelAndView;
     }

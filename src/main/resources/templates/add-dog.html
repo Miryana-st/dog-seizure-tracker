@@ -54,8 +54,8 @@
                             <option value="">-- Select gender --</option>
 
                             <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}"
-                                    th:value="${gender}"
-                                    th:text="${gender?.displayGender ?: 'Not specified'}">
+                                    th:value="${gender.name()}"
+                                    th:text="${gender?.displayGender}">
                             </option>
                         </select>
                     </div>

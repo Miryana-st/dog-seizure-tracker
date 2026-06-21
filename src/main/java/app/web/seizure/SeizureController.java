@@ -2,6 +2,7 @@ package app.web.seizure;
 
 import app.model.dto.seizure.CreateNewSeizureRequest;
 import app.model.dto.seizure.EditSeizureRequest;
+import app.model.dto.seizure.SeizureDtoMapper;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
 import app.model.entity.user.User;
@@ -110,6 +111,7 @@ public class SeizureController {
         Dog dog = dogService.getDogById(dogId);
 
         Seizure seizure = seizureService.getSeizureById(seizureId);
+        EditSeizureRequest editSeizureRequest= SeizureDtoMapper.fromSeizure(seizure);
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -117,7 +119,7 @@ public class SeizureController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("dog", dog);
         modelAndView.addObject("seizure", seizure);
-        modelAndView.addObject("editSeizureRequest", new EditSeizureRequest());
+        modelAndView.addObject("editSeizureRequest", editSeizureRequest);
 
         return modelAndView;
     }

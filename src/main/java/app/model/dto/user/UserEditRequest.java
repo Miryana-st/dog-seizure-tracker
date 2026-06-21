@@ -28,5 +28,9 @@ public class UserEditRequest {
     )
     private String email;
 
+    @Pattern(
+            regexp = "^$|\\+?[0-9\\s-]{8,20}$",
+            message = "*Please enter a valid phone number"
+    )
     private String phoneNumber;
 }

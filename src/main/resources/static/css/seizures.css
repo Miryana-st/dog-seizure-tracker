@@ -46,14 +46,17 @@ thead {
     gap: 2em;
 }
 
-.severity-mild {
+.severity-mild,
+.recovery-fast {
     color: green;
 }
 
-.severity-severe {
+.severity-severe,
+.recovery-slow {
     color: red;
 }
 
-.severity-moderate {
+.severity-moderate,
+.recovery-normal {
     color: orange;
 }

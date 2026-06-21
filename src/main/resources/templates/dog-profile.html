@@ -51,10 +51,10 @@
                         <label for="gender">Gender</label>
                         <select id="gender" th:field="*{gender}">
                             <option value="">-- Select gender --</option>
-
                             <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}"
-                                    th:value="${gender}"
-                                    th:text="${dog.gender?.displayGender ?: 'Not specified'}">
+                                    th:value="${gender.name()}"
+                                    th:text="${gender.displayGender}"
+                                    th:selected="${gender == editDogRequest.gender}">
                             </option>
                         </select>
                     </div>
