@@ -1,8 +1,8 @@
 package app.model.dto.user;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -22,7 +22,10 @@ public class UserEditRequest {
 
     @NotBlank
     @Email(message = "*Email should be valid")
-    @Column(unique = true)
+    @Pattern(
+            regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+            message = "*Email must be in the format name@example.com"
+    )
     private String email;
 
     private String phoneNumber;

@@ -37,8 +37,8 @@
                     <td th:text="${seizure.duration}"></td>
                     <td>
                         <p th:if="${seizure.severity == null}" class="severity-none" th:text="' ---------- '"></p>
-                        <p th:if="${seizure.severity == T(app.model.entity.seizure.SeizureSeverity).MILD}" th:text="${seizure.severity.displaySeverity}"></p>
-                        <p th:if="${seizure.severity == T(app.model.entity.seizure.SeizureSeverity).SEVERE}" th:text="${seizure.severity.displaySeverity}"></p>
+                        <p th:if="${seizure.severity == T(app.model.entity.seizure.SeizureSeverity).MILD}" class="severity-mild" th:text="${seizure.severity.displaySeverity}"></p>
+                        <p th:if="${seizure.severity == T(app.model.entity.seizure.SeizureSeverity).SEVERE}" class="severity-severe" th:text="${seizure.severity.displaySeverity}"></p>
                         <p th:if="${seizure.severity == T(app.model.entity.seizure.SeizureSeverity).MODERATE}" class="severity-moderate" th:text="${seizure.severity.displaySeverity}"></p>
                     </td>
                     <td>
