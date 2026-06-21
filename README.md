@@ -58,9 +58,10 @@ Java Development Kit (JDK) [17+]
 Apache Maven [3.8+]
 MySQL Server
 An IDE (e.g., IntelliJ IDEA, Eclipse)
-Installation Clone the Repository: _ git clone [Your Repository URL] cd [your-project-name] __
+Installation Clone the Repository: _ git clone https://github.com/Miryana-st/dog-seizure-tracker.git cd dog-seizure-tracker
+__
 
-Database Setup: _ spring.datasource.url=jdbc:mysql://localhost:3306/[your_database_name] spring.datasource.username=[your_username] spring.datasource.password=[your_password] _
+Database Setup: _ spring.datasource.url=jdbc:mysql://localhost:3306/seizure-tracker-application spring.datasource.username=[your_username] spring.datasource.password=[your_password] _
 
 Run the Application: run Application.java as a Java application from your IDE or use the command line: mvn spring-boot:run
 
