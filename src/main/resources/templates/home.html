@@ -50,7 +50,9 @@
 
         <section class="buttons">
             <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="button edit-button">Edit Profile</a>
-            <a th:href="@{/users/{id}/profile(id=${user.id})}" class="button delete-button">Delete Profile</a>
+            <form th:action="@{/delete}" th:method="DELETE">
+                <button type="submit" class="delete-button">Delete Profile</button>
+            </form>
         </section>
 
     </section>
@@ -63,5 +65,3 @@
 <footer th:insert="fragments/footer :: footer"></footer>
 </body>
 </html>
-
-<!--TODO: Add a delete button-->

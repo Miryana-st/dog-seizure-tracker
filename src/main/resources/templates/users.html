@@ -38,12 +38,9 @@
                     <td th:text="${user.getEmail()}"></td>
                     <td th:text="${user.getPhoneNumber()}"></td>
                     <td class="button-table">
-
                         <div class="button-in-table">
-                            <form th:action="@{/users/{id}/delete(id=${user.id})}" th:method="DELETE">
-                                <button type="submit" class="button delete-button"
-                                        onclick="return confirm('Delete user?');">Delete
-                                </button>
+                            <form th:action="@{'/users/' + ${user.id} + '/delete'}" th:method="DELETE">
+                                <button type="submit" class="button delete-button">Delete</button>
                             </form>
                             <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">
                                 <input type="hidden" name="targetRole"

@@ -36,19 +36,24 @@
                     <td th:text="${seizure.time}"></td>
                     <td th:text="${seizure.duration}"></td>
                     <td>
-                        <p th:if="${seizure.severity != null}" th:class="${'severity-' + seizure.severity.name().toLowerCase()}" th:text="${seizure.severity.displaySeverity}"></p>
+                        <p th:if="${seizure.severity != null}"
+                           th:class="${'severity-' + seizure.severity.name().toLowerCase()}"
+                           th:text="${seizure.severity.displaySeverity}"></p>
                         <p th:unless="${seizure.severity != null}" class="severity-none">----------</p>
                     </td>
                     <td>
-                        <p th:if="${seizure.recovery != null}" th:class="${'severity-' + seizure.recovery.name().toLowerCase()}" th:text="${seizure.recovery.displayRecovery}"></p>
+                        <p th:if="${seizure.recovery != null}"
+                           th:class="${'recovery-' + seizure.recovery.name().toLowerCase()}"
+                           th:text="${seizure.recovery.displayRecovery}"></p>
                         <p th:unless="${seizure.recovery != null}" class="recovery-none">----------</p>
                     </td>
                     <td class="button-table">
                         <div class="button-in-table">
                             <a th:href="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id} + '/seizure-profile'}"
                                class="button edit-button">Edit Info</a>
-                            <a th:href="@{/dogs/{dogId}/seizures/{seizureId}/seizure-profile(dogId=${dog.id}, seizureId=${seizure.id})}"
-                               class="button delete-button">Delete</a>
+                            <form th:action="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id}}" th:method="DELETE">
+                                <button type="submit" class="button delete-button">Delete</button>
+                            </form>
                         </div>
                     </td>
                 </tr>

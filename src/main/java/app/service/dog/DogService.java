@@ -61,4 +61,12 @@ public class DogService {
 
         dogRepository.save(dog);
     }
+
+    public void deletedDogById(UUID id) {
+
+        Dog dogToDelete = dogRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Dog not found"));
+
+        dogRepository.delete(dogToDelete);
+    }
 }

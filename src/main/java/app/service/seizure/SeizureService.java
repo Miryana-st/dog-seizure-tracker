@@ -59,4 +59,12 @@ public class SeizureService {
         return seizureRepository.findById(seizureId)
                 .orElseThrow(() -> new RuntimeException("Seizure with id [%s] not found!".formatted(seizureId)));
     }
+
+    public void deleteSeizureById(UUID seizureId) {
+
+        Seizure seizureToDelete = seizureRepository.findById(seizureId)
+                .orElseThrow(() -> new RuntimeException("Seizure not found"));
+
+        seizureRepository.delete(seizureToDelete);
+    }
 }

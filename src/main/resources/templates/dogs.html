@@ -65,8 +65,9 @@
                                 <div class="button-in-table">
                                     <a th:href="@{'/dogs/' + ${dog.id} + '/dog-profile'}" class="button edit-button">Edit
                                         Info</a>
-                                    <a th:href="@{/dogs/{id}/dog-profile(id=${dog.id})}" class="button delete-button">Delete
-                                        Dog</a>
+                                    <form th:action="@{'/dogs/' + ${dog.id}}" th:method="DELETE">
+                                        <button type="submit" class="button delete-button">Delete Dog</button>
+                                    </form>
                                 </div>
                                 <div class="button-seizures">
                                     <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}"><i

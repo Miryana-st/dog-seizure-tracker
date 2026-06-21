@@ -98,4 +98,16 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public void deleteUserById(UUID id) {
+
+        if (id == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        userRepository.delete(user);
+    }
 }

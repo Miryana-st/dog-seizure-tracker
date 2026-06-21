@@ -9,7 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,13 +44,17 @@ public class IndexController {
 
     @PostMapping("/register")
     public ModelAndView registerNewUser(@Valid UserRegisterRequest userRegisterRequest,
-                                        BindingResult result) {
+                                        BindingResult result, HttpSession session) {
 
         if (result.hasErrors()) {
             return new ModelAndView("register");
         }
 
         userService.registerUser(userRegisterRequest);
+
+        if (session.getAttribute("user_id") != null) {
+            return new ModelAndView("redirect:/users");
+        }
 
         return new ModelAndView("redirect:/login");
     }
@@ -96,6 +102,34 @@ public class IndexController {
 
         session.invalidate();
         return "redirect:/";
+    }
+
+    @DeleteMapping("/delete")
+    public String deleteProfile(HttpSession session) {
+
+        UUID userId = (UUID) session.getAttribute("user_id");
+
+        userService.deleteUserById(userId);
+
+        session.invalidate();
+
+        return "redirect:/";
+    }
+
+    @DeleteMapping("/users/{id}/delete")
+    public String deleteUser(@PathVariable UUID id, HttpSession session) {
+
+        UUID userId = (UUID) session.getAttribute("user_id");
+
+        userService.deleteUserById(id);
+
+        if (userId != null & id.equals(userId)) {
+            session.invalidate();
+
+            return "redirect:/";
+        }
+
+        return "redirect:/users";
     }
 }
 

@@ -42,6 +42,6 @@ public class Dog {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dog")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seizure> seizures = new ArrayList<>();
 }

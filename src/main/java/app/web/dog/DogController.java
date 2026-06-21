@@ -122,4 +122,11 @@ public class DogController {
         return new ModelAndView("redirect:/dogs");
     }
 
+    @DeleteMapping("/{id}")
+    public String deleteDog(@PathVariable UUID id) {
+
+        dogService.deletedDogById(id);
+
+        return "redirect:/dogs";
+    }
 }

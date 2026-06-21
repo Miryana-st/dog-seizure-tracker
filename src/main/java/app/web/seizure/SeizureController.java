@@ -111,7 +111,7 @@ public class SeizureController {
         Dog dog = dogService.getDogById(dogId);
 
         Seizure seizure = seizureService.getSeizureById(seizureId);
-        EditSeizureRequest editSeizureRequest= SeizureDtoMapper.fromSeizure(seizure);
+        EditSeizureRequest editSeizureRequest = SeizureDtoMapper.fromSeizure(seizure);
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -147,5 +147,13 @@ public class SeizureController {
         seizureService.updateSeizureEntry(seizureId, editSeizureRequest);
 
         return new ModelAndView("redirect:/dogs/" + dogId + "/seizures");
+    }
+
+    @DeleteMapping("/{seizureId}")
+    public String deleteSeizure(@PathVariable UUID seizureId) {
+
+        seizureService.deleteSeizureById(seizureId);
+
+        return "redirect:/dogs/{dogId}/seizures";
     }
 }
