@@ -2,6 +2,7 @@
 
 Summary: Dog Seizure Tracker is a Java-based application designed to help dog owners monitor and manage their pets' seizure activity. The application provides a centralized platform for recording dog information, and logging seizure events to help owners and veterinarians better understand and manage canine epilepsy and other seizure-related conditions.
 
+![img_1.png](img_1.png)
 
 ### **Key Features**
 * User Profile, secure user authentication and login
@@ -42,6 +43,23 @@ _Users can record seizure events with detailed information:_
 * Duration
 * Severity level
 * Recovery details
+
+### **Roles**
+
+**_Admin can:_**
+* change User's role
+* delete User's profile
+
+**_User can:_**
+* create profile and log in
+* edit their information
+* delete their profile
+* add dog
+* edit dog's information
+* delete dog
+* add seizure log
+* edit seizure log
+* delete seizure log
 
 
 ### **Technology Stack:**
