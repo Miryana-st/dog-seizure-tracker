@@ -123,7 +123,8 @@ public class IndexController {
 
         userService.deleteUserById(id);
 
-        if (userId != null & id.equals(userId)) {
+        if (id.equals(userId)) {
+
             session.invalidate();
 
             return "redirect:/";

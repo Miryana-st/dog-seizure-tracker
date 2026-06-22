@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
-    private static final Set<String> UNAUTHENTICATED_ENDPOINTS = Set.of("/login", "/register", "/");
+    private static final Set<String> UNAUTHENTICATED_ENDPOINTS = Set.of("/login", "/register", "/", "/error");
     private static final Set<String> ADMIN_ENDPOINTS = Set.of("/users", "/reports");
 
     private final UserService userService;
@@ -47,21 +47,11 @@ public class SessionInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        try {
-            User user = userService.getById(userId);
+        User user = userService.getById(userId);
 
-            if (ADMIN_ENDPOINTS.contains(endpoint)
-                    && !user.getRole().name().equals("ADMIN")) {
-
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.getWriter().println(
-                        "Access denied. You are not authorized to access this page.");
-                return false;
-            }
-
-        } catch (RuntimeException e) {
-            session.invalidate();
-            response.sendRedirect("/login");
+        if (ADMIN_ENDPOINTS.contains(endpoint) && !user.getRole().name().equals("ADMIN")) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().println("Access denied. You are not authorized to access this page.");
             return false;
         }
 
