@@ -1,5 +1,6 @@
 package app.service.seizure;
 
+import app.exception.SeizureNotFound;
 import app.model.dto.seizure.CreateNewSeizureRequest;
 import app.model.dto.seizure.EditSeizureRequest;
 import app.model.entity.dog.Dog;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static app.exception.ExceptionMessages.SEIZURE_NOT_FOUND;
 
 @Service
 public class SeizureService {
@@ -43,14 +46,14 @@ public class SeizureService {
 
     public Seizure getSeizureById(UUID seizureId) {
         return seizureRepository.findById(seizureId)
-                .orElseThrow(() -> new RuntimeException("Seizure with id [%s] not found!".formatted(seizureId)));
+                .orElseThrow(() -> new SeizureNotFound(SEIZURE_NOT_FOUND));
     }
 
     @Transactional
     public void updateSeizureEntry(UUID id, EditSeizureRequest editSeizureRequest) {
         Seizure seizure = seizureRepository.findById(id)
                 .orElseThrow(
-                        () -> new RuntimeException("Seizure with id [%s] not found!".formatted(id)));
+                        () -> new SeizureNotFound(SEIZURE_NOT_FOUND));
 
         seizure.setDate(editSeizureRequest.getDate());
         seizure.setTime(editSeizureRequest.getTime());
@@ -65,7 +68,7 @@ public class SeizureService {
     public void deleteSeizureById(UUID seizureId) {
 
         Seizure seizureToDelete = seizureRepository.findById(seizureId)
-                .orElseThrow(() -> new RuntimeException("Seizure not found"));
+                .orElseThrow(() -> new SeizureNotFound(SEIZURE_NOT_FOUND));
 
         seizureToDelete.getDog().getSeizures().remove(seizureToDelete);
 

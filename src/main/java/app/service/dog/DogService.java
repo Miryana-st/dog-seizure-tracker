@@ -1,5 +1,6 @@
 package app.service.dog;
 
+import app.exception.DogNotFound;
 import app.model.dto.dog.CreateNewDogRequest;
 import app.model.dto.dog.EditDogRequest;
 import app.model.entity.dog.Dog;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static app.exception.ExceptionMessages.DOG_NOT_FOUND;
 
 @Service
 public class DogService {
@@ -44,14 +47,14 @@ public class DogService {
 
     public Dog getDogById(UUID dogId) {
         return dogRepository.findById(dogId)
-                .orElseThrow(() -> new RuntimeException("Dog with id [%s] not found!".formatted(dogId)));
+                .orElseThrow(() -> new DogNotFound(DOG_NOT_FOUND));
     }
 
     @Transactional
     public void updateDogInformation(UUID id, EditDogRequest editDogRequest) {
         Dog dog = dogRepository.findById(id)
                 .orElseThrow(
-                        () -> new RuntimeException("Dog with id [%s] not found!".formatted(id)));
+                        () -> new DogNotFound(DOG_NOT_FOUND));
 
         dog.setName(editDogRequest.getName());
         dog.setBreed(editDogRequest.getBreed());
@@ -67,7 +70,7 @@ public class DogService {
     public void deletedDogById(UUID id) {
 
         Dog dogToDelete = dogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dog not found"));
+                .orElseThrow(() -> new DogNotFound(DOG_NOT_FOUND));
 
         dogToDelete.getOwner().getDogs().remove(dogToDelete);
 

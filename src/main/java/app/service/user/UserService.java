@@ -1,5 +1,8 @@
 package app.service.user;
 
+import app.exception.UserIncorrectPasswordOrUsername;
+import app.exception.UserNotFound;
+import app.exception.UserWithEmailOrUsernameExists;
 import app.model.dto.user.UserEditRequest;
 import app.model.dto.user.UserLoginRequest;
 import app.model.dto.user.UserRegisterRequest;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static app.exception.ExceptionMessages.*;
 
 @Service
 public class UserService {
@@ -33,7 +38,7 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByUsernameOrEmail(userRegisterRequest.getUsername(), userRegisterRequest.getEmail());
 
         if (optionalUser.isPresent()) {
-            throw new RuntimeException("User with this email or username already exists.");
+            throw new UserWithEmailOrUsernameExists(USER_WITH_EMAIL_OR_USERNAME_EXISTS);
         }
 
         User user = User.builder()
@@ -56,12 +61,12 @@ public class UserService {
 
         Optional<User> optionalUser = userRepository.findByUsername(userLoginRequest.getUsername());
         if (optionalUser.isEmpty()) {
-            throw new RuntimeException("Incorrect username or password.");
+            throw new UserIncorrectPasswordOrUsername(USER_INCORRECT_PASSWORD_OR_USERNAME);
         }
 
         User user = optionalUser.get();
         if (!passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Incorrect username or password.");
+            throw new UserIncorrectPasswordOrUsername(USER_INCORRECT_PASSWORD_OR_USERNAME);
         }
 
         return user;
@@ -71,7 +76,7 @@ public class UserService {
     public void updateUser(UUID id, UserEditRequest userEditRequest) {
         User user = userRepository.findById(id)
                 .orElseThrow(
-                        () -> new RuntimeException("User with id [%s] not found!".formatted(id)));
+                        () -> new UserNotFound(USER_NOT_FOUND));
 
         user.setFirstName(userEditRequest.getFirstName());
         user.setLastName(userEditRequest.getLastName());
@@ -85,7 +90,7 @@ public class UserService {
     public void switchRole(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(
-                        () -> new RuntimeException("User with id [%s] not found!".formatted(id)));
+                        () -> new UserNotFound(USER_NOT_FOUND));
 
         user.setRole(user.getRole() == UserRole.USER ? UserRole.ADMIN : UserRole.USER);
         userRepository.save(user);
@@ -94,7 +99,7 @@ public class UserService {
     public User getById(UUID userId) {
 
         return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User with id [%s] not found!".formatted(userId)));
+                .orElseThrow(() -> new UserNotFound(USER_NOT_FOUND));
     }
 
     public List<User> getAllUsers() {
@@ -104,12 +109,8 @@ public class UserService {
     @Transactional
     public void deleteUserById(UUID id) {
 
-        if (id == null) {
-            throw new RuntimeException("User not found");
-        }
-
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFound(USER_NOT_FOUND));
 
         userRepository.delete(user);
     }
