@@ -50,7 +50,8 @@
 
         <section class="buttons">
             <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="button edit-button">Edit Profile</a>
-            <form th:action="@{/delete}" th:method="DELETE">
+            <form th:action="@{/delete}" th:method="DELETE"
+                  th:attr="onclick='return confirm(\'Are you sure you want to change role?\')'">
                 <button type="submit" class="delete-button">Delete Profile</button>
             </form>
         </section>

@@ -19,24 +19,20 @@
     display: inline-block;
 }
 
-.navigation {
+.navigation,
+.nav,
+.nav-components {
+    width: 100%;
+}
+
+.nav-components {
     display: flex;
-    flex-direction: row;
-    gap: 1em;
     justify-content: space-between;
     align-items: center;
     width: 100%;
 }
 
-.nav {
+.links {
     display: flex;
-    flex-direction: row;
-    gap: 1em;
-    align-items: center;
-}
-
-.nav div {
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
+    gap: 0.5em;
 }

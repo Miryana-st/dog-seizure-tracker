@@ -39,7 +39,8 @@
                     <td th:text="${user.getPhoneNumber()}"></td>
                     <td class="button-table">
                         <div class="button-in-table">
-                            <form th:action="@{'/users/' + ${user.id} + '/delete'}" th:method="DELETE">
+                            <form th:action="@{'/users/' + ${user.id} + '/delete'}" th:method="DELETE"
+                                  th:attr="onclick='return confirm(\'Are you sure you want to delete profile?\')'">
                                 <button type="submit" class="button delete-button">Delete</button>
                             </form>
                             <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">

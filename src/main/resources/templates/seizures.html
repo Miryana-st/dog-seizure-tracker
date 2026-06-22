@@ -51,7 +51,8 @@
                         <div class="button-in-table">
                             <a th:href="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id} + '/seizure-profile'}"
                                class="button edit-button">Edit Info</a>
-                            <form th:action="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id}}" th:method="DELETE">
+                            <form th:action="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id}}" th:method="DELETE"
+                                  th:attr="onclick='return confirm(\'Are you sure you want to delete seizure?\')'">
                                 <button type="submit" class="button delete-button">Delete</button>
                             </form>
                         </div>
