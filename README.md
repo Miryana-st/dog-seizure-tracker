@@ -44,6 +44,8 @@ _Users can record seizure events with detailed information:_
 * Severity level
 * Recovery details
 
+
+
   **Admin can:**
   * change User's role
   * delete User's profile
@@ -58,6 +60,8 @@ _Users can record seizure events with detailed information:_
   * add seizure log
   * edit seizure log
   * delete seizure log 
+
+
 
 ### **Technology Stack:**
 * Java version: 21
