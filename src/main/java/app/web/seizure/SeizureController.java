@@ -150,10 +150,12 @@ public class SeizureController {
     }
 
     @DeleteMapping("/{seizureId}")
-    public String deleteSeizure(@PathVariable UUID seizureId) {
+    public String deleteSeizure(@PathVariable UUID dogId, @PathVariable UUID seizureId) {
+
+        System.out.println("DELETE URL dog=" + dogId + " seizure=" + seizureId);
 
         seizureService.deleteSeizureById(seizureId);
 
-        return "redirect:/dogs/{dogId}/seizures";
+        return "redirect:/dogs/" + dogId + "/seizures";
     }
 }

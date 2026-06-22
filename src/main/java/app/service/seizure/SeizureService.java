@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Transactional
 public class SeizureService {
 
     SeizureRepository seizureRepository;
@@ -23,6 +22,7 @@ public class SeizureService {
         this.seizureRepository = seizureRepository;
     }
 
+    @Transactional
     public void createSeizureEntry(CreateNewSeizureRequest createNewSeizureRequest, Dog dog) {
 
         Seizure seizure = Seizure.builder()
@@ -41,6 +41,12 @@ public class SeizureService {
         return seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
     }
 
+    public Seizure getSeizureById(UUID seizureId) {
+        return seizureRepository.findById(seizureId)
+                .orElseThrow(() -> new RuntimeException("Seizure with id [%s] not found!".formatted(seizureId)));
+    }
+
+    @Transactional
     public void updateSeizureEntry(UUID id, EditSeizureRequest editSeizureRequest) {
         Seizure seizure = seizureRepository.findById(id)
                 .orElseThrow(
@@ -55,15 +61,13 @@ public class SeizureService {
         seizureRepository.save(seizure);
     }
 
-    public Seizure getSeizureById(UUID seizureId) {
-        return seizureRepository.findById(seizureId)
-                .orElseThrow(() -> new RuntimeException("Seizure with id [%s] not found!".formatted(seizureId)));
-    }
-
+    @Transactional
     public void deleteSeizureById(UUID seizureId) {
 
         Seizure seizureToDelete = seizureRepository.findById(seizureId)
                 .orElseThrow(() -> new RuntimeException("Seizure not found"));
+
+        seizureToDelete.getDog().getSeizures().remove(seizureToDelete);
 
         seizureRepository.delete(seizureToDelete);
     }

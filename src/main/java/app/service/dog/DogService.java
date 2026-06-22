@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Transactional
 public class DogService {
 
     DogRepository dogRepository;
@@ -23,6 +22,7 @@ public class DogService {
         this.dogRepository = dogRepository;
     }
 
+    @Transactional
     public void createDog(CreateNewDogRequest createNewDogRequest, User user) {
 
         Dog dog = Dog.builder()
@@ -47,6 +47,7 @@ public class DogService {
                 .orElseThrow(() -> new RuntimeException("Dog with id [%s] not found!".formatted(dogId)));
     }
 
+    @Transactional
     public void updateDogInformation(UUID id, EditDogRequest editDogRequest) {
         Dog dog = dogRepository.findById(id)
                 .orElseThrow(
@@ -62,10 +63,13 @@ public class DogService {
         dogRepository.save(dog);
     }
 
+    @Transactional
     public void deletedDogById(UUID id) {
 
         Dog dogToDelete = dogRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Dog not found"));
+
+        dogToDelete.getOwner().getDogs().remove(dogToDelete);
 
         dogRepository.delete(dogToDelete);
     }

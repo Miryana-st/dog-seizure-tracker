@@ -16,7 +16,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -28,6 +27,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public void registerUser(UserRegisterRequest userRegisterRequest) {
 
         Optional<User> optionalUser = userRepository.findByUsernameOrEmail(userRegisterRequest.getUsername(), userRegisterRequest.getEmail());
@@ -67,6 +67,7 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public void updateUser(UUID id, UserEditRequest userEditRequest) {
         User user = userRepository.findById(id)
                 .orElseThrow(
@@ -80,6 +81,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void switchRole(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(
@@ -99,6 +101,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    @Transactional
     public void deleteUserById(UUID id) {
 
         if (id == null) {
