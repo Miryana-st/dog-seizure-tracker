@@ -18,11 +18,11 @@ _Users can make an account and edit their information:_
 * Username
 * Password
 
+
 * First name
 * Last name
 * Phone number
 * Email address
-
 
 ### **Dog Management**
 _Users can register and manage their dogs by recording:_
@@ -30,6 +30,7 @@ _Users can register and manage their dogs by recording:_
 * Dog name
 * Breed
 * Gender
+* Dog picture 
 * Date of birth
 * Food/Diet information
 
@@ -43,10 +44,24 @@ _Users can record seizure events with detailed information:_
 * Severity level
 * Recovery details
 
+  **Admin can:**
+  * change User's role
+  * delete User's profile
+
+  **User can:**
+  * create profile and log in
+  * edit their information
+  * delete their profile 
+  * add dog
+  * edit dog's information
+  * delete dog
+  * add seizure log
+  * edit seizure log
+  * delete seizure log 
 
 ### **Technology Stack:**
 * Java version: 21
-* Spring Boot version: 3.5.14
+* Spring Boot version: 3.4.0
 * Build tool: Maven
 * Database: MySQL
 * Backend: Spring framework
