@@ -1,0 +1,14 @@
+body {
+    background-image: url("/images/login-page-background.png");
+    background-size: 40%;
+    background-position: left bottom 100px;
+    background-repeat: no-repeat;
+}
+
+main {
+    gap: 0;
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+}
+

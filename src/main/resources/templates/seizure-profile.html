@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/button.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/edit-page.css">
     <link rel="stylesheet" href="/css/form.css">
     <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="/css/add-edit-page.css">
 
 </head>
 <body>
@@ -20,20 +20,21 @@
         <form class="form-edit" th:action="@{'/dogs/' + ${dogId} + '/seizures/' + ${seizureId} + '/seizure-profile'}"
               th:object="${editSeizureRequest}"
               th:method="PUT">
-            <div class="form-row">
-                <div class="form-data">
-                    <label for="date">Date</label>
-                    <input type="date" id="date" placeholder="Date" th:field="*{date}" required>
+            <div class="form-row-one">
+                <div class="form-row">
+                    <div class="form-data">
+                        <label for="name">Date</label>
+                        <input type="date" id="name" placeholder="Date" th:field="*{date}" required>
+                    </div>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></small>
                 </div>
-                <small class="alert-warning" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></small>
-            </div>
-
-            <div class="form-row">
-                <div class="form-data">
-                    <label for="time">Time</label>
-                    <input type="time" id="time" placeholder="time" th:field="*{time}" required>
+                <div class="form-row">
+                    <div class="form-data">
+                        <label for="time">Time</label>
+                        <input type="time" id="time" placeholder="Time" th:field="*{time}" required>
+                    </div>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></small>
                 </div>
-                <small class="alert-warning" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></small>
             </div>
 
             <div class="form-row">
@@ -45,42 +46,43 @@
                        th:errors="*{duration}"></small>
             </div>
 
-            <div class="form-row">
-                <div class="form-data">
-                    <label for="severity">Severity</label>
-                    <select id="severity" th:field="*{severity}">
-                        <option value="">-- Select severity --</option>
+            <div class="form-row-one">
+                <div class="form-row">
+                    <div class="form-data">
+                        <label for="severity">Severity</label>
+                        <select id="severity" th:field="*{severity}">
+                            <option value="">-- Select severity --</option>
 
-                        <option th:each="severity : ${T(app.model.entity.seizure.SeizureSeverity).values()}"
-                                th:value="${severity.name()}"
-                                th:text="${severity?.displaySeverity}">
-                        </option>
-                    </select>
+                            <option th:each="severity : ${T(app.model.entity.seizure.SeizureSeverity).values()}"
+                                    th:value="${severity.name()}"
+                                    th:text="${severity?.displaySeverity}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-data">
+                        <label for="recovery">Recovery</label>
+                        <select id="recovery" th:field="*{recovery}">
+                            <option value="">-- Select recovery --</option>
+
+                            <option th:each="recovery : ${T(app.model.entity.seizure.SeizureRecovery).values()}"
+                                    th:value="${recovery.name()}"
+                                    th:text="${recovery?.displayRecovery}">
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-data">
-                    <label for="recovery">Recovery</label>
-                    <select id="recovery" th:field="*{recovery}">
-                        <option value="">-- Select recovery --</option>
-
-                        <option th:each="recovery : ${T(app.model.entity.seizure.SeizureRecovery).values()}"
-                                th:value="${recovery.name()}"
-                                th:text="${recovery?.displayRecovery}">
-                        </option>
-                    </select>
-                </div>
+            <div class="button-wrapper">
+                <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}" class="button cancel-button">Cancel</a>
+                <button class="button save-button">
+                    <div>Save</div>
+                </button>
             </div>
-
-            <button class="button save-button">
-                <div>Save</div>
-            </button>
         </form>
     </section>
-    <div class="button-container-back">
-        <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}" class="button back-button">Back</a>
-    </div>
 </main>
 <footer th:insert="fragments/footer :: footer"></footer>
 </body>

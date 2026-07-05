@@ -1,16 +1,18 @@
 package app.service.user;
 
-import app.exception.UserIncorrectPasswordOrUsername;
 import app.exception.UserNotFound;
 import app.exception.UserWithEmailOrUsernameExists;
 import app.model.dto.user.UserEditRequest;
-import app.model.dto.user.UserLoginRequest;
 import app.model.dto.user.UserRegisterRequest;
 import app.model.entity.user.User;
 import app.model.entity.user.UserRole;
 import app.repository.user.UserRepository;
+import app.security.user.UserData;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ import java.util.UUID;
 import static app.exception.ExceptionMessages.*;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -57,21 +59,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User loginUser(UserLoginRequest userLoginRequest) {
-
-        Optional<User> optionalUser = userRepository.findByUsername(userLoginRequest.getUsername());
-        if (optionalUser.isEmpty()) {
-            throw new UserIncorrectPasswordOrUsername(USER_INCORRECT_PASSWORD_OR_USERNAME);
-        }
-
-        User user = optionalUser.get();
-        if (!passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
-            throw new UserIncorrectPasswordOrUsername(USER_INCORRECT_PASSWORD_OR_USERNAME);
-        }
-
-        return user;
-    }
-
     @Transactional
     public void updateUser(UUID id, UserEditRequest userEditRequest) {
         User user = userRepository.findById(id)
@@ -93,6 +80,7 @@ public class UserService {
                         () -> new UserNotFound(USER_NOT_FOUND));
 
         user.setRole(user.getRole() == UserRole.USER ? UserRole.ADMIN : UserRole.USER);
+
         userRepository.save(user);
     }
 
@@ -113,5 +101,13 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFound(USER_NOT_FOUND));
 
         userRepository.delete(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
+
+        return new UserData(user.getId(), username, user.getPassword(), user.getRole());
     }
 }

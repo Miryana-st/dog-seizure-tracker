@@ -1,6 +1,6 @@
-<section th:fragment="navigation" class="navigation">
+<section th:fragment="navigation" class="navigation" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <nav class="nav">
-        <div th:unless="${user}" class="nav-components">
+        <div sec:authorize="isAnonymous()" class="nav-components">
             <div class="site-title">
                 <div class="logo-container">
                     <a href="/"><img src="/images/primary-logo-removedbg-preview.png" alt="DST Logo"></a>
@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div th:if="${user}" class="nav-components">
+        <div sec:authorize="isAuthenticated()" class="nav-components">
             <div class="site-title">
                 <div class="logo-container">
                     <a href="/home"><img src="/images/primary-logo-removedbg-preview.png" alt="DST Logo"></a>

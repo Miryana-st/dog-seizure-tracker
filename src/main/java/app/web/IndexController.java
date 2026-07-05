@@ -3,16 +3,15 @@ package app.web;
 import app.model.dto.user.UserLoginRequest;
 import app.model.dto.user.UserRegisterRequest;
 import app.model.entity.user.User;
+import app.security.user.UserData;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -44,7 +43,7 @@ public class IndexController {
 
     @PostMapping("/register")
     public ModelAndView registerNewUser(@Valid UserRegisterRequest userRegisterRequest,
-                                        BindingResult result, HttpSession session) {
+                                        BindingResult result, @AuthenticationPrincipal UserData userData) {
 
         if (result.hasErrors()) {
             return new ModelAndView("register");
@@ -52,7 +51,7 @@ public class IndexController {
 
         userService.registerUser(userRegisterRequest);
 
-        if (session.getAttribute("user_id") != null) {
+        if (userData.getUserId() != null) {
             return new ModelAndView("redirect:/users");
         }
 
@@ -60,35 +59,25 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public ModelAndView getLoginPage() {
+    public ModelAndView getLoginPage(@RequestParam(name = "loginAttemptMessage", required = false) String message,
+                                     @RequestParam(name = "error", required = false) String errorMessage) {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         modelAndView.addObject("userLoginRequest", new UserLoginRequest());
+        modelAndView.addObject("loginAttemptMessage", message);
+        if (errorMessage != null) {
+            modelAndView.addObject("errorMessage", "Invalid username or password.");
+        }
+
 
         return modelAndView;
     }
 
-    @PostMapping("/login")
-    public ModelAndView loginUser(@Valid UserLoginRequest userLoginRequest,
-                                  BindingResult result,
-                                  HttpSession session) {
-
-        if (result.hasErrors()) {
-            return new ModelAndView("login");
-        }
-
-        User user = userService.loginUser(userLoginRequest);
-        session.setAttribute("user_id", user.getId());
-
-        return new ModelAndView("redirect:/home");
-    }
-
     @GetMapping("/home")
-    public ModelAndView getHomePage(HttpSession session) {
+    public ModelAndView getHomePage(@AuthenticationPrincipal UserData userData) {
 
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
+        User user = userService.getById(userData.getUserId());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
@@ -96,41 +85,4 @@ public class IndexController {
 
         return modelAndView;
     }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-
-        session.invalidate();
-        return "redirect:/";
-    }
-
-    @DeleteMapping("/delete")
-    public String deleteProfile(HttpSession session) {
-
-        UUID userId = (UUID) session.getAttribute("user_id");
-
-        userService.deleteUserById(userId);
-
-        session.invalidate();
-
-        return "redirect:/";
-    }
-
-    @DeleteMapping("/users/{id}/delete")
-    public String deleteUser(@PathVariable UUID id, HttpSession session) {
-
-        UUID userId = (UUID) session.getAttribute("user_id");
-
-        userService.deleteUserById(id);
-
-        if (id.equals(userId)) {
-
-            session.invalidate();
-
-            return "redirect:/";
-        }
-
-        return "redirect:/users";
-    }
 }
-

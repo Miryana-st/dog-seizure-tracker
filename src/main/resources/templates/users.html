@@ -39,9 +39,9 @@
                     <td th:text="${user.getPhoneNumber()}"></td>
                     <td class="button-table">
                         <div class="button-in-table">
-                            <form th:action="@{'/users/' + ${user.id} + '/delete'}" th:method="DELETE"
-                                  th:attr="onclick='return confirm(\'Are you sure you want to delete profile?\')'">
-                                <button type="submit" class="button delete-button">Delete</button>
+                            <form th:action="@{'/users/' + ${user.id}}" th:method="DELETE"
+                                  th:attr="onclick='return confirm(\'Are you sure you want to delete profile?\')'" class="icon-button">
+                                <button type="submit"><i class="fa-solid fa-trash"></i></button>
                             </form>
                             <form th:action="@{'/users/' + ${user.id} + '/role'}" th:method="PUT">
                                 <input type="hidden" name="targetRole"
@@ -59,7 +59,7 @@
                 </tbody>
             </table>
             <div class="button create-user-button-container">
-                <a th:href="@{/register}" class="button register-button">Create User</a>
+                <a th:href="@{/register}" class="button icon-button"><i class="fa-solid fa-user-plus"></i></a>
             </div>
         </div>
     </section>

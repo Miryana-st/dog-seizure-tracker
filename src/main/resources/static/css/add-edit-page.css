@@ -1,0 +1,50 @@
+.main-content {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.add-form {
+    gap: 1rem;
+}
+
+.form-row-two,
+.form-row-one{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.form-row-two .form-row,
+.form-row-one .form-row {
+    flex: 1;
+    min-width: 0;
+}
+
+.form-row-two .form-data,
+.form-row-one .form-data{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .7rem;
+}
+
+.form-row-two .form-data label,
+.form-row-one .form-data label{
+    width: auto;
+    min-width: 70px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.form-row-two input,
+.form-row-one input,
+.form-row-two select,
+.form-row-one select{
+    flex: 1;
+    width: 100%;
+}
+
+.container-table-image {
+    text-align: center;
+}

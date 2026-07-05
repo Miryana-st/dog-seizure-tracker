@@ -49,17 +49,16 @@
                     </td>
                     <td class="button-table">
                         <div class="button-in-table">
-                            <a th:href="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id} + '/seizure-profile'}"
-                               class="button edit-button">Edit Info</a>
+                            <a th:href="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id} + '/details'}" class="edit-seizure"><i class="fa-solid fa-pen-to-square"></i></a>
                             <form th:action="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id}}" th:method="DELETE"
                                   th:attr="onclick='return confirm(\'Are you sure you want to delete seizure?\')'">
-                                <button type="submit" class="button delete-button">Delete</button>
+                                <button type="submit"><i class="fa-solid fa-trash"></i></button>
                             </form>
                         </div>
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(seizures)}">
-                    <td colspan="5">No seizures logged in.</td>
+                    <td colspan="6">No seizures logged in.</td>
                 </tr>
                 </tbody>
             </table>

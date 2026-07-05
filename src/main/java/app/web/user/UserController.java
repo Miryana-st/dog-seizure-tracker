@@ -3,13 +3,17 @@ package app.web.user;
 import app.model.dto.user.UserDtoMapper;
 import app.model.dto.user.UserEditRequest;
 import app.model.entity.user.User;
+import app.security.user.UserData;
 import app.service.user.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.UUID;
 
@@ -24,10 +28,10 @@ public class UserController {
     }
 
     @GetMapping()
-    public ModelAndView getAllUsers(HttpSession session) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ModelAndView getAllUsers(@AuthenticationPrincipal UserData userData) {
 
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
+        User user = userService.getById(userData.getUserId());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
@@ -45,7 +49,7 @@ public class UserController {
         return new ModelAndView("redirect:/users");
     }
 
-    @GetMapping("/{id}/profile")
+    @GetMapping("/{id}/details")
     public ModelAndView getProfilePage(@PathVariable UUID id) {
 
         User user = userService.getById(id);
@@ -59,7 +63,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @PutMapping("/{id}/profile")
+    @PutMapping("/{id}/details")
     public ModelAndView updateProfilePage(@Valid @ModelAttribute("userEditRequest") UserEditRequest userEditRequest,
                                           BindingResult result,
                                           @PathVariable UUID id) {
@@ -77,4 +81,25 @@ public class UserController {
 
         return new ModelAndView("redirect:/home");
     }
+
+    @DeleteMapping("/{id}")
+        public String deleteUser(@PathVariable UUID id, @AuthenticationPrincipal UserData userData, HttpServletRequest request) {
+
+        User user = userService.getById(userData.getUserId());
+
+        userService.deleteUserById(id);
+
+        if (id.equals(user.getId())) {
+
+                // Invalidate session and clear security context so the header shows Register/Login
+                try {
+                    request.getSession().invalidate();
+                } catch (Exception ignored) {}
+                SecurityContextHolder.clearContext();
+
+                return "redirect:/";
+            }
+
+            return "redirect:/users";
+        }
 }

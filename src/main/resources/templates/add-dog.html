@@ -7,10 +7,9 @@
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/button.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/add-page.css">
     <link rel="stylesheet" href="/css/form.css">
     <link rel="stylesheet" href="/css/head.css">
-    <link rel="stylesheet" href="/css/banner.css">
+    <link rel="stylesheet" href="/css/add-edit-page.css">
 
 </head>
 <body>
@@ -18,7 +17,6 @@
 <main class="main-content">
     <h1>Add New Dog</h1>
     <div class="container-table-image">
-        <section class="banner-wrapper" th:insert="fragments/banner-dachshund :: banner-dachshund"></section>
         <section class="form-panel">
             <form class="add-dog-form add-form" th:method="POST" th:action="@{/dogs}"
                   th:object="${createNewDogRequest}">
@@ -43,31 +41,25 @@
                         <label for="dogPicture">Picture</label>
                         <input type="text" id="dogPicture" placeholder="Picture" th:field="*{dogPicture}">
                     </div>
-                    <small class="alert-warning" th:if="${#fields.hasErrors('dogPicture')}"
-                           th:errors="*{dogPicture}"></small>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('dogPicture')}" th:errors="*{dogPicture}"></small>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-data">
-                        <label for="gender">Gender</label>
-                        <select id="gender" th:field="*{gender}">
-                            <option value="">-- Select gender --</option>
-
-                            <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}"
-                                    th:value="${gender.name()}"
-                                    th:text="${gender?.displayGender}">
-                            </option>
-                        </select>
+                <div class="form-row-two">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="gender">Gender</label>
+                            <select id="gender" th:field="*{gender}">
+                                <option value="">-- Select gender --</option>
+                                <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}" th:value="${gender.name()}" th:text="${gender.displayGender}"></option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-data">
-                        <label for="dateOfBirth">Date of Birth</label>
-                        <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="dateOfBirth">Date of Birth</label>
+                            <input type="date"  id="dateOfBirth" th:field="*{dateOfBirth}">
+                        </div>
                     </div>
-                    <small class="alert-warning" th:if="${#fields.hasErrors('dateOfBirth')}"
-                           th:errors="*{dateOfBirth}"></small>
                 </div>
 
                 <div class="form-row">
@@ -76,17 +68,14 @@
                         <input type="text" id="food" placeholder="Food" th:field="*{food}">
                     </div>
                 </div>
-
-                <button class="button save-button">
-                    <div>Save</div>
-                </button>
+                <div class="button-wrapper">
+                    <a th:href="@{/dogs}" class="button cancel-button">Cancel</a>
+                    <button class="button save-button">
+                        <div>Save</div>
+                    </button>
+                </div>
             </form>
         </section>
-        <section class="banner-wrapper"
-                 th:insert="fragments/banner-australian-sheppard :: banner-australian-sheppard"></section>
-    </div>
-    <div class="button-container-back">
-        <a th:href="@{/dogs}" class="button back-button">Back</a>
     </div>
 </main>
 <footer th:insert="fragments/footer :: footer"></footer>

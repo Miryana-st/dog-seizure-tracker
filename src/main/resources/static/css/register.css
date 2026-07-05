@@ -1,0 +1,14 @@
+body {
+    background-image: url("/images/register-background.png");
+    background-size: 30%;
+    background-position: right bottom 100px;
+    background-repeat: no-repeat;
+}
+
+main {
+    gap: 0;
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+}
+

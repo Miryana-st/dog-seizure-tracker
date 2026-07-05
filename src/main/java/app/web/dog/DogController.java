@@ -5,11 +5,13 @@ import app.model.dto.dog.DogDtoMapper;
 import app.model.dto.dog.EditDogRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.user.User;
+import app.security.user.UserData;
 import app.service.dog.DogService;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -31,23 +33,21 @@ public class DogController {
     }
 
     @GetMapping
-    public ModelAndView getUserDogsPage(HttpSession session) {
+    public ModelAndView getUserDogsPage(@AuthenticationPrincipal UserData userData) {
 
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
+        User user = userService.getById(userData.getUserId());
 
         ModelAndView modelAndView = new ModelAndView("dogs");
         modelAndView.addObject("user", user);
-        modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(userUUID));
+        modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(user.getId()));
 
         return modelAndView;
     }
 
     @GetMapping("/new")
-    public ModelAndView getNewDogPage(HttpSession session) {
+    public ModelAndView getNewDogPage(@AuthenticationPrincipal UserData userData) {
 
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
+        User user = userService.getById(userData.getUserId());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("add-dog");
@@ -60,33 +60,29 @@ public class DogController {
     @PostMapping()
     public ModelAndView createNewDogPage(@Valid @ModelAttribute("createNewDogRequest") CreateNewDogRequest createNewDogRequest,
                                          BindingResult result,
-                                         HttpSession session) {
+                                         @AuthenticationPrincipal UserData userData) {
+
+        User user = userService.getById(userData.getUserId());
 
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("add-dog");
 
             modelAndView.addObject("createNewDogRequest", createNewDogRequest);
-
-            UUID userUUID = (UUID) session.getAttribute("user_id");
-            modelAndView.addObject("user", userService.getById(userUUID));
+            modelAndView.addObject("user", userService.getById(user.getId()));
 
             return modelAndView;
         }
-
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
 
         dogService.createDog(createNewDogRequest, user);
 
         return new ModelAndView("redirect:/dogs");
     }
 
-    @GetMapping("/{id}/dog-profile")
+    @GetMapping("/{id}/details")
     public ModelAndView getDogProfilePage(@PathVariable UUID id,
-                                          HttpSession session) {
+                                          @AuthenticationPrincipal UserData userData) {
 
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
+        User user = userService.getById(userData.getUserId());
 
         Dog dog = dogService.getDogById(id);
         EditDogRequest editDogRequest = DogDtoMapper.fromDog(dog);
@@ -102,7 +98,7 @@ public class DogController {
         return modelAndView;
     }
 
-    @PutMapping("/{id}/dog-profile")
+    @PutMapping("/{id}/details")
     public ModelAndView updateDogProfilePage(@Valid @ModelAttribute("editDogRequest") EditDogRequest editDogRequest,
                                              BindingResult bindingResult,
                                              @PathVariable UUID id) {

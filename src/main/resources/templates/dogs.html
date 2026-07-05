@@ -23,7 +23,8 @@
         <h1><i class='fa-solid fa-paw'></i>My Dogs</h1>
         <p>Manage your dogs and their health information all in one place.</p>
         <div class="dogs-container">
-            <div class="dogs-horizontal">
+            <div class="dogs-horizontal"
+                 th:classappend="${dogs == null or #lists.isEmpty(dogs)} ? ' is-empty' : ''">
                 <div th:each="dog : ${dogs}" class="dog-card">
                     <table class="dog-table">
                         <tbody>
@@ -60,16 +61,20 @@
                             <td th:text="${dog.dateOfBirth != null ? (T(java.time.format.DateTimeFormatter).ofPattern('MMMM d, yyyy').format(dog.dateOfBirth)) : 'Not specified'}"></td>
                         </tr>
                         <tr>
-                            <th>Actions</th>
-                            <td class="button-table">
+                            <td colspan="2" class="button-table">
                                 <div class="button-in-table">
-                                    <a th:href="@{'/dogs/' + ${dog.id} + '/dog-profile'}" class="button edit-button">Edit Info</a>
+                                    <a th:href="@{'/dogs/' + ${dog.id} + '/details'}" class="icon-button"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <form th:action="@{'/dogs/' + ${dog.id}}" th:method="DELETE"
-                                          th:attr="onclick='return confirm(\'Are you sure you want to delete dog profile?\')'">
-                                        <button type="submit" class="button delete-button">Delete Dog</button>
+                                          th:attr="onclick='return confirm(\'Are you sure you want to delete dog profile?\')'" class="icon-button">
+                                        <button type="submit"><i class="fa-solid fa-trash"></i></button>
                                     </form>
                                 </div>
-                                <div class="button-seizures">
+
+                                <div class="button-divider">
+                                    <span><i class="fa-solid fa-paw"></i></span>
+                                </div>
+
+                                <div class="button button-seizures">
                                     <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}"><i
                                             class="fa-solid fa-chart-bar"></i>Seizure Logs</a>
                                 </div>

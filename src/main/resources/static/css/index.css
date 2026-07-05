@@ -1,54 +1,79 @@
 .husky-img {
     width: 30%;
     height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+
+    position: relative;
+    left: -6rem;
 }
 
 .main-content {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 2rem;
+    text-align: center;
 }
 
 .heading {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 10em;
+    justify-content: center;
+    gap: 3rem;
+    width: 100%;
 }
 
 .intro {
     display: flex;
     flex-direction: column;
-    gap: 2.5em;
+    align-items: center;
+    gap: 2rem;
+    max-width: 60ch;
 }
 
 h1 {
     font-size: 3em;
-    color: rgba(106, 78, 165);
+    color: rgb(106, 78, 165);
     margin: 0;
     max-width: 20ch;
 }
 
 h1 + p {
     font-weight: bold;
+
     max-width: 50ch;
+
     color: rgb(10, 39, 72);
 
+    margin: 0;
 }
 
 .icons-list {
     display: flex;
     flex-direction: row;
-    gap: 2em;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0;
 }
 
-li {
+.icons-list li {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    gap: 0.5em;
+    gap: .5rem;
 }
 
+html,
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
 
-
+body {
+    padding-bottom: 0;
+}

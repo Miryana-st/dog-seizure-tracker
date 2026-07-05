@@ -6,12 +6,14 @@ import app.model.dto.seizure.SeizureDtoMapper;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
 import app.model.entity.user.User;
+import app.security.user.UserData;
 import app.service.dog.DogService;
 import app.service.seizure.SeizureService;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -36,10 +38,9 @@ public class SeizureController {
 
     @GetMapping()
     public ModelAndView getSeizuresForDog(@PathVariable UUID dogId,
-                                          HttpSession session) {
+                                          @AuthenticationPrincipal UserData userData) {
 
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
+        User user = userService.getById(userData.getUserId());
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -55,10 +56,9 @@ public class SeizureController {
 
     @GetMapping("/new")
     public ModelAndView getNewSeizurePage(@PathVariable UUID dogId,
-                                          HttpSession session) {
+                                          @AuthenticationPrincipal UserData userData) {
 
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
+        User user = userService.getById(userData.getUserId());
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -76,15 +76,13 @@ public class SeizureController {
     public ModelAndView createNewSeizurePage(@Valid @ModelAttribute("createNewSeizureRequest") CreateNewSeizureRequest createNewSeizureRequest,
                                              BindingResult result,
                                              @PathVariable UUID dogId,
-                                             HttpSession session) {
+                                             @AuthenticationPrincipal UserData userData) {
 
         Dog dog = dogService.getDogById(dogId);
 
         if (result.hasErrors()) {
 
-            UUID userUUID = (UUID) session.getAttribute("user_id");
-
-            User user = userService.getById(userUUID);
+            User user = userService.getById(userData.getUserId());
 
             ModelAndView modelAndView = new ModelAndView("add-seizure");
 
@@ -100,13 +98,12 @@ public class SeizureController {
         return new ModelAndView("redirect:/dogs/" + dogId + "/seizures");
     }
 
-    @GetMapping("/{seizureId}/seizure-profile")
+    @GetMapping("/{seizureId}/details")
     public ModelAndView getSeizureLog(@PathVariable UUID dogId,
                                       @PathVariable UUID seizureId,
-                                      HttpSession session) {
+                                      @AuthenticationPrincipal UserData userData) {
 
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        User user = userService.getById(userUUID);
+        User user = userService.getById(userData.getUserId());
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -124,7 +121,7 @@ public class SeizureController {
         return modelAndView;
     }
 
-    @PutMapping("/{seizureId}/seizure-profile")
+    @PutMapping("/{seizureId}/details")
     public ModelAndView updateSeizureLog(@PathVariable UUID dogId,
                                          @PathVariable UUID seizureId,
                                          @Valid @ModelAttribute("editSeizureRequest") EditSeizureRequest editSeizureRequest,

@@ -1,11 +1,11 @@
-<div th:fragment="side-nav-bar" class="side-nav-bar">
+<div th:fragment="side-nav-bar" class="side-nav-bar" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <div class="side-bar-container">
         <nav>
             <ul>
                 <li><a th:href="@{/home}"><i class="fa-regular fa-house"></i>My Profile</a></li>
                 <li><a th:href="@{/dogs}"><i class="fa-solid fa-dog"></i>My Dogs</a></li>
                 <li><a th:href="@{/dogs/new}"><i class="fa-solid fa-circle-plus"></i>Add New Dog</a></li>
-                <li th:if="${user != null and user.role != null and user.role.name() == 'ADMIN'}">
+                <li sec:authorize="hasRole('ADMIN')">
                     <ul class="admin-tab">
                         <li>ADMIN</li>
                     </ul>

@@ -1,48 +1,66 @@
-h1 {
-    padding: 0.5em;
+.users-section {
+    padding: 30px;
+    min-height: calc(100vh - 100px);
 }
 
-table {
-    border-collapse: collapse;
+.users-section h1 {
+    color: #1f2937;
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+.users-table {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    overflow-x: auto;
     font-size: 0.9em;
-    margin: 1em 2em;
-    border: 1px solid #ccc;
 }
 
-tr {
-    padding: 1em;
+
+.users-table table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 15px;
 }
 
-td {
-    padding: 1em;
-    border: 1px solid #ccc;
+.users-table th {
+    background: #2b2847;
+    color: #F9F7FE;
+    padding: 16px 18px;
+    text-align: left;
+    border: 0.15em solid #F9F7FE;
 }
 
-th {
-    padding: 1em;
-    border: 1px solid #ccc;
+.users-table td {
+    padding: 15px 18px;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
 }
+
+.users-table td[colspan="6"] {
+    text-align: center;
+    padding: 40px;
+    color: #9ca3af;
+    font-size: 16px;
+}
+
 
 .button-in-table {
     display: flex;
-    justify-content: center;
+    gap: 10px;
     align-items: center;
 }
 
-thead {
-    background: rgb(225 230 234);
+.button-in-table form {
+    margin: 0;
 }
 
-.main-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 2em;
-    width: 100%;
-    padding: 2em;
-}
-
-.create-user-button-container {
-    padding-left: 2em;
-    text-align: center;
-    padding-right: 2em;
+button {
+    background: none;
+    border: 0.15em solid transparent;
+    padding: 0.5em;
+    font-size: 1em;
 }
