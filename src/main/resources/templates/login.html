@@ -12,7 +12,23 @@
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-<header th:insert="fragments/head :: navigation" class="section section-header"></header>
+<header class="section section-header">
+    <section class="navigation">
+        <nav class="nav">
+            <div class="nav-components">
+                <div class="site-title">
+                    <div class="logo-container">
+                        <a href="/"><img src="/images/primary-logo-removedbg-preview.png" alt="DST Logo"></a>
+                    </div>
+                </div>
+                <div class="links">
+                    <a th:href="@{/register}" class="button register-button">Register</a>
+                    <a th:href="@{/login}" class="button login-button">Login</a>
+                </div>
+            </div>
+        </nav>
+    </section>
+</header>
 <main class="main-content">
     <section class="heading">
         <section class="intro centered">

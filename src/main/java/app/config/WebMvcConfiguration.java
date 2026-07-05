@@ -7,13 +7,14 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableMethodSecurity
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
+    // Bean to validate that SecurityContext principal maps to an existing user
     @Bean
     public app.security.SessionUserValidationFilter sessionUserValidationFilter(app.service.user.UserService userService) {
         return new app.security.SessionUserValidationFilter(userService);
@@ -38,8 +39,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                         .logoutSuccessUrl("/"))
-                // Validate that an authenticated session corresponds to an existing user
-                .addFilterBefore(sessionUserValidationFilter, UsernamePasswordAuthenticationFilter.class);
+                // Validate that an authenticated session corresponds to an existing user; run after remember-me auth
+                .addFilterAfter(sessionUserValidationFilter, RememberMeAuthenticationFilter.class);
 
         return httpSecurity.build();
     }

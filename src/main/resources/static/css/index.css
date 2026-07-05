@@ -5,7 +5,8 @@
     object-fit: contain;
 
     position: relative;
-    left: -6rem;
+    left: -8rem;
+    top: -3rem;
 }
 
 .main-content {

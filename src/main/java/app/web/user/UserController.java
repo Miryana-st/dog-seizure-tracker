@@ -5,15 +5,17 @@ import app.model.dto.user.UserEditRequest;
 import app.model.entity.user.User;
 import app.security.user.UserData;
 import app.service.user.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.UUID;
 
@@ -83,19 +85,30 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-        public String deleteUser(@PathVariable UUID id, @AuthenticationPrincipal UserData userData, HttpServletRequest request) {
+        public String deleteUser(@PathVariable UUID id, @AuthenticationPrincipal UserData userData,
+                                 HttpServletRequest request, HttpServletResponse response) {
 
-        User user = userService.getById(userData.getUserId());
+            User user = userService.getById(userData.getUserId());
 
-        userService.deleteUserById(id);
+            userService.deleteUserById(id);
 
-        if (id.equals(user.getId())) {
+            if (id.equals(user.getId())) {
 
                 // Invalidate session and clear security context so the header shows Register/Login
                 try {
-                    request.getSession().invalidate();
+                    if (request.getSession(false) != null) {
+                        request.getSession(false).invalidate();
+                    }
                 } catch (Exception ignored) {}
                 SecurityContextHolder.clearContext();
+
+                // Remove remember-me cookie if present
+                try {
+                    Cookie cookie = new Cookie("remember-me", null);
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                } catch (Exception ignored) {}
 
                 return "redirect:/";
             }
