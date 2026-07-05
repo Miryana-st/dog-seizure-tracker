@@ -51,7 +51,8 @@ public class IndexController {
 
         userService.registerUser(userRegisterRequest);
 
-        if (userData.getUserId() != null) {
+        // guard against stale authentication being present during registration
+        if (userData != null && userData.getUserId() != null) {
             return new ModelAndView("redirect:/users");
         }
 

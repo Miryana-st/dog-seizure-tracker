@@ -1,17 +1,5 @@
 <section th:fragment="navigation" class="navigation" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <nav class="nav">
-        <div sec:authorize="isAnonymous()" class="nav-components">
-            <div class="site-title">
-                <div class="logo-container">
-                    <a href="/"><img src="/images/primary-logo-removedbg-preview.png" alt="DST Logo"></a>
-                </div>
-            </div>
-            <div class="links">
-                <a th:href="@{/register}" class="button register-button">Register</a>
-                <a th:href="@{/login}" class="button login-button">Login</a>
-            </div>
-        </div>
-
         <div sec:authorize="isAuthenticated()" class="nav-components">
             <div class="site-title">
                 <div class="logo-container">
