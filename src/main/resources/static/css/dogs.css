@@ -24,7 +24,7 @@ h1 {
 
 .dogs-horizontal {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(280px, 1fr));
     align-items: stretch;
     gap: 1.5em;
     width: 100%;
@@ -138,8 +138,7 @@ th {
 
 .add-dog-button {
     border: 0.2em dashed rgb(43 40 71);
-    height: auto;
-    min-height: 20em;
+    height: 100%;
     width: 100%;
     max-width: 100%;
     color: rgb(43 40 71);
