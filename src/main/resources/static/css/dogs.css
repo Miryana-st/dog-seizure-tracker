@@ -134,9 +134,10 @@ th {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     box-shadow: 0.2em 0.5em 0.5em rgba(95, 92, 92, 0.2);
     padding: 0.5em;
+    min-height: 600px;
 }
 
 .add-dog-button {
