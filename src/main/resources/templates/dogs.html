@@ -33,9 +33,8 @@
                                 <div class="img-container-dog-picture">
                                     <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
                                          th:src="${dog.dogPicture}" alt="Dog Image" class="dog-picture"/>
-                                    <span th:if="${dog.dogPicture == null or #strings.isEmpty(dog.dogPicture)}">
-                                    <img th:src="@{/images/dog-placeholder.png}" alt="Dog Image" class="dog-picture">
-                                </span>
+                                    <img th:if="${dog.dogPicture == null or #strings.isEmpty(dog.dogPicture)}"
+                                         th:src="@{/images/dog-placeholder.png}" alt="Dog Image" class="dog-picture">
                                 </div>
                             </td>
                         </tr>
@@ -63,9 +62,11 @@
                         <tr>
                             <td colspan="2" class="button-table">
                                 <div class="button-in-table">
-                                    <a th:href="@{'/dogs/' + ${dog.id} + '/details'}" class="icon-button"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a th:href="@{'/dogs/' + ${dog.id} + '/details'}" class="icon-button"><i
+                                            class="fa-solid fa-pen-to-square"></i></a>
                                     <form th:action="@{'/dogs/' + ${dog.id}}" th:method="DELETE"
-                                          th:attr="onclick='return confirm(\'Are you sure you want to delete dog profile?\')'" class="icon-button">
+                                          th:attr="onclick='return confirm(\'Are you sure you want to delete dog profile?\')'"
+                                          class="icon-button">
                                         <button type="submit"><i class="fa-solid fa-trash"></i></button>
                                     </form>
                                 </div>
