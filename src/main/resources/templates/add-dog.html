@@ -20,59 +20,71 @@
         <section class="form-panel">
             <form class="add-dog-form add-form" th:method="POST" th:action="@{/dogs}"
                   th:object="${createNewDogRequest}">
-                <div class="form-row">
-                    <div class="form-data">
-                        <label for="name">Dog Name</label>
-                        <input type="text" id="name" placeholder="Dog Name" th:field="*{name}" required>
+
+                <div class="form-row-one">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" placeholder="Dog Name" th:field="*{name}" required>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
                     </div>
-                    <small class="alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-data">
-                        <label for="breed">Breed</label>
-                        <input type="text" id="breed" placeholder="Breed" th:field="*{breed}" required>
+                <div class="form-row-one">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="breed">Breed</label>
+                            <input type="text" id="breed" placeholder="Breed" th:field="*{breed}" required>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('breed')}" th:errors="*{breed}"></small>
                     </div>
-                    <small class="alert-warning" th:if="${#fields.hasErrors('breed')}" th:errors="*{breed}"></small>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-data">
-                        <label for="dogPicture">Picture</label>
-                        <input type="text" id="dogPicture" placeholder="Picture" th:field="*{dogPicture}">
+                <div class="form-row-one">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="dogPicture">Picture</label>
+                            <input type="text" id="dogPicture" placeholder="Picture" th:field="*{dogPicture}">
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('dogPicture')}"
+                               th:errors="*{dogPicture}"></small>
                     </div>
-                    <small class="alert-warning" th:if="${#fields.hasErrors('dogPicture')}" th:errors="*{dogPicture}"></small>
                 </div>
 
-                <div class="form-row-two">
+                <div class="form-row-one">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="food">Food</label>
+                            <input type="text" id="food" placeholder="Food" th:field="*{food}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row-one">
                     <div class="form-row">
                         <div class="form-data">
                             <label for="gender">Gender</label>
                             <select id="gender" th:field="*{gender}">
                                 <option value="">-- Select gender --</option>
-                                <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}" th:value="${gender.name()}" th:text="${gender.displayGender}"></option>
+                                <option th:each="gender : ${T(app.model.entity.dog.GenderDog).values()}"
+                                        th:value="${gender.name()}" th:text="${gender.displayGender}"></option>
                             </select>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-data">
                             <label for="dateOfBirth">Date of Birth</label>
-                            <input type="date"  id="dateOfBirth" th:field="*{dateOfBirth}">
+                            <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}">
                         </div>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-data">
-                        <label for="food">Food</label>
-                        <input type="text" id="food" placeholder="Food" th:field="*{food}">
-                    </div>
-                </div>
                 <div class="button-wrapper">
-                    <a th:href="@{/dogs}" class="button cancel-button">Cancel</a>
                     <button class="button save-button">
                         <div>Save</div>
                     </button>
+                    <a th:href="@{/dogs}" class="button cancel-button">Cancel</a>
                 </div>
             </form>
         </section>

@@ -64,7 +64,7 @@ _Users can record seizure events with detailed information:_
 
 ### **Technology Stack:**
 * Java version: 21
-* Spring Boot version: 3.5.14
+* Spring Boot version: 3.4.0
 * Build tool: Maven
 * Database: MySQL
 * Backend: Spring framework

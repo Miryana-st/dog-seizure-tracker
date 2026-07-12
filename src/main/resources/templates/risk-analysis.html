@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seizure Risk Analysis - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="/css/side-nav-bar.css">
+    <link rel="stylesheet" href="/css/risk-analysis.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+</head>
+<body>
+<header th:insert="fragments/head-logged :: navigation" class="section section-header"></header>
+<main>
+    <section th:insert="fragments/side-nav-bar :: side-nav-bar"></section>
+    <section class="profile panel">
+        <img src="https://placehold.co/120x120" alt="dog">
+        <h2>Max</h2>
+        <p>Labrador Retriever</p>
+        <hr>
+        <h3>Current Risk</h3>
+        <div class="risk-score high">78%</div>
+        <span class="badge high">HIGH RISK</span>
+        <div class="info">
+            <p>Last seizure:<b>5 days ago</b></p>
+            <p>Average frequency:<b>Every 18 days</b></p>
+            <p>Analysis updated:<b>Today</b></p>
+        </div>
+    </section>
+
+    <section class="calendar-panel panel">
+
+
+        <div class="calendar-header">
+
+            <div>
+                <h2>
+                    30-Day Risk Calendar
+                </h2>
+
+                <p>
+                    Predicted seizure probability
+                </p>
+
+            </div>
+
+
+            <div class="legend">
+
+                    <span class="green">
+                    </span> Low
+
+                <span class="yellow">
+                    </span> Medium
+
+                <span class="orange">
+                    </span> High
+
+                <span class="red">
+                    </span> Critical
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <div class="calendar">
+
+
+            <div class="weekday">MON</div>
+            <div class="weekday">TUE</div>
+            <div class="weekday">WED</div>
+            <div class="weekday">THU</div>
+            <div class="weekday">FRI</div>
+            <div class="weekday">SAT</div>
+            <div class="weekday">SUN</div>
+
+
+
+            <div class="day low">
+                <strong>8</strong>
+                <small>15%</small>
+            </div>
+
+
+            <div class="day medium">
+                <strong>9</strong>
+                <small>45%</small>
+            </div>
+
+
+            <div class="day high">
+                <strong>10</strong>
+                <small>72%</small>
+            </div>
+
+
+            <div class="day critical">
+                <strong>11</strong>
+                <small>88%</small>
+            </div>
+
+
+            <div class="day medium">
+                <strong>12</strong>
+                <small>55%</small>
+            </div>
+
+
+            <div class="day low">
+                <strong>13</strong>
+                <small>20%</small>
+            </div>
+
+
+            <div class="day high">
+                <strong>14</strong>
+                <small>75%</small>
+            </div>
+
+
+            <div class="day low">
+                <strong>15</strong>
+                <small>18%</small>
+            </div>
+
+
+            <div class="day medium">
+                <strong>16</strong>
+                <small>50%</small>
+            </div>
+
+
+            <div class="day low">
+                <strong>17</strong>
+                <small>25%</small>
+            </div>
+
+
+            <div class="day high">
+                <strong>18</strong>
+                <small>70%</small>
+            </div>
+
+
+            <div class="day critical">
+                <strong>19</strong>
+                <small>92%</small>
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+    <!-- RIGHT PANEL -->
+
+    <aside class="analysis panel">
+
+
+        <h2>
+            Risk Factors
+        </h2>
+
+
+        <div class="factor danger">
+
+            ⚠ Increased seizure frequency
+
+        </div>
+
+
+        <div class="factor warning">
+
+            ⚠ Shorter seizure intervals
+
+        </div>
+
+
+        <div class="factor">
+
+            ✓ Recovery time stable
+
+        </div>
+
+    </aside>
+</main>
+</body>
+</html>

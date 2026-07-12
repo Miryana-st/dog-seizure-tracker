@@ -86,14 +86,6 @@ i:nth-child(1) {
     margin: 0 auto;
 }
 
-
-.alert-warning {
-    font-size: 0.8em;
-    font-style: italic;
-    color: #c81818;
-    margin-left: 14em;
-}
-
 p {
     padding-bottom: 0.5em;
 }

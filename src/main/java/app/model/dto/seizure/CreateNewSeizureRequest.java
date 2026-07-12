@@ -24,6 +24,8 @@ public class CreateNewSeizureRequest {
     @NotBlank(message = "*Duration cannot be empty")
     private String duration;
 
+    private String note;
+
     private SeizureSeverity severity;
 
     private SeizureRecovery recovery;

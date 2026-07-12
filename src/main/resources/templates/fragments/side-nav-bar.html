@@ -5,12 +5,13 @@
                 <li><a th:href="@{/home}"><i class="fa-regular fa-house"></i>My Profile</a></li>
                 <li><a th:href="@{/dogs}"><i class="fa-solid fa-dog"></i>My Dogs</a></li>
                 <li><a th:href="@{/dogs/new}"><i class="fa-solid fa-circle-plus"></i>Add New Dog</a></li>
+                <li><a th:href="@{/risk-analysis}"><i class="fa-solid fa-calendar-days"></i>Risk Analysis</a></li>
                 <li sec:authorize="hasRole('ADMIN')">
                     <ul class="admin-tab">
                         <li>ADMIN</li>
                     </ul>
                 </li>
-                <li th:if="${user != null and user.role != null and user.role.name() == 'ADMIN'}">
+                <li sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/users}"><i class="fa-solid fa-list"></i>Users</a>
                 </li>
             </ul>

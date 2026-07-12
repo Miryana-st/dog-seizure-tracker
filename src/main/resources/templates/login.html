@@ -37,6 +37,7 @@
             <div class="form-panel">
                 <form class="login-form" th:action="@{/login}" th:method="POST" th:object="${userLoginRequest}">
 
+                    <div class="form-row-one">
                     <div class="form-row">
                         <div class="form-data">
                             <label for="username">Username</label>
@@ -46,18 +47,18 @@
                         <small class="alert-warning" th:if="${#fields.hasErrors('username')}"
                                th:errors="*{username}"></small>
                     </div>
+                    </div>
 
+                    <div class="form-row-one">
                     <div class="form-row">
                         <div class="form-data">
                             <label for="password">Password</label>
                             <input type="password" placeholder="••••••••" id="password" th:field="*{password}" required>
                         </div>
-                        <!--                        do i need this???-->
-                        <small class="alert-warning" th:if="${#fields.hasErrors('password')}"
-                               th:errors="*{password}"></small>
-                    </div>
+                           </div>
                     <small class="alert-warning" th:text="${errorMessage}"></small>
                     <small class="alert-warning" th:if="${loginAttemptMessage}" th:text="${loginAttemptMessage}"></small>
+                    </div>
 
                     <div class="form-actions">
                         <button type="submit" class="button login-button">Login</button>

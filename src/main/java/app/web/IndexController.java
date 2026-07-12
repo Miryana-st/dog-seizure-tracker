@@ -5,7 +5,6 @@ import app.model.dto.user.UserRegisterRequest;
 import app.model.entity.user.User;
 import app.security.user.UserData;
 import app.service.user.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.UUID;
 
 @Controller
 public class IndexController {
@@ -51,8 +48,7 @@ public class IndexController {
 
         userService.registerUser(userRegisterRequest);
 
-        // guard against stale authentication being present during registration
-        if (userData != null && userData.getUserId() != null) {
+        if (userData != null) {
             return new ModelAndView("redirect:/users");
         }
 
@@ -68,7 +64,7 @@ public class IndexController {
         modelAndView.addObject("userLoginRequest", new UserLoginRequest());
         modelAndView.addObject("loginAttemptMessage", message);
         if (errorMessage != null) {
-            modelAndView.addObject("errorMessage", "Invalid username or password.");
+            modelAndView.addObject("errorMessage", "*Invalid username or password.");
         }
 
 

@@ -36,6 +36,9 @@ public class Seizure {
     @Enumerated(EnumType.STRING)
     private SeizureRecovery recovery;
 
+    @Column
+    private String note;
+
     @ManyToOne
     @JoinColumn(name = "dog_id")
     private Dog dog;

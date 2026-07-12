@@ -8,7 +8,6 @@ import app.model.entity.user.User;
 import app.security.user.UserData;
 import app.service.dog.DogService;
 import app.service.user.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -98,7 +97,7 @@ public class DogController {
         return modelAndView;
     }
 
-    @PutMapping("/{id}/details")
+    @PutMapping("/{id}/dog-profile")
     public ModelAndView updateDogProfilePage(@Valid @ModelAttribute("editDogRequest") EditDogRequest editDogRequest,
                                              BindingResult bindingResult,
                                              @PathVariable UUID id) {

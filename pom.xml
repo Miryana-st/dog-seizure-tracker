@@ -11,8 +11,8 @@
 	<groupId>seizure-tracker</groupId>
 	<artifactId>seizure-tracker-application</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Seizure Tracker</name>
-	<description>Seizure Tracker Application</description>
+	<name>Dog Seizure Tracker</name>
+	<description>Dog Seizure Tracker Application</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -10,7 +10,6 @@ import app.security.user.UserData;
 import app.service.dog.DogService;
 import app.service.seizure.SeizureService;
 import app.service.user.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -121,7 +120,7 @@ public class SeizureController {
         return modelAndView;
     }
 
-    @PutMapping("/{seizureId}/details")
+    @PutMapping("/{seizureId}/seizure-profile")
     public ModelAndView updateSeizureLog(@PathVariable UUID dogId,
                                          @PathVariable UUID seizureId,
                                          @Valid @ModelAttribute("editSeizureRequest") EditSeizureRequest editSeizureRequest,

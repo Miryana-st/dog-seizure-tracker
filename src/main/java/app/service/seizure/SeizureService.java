@@ -33,6 +33,7 @@ public class SeizureService {
                 .date(createNewSeizureRequest.getDate())
                 .time(createNewSeizureRequest.getTime())
                 .duration(createNewSeizureRequest.getDuration())
+                .note(createNewSeizureRequest.getNote())
                 .severity(createNewSeizureRequest.getSeverity())
                 .recovery(createNewSeizureRequest.getRecovery())
                 .build();
@@ -60,6 +61,7 @@ public class SeizureService {
         seizure.setDuration(editSeizureRequest.getDuration());
         seizure.setSeverity(editSeizureRequest.getSeverity());
         seizure.setRecovery(editSeizureRequest.getRecovery());
+        seizure.setNote(editSeizureRequest.getNote());
 
         seizureRepository.save(seizure);
     }

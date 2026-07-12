@@ -32,9 +32,10 @@
                             <td colspan="2">
                                 <div class="img-container-dog-picture">
                                     <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                                         th:src="${dog.dogPicture}" alt="Dog Image" class="dog-picture"/>
-                                    <img th:if="${dog.dogPicture == null or #strings.isEmpty(dog.dogPicture)}"
-                                         th:src="@{/images/dog-placeholder.png}" alt="Dog Image" class="dog-picture">
+                                         th:src="${dog.dogPicture}" alt="Dog Image" class="dog-picture-"/>
+                                    <span th:if="${dog.dogPicture == null or #strings.isEmpty(dog.dogPicture)}">
+                                    <img th:src="@{/images/dog-placeholder.png}" alt="Dog Image" class="dog-picture">
+                                </span>
                                 </div>
                             </td>
                         </tr>
