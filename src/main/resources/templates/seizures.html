@@ -35,7 +35,7 @@
                 <tr th:each="seizure : ${seizures}">
                     <td th:text="${seizure.date!= null ? (T(java.time.format.DateTimeFormatter).ofPattern('MMMM d, yyyy').format(seizure.date)) : ''}"></td>
                     <td th:text="${seizure.time}"></td>
-                    <td th:text="${seizure.duration}"></td>
+                    <td th:number="${seizure.duration}"></td>
                     <td>
                         <p th:if="${seizure.severity != null}"
                            th:class="${'severity-' + seizure.severity.name().toLowerCase()}"

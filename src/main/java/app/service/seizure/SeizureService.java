@@ -6,9 +6,9 @@ import app.model.dto.seizure.EditSeizureRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
 import app.repository.seizure.SeizureRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;

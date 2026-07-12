@@ -3,6 +3,7 @@ package app.model.dto.seizure;
 import app.model.entity.seizure.SeizureRecovery;
 import app.model.entity.seizure.SeizureSeverity;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,11 +23,13 @@ public class CreateNewSeizureRequest {
     private LocalTime time;
 
     @NotBlank(message = "*Duration cannot be empty")
-    private String duration;
+    private int duration;
 
     private String note;
 
+    @NotNull
     private SeizureSeverity severity;
 
+    @NotNull
     private SeizureRecovery recovery;
 }

@@ -28,7 +28,7 @@ public class Seizure {
     private LocalTime time;
 
     @Column(nullable = false)
-    private String duration;
+    private int duration;
 
     @Enumerated(EnumType.STRING)
     private SeizureSeverity severity;

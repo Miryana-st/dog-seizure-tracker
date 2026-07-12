@@ -70,7 +70,7 @@
                 <div class="form-row">
                     <div class="form-data">
                         <label for="duration">Duration</label>
-                        <input type="text" id="duration" placeholder="duration" th:field="*{duration}">
+                        <input type="number" id="duration" placeholder="duration" th:field="*{duration}">
                     </div>
                     <small class="alert-warning" th:if="${#fields.hasErrors('duration')}"
                            th:errors="*{duration}"></small>
