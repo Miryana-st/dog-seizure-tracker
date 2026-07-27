@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="css/seizure-report.css" />
+</head>
+
+<body>
+<main class="main-content">
+    <section class="seizures-section">
+        <h1>Seizure Log</h1>
+
+        <div class="seizures-table">
+            <table>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Duration</th>
+                    <th>Severity</th>
+                    <th>Recovery</th>
+                    <th>Notes</th>
+                    <th>Cluster</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="seizure : ${seizures}">
+                    <td th:text="${seizure.date != null ? T(java.time.format.DateTimeFormatter).ofPattern('MMMM d, yyyy').format(seizure.date) : ''}"></td>
+
+                    <td th:text="${seizure.time}"></td>
+
+                    <td th:text="${seizure.duration + ' seconds'}"></td>
+
+                    <td>
+                        <p th:if="${seizure.severity != null}"
+                           th:class="${'severity-' + seizure.severity.name().toLowerCase()}"
+                           th:text="${seizure.severity.displaySeverity}">
+                        </p>
+                    </td>
+
+                    <td>
+                        <p th:if="${seizure.recovery != null}"
+                           th:class="${'recovery-' + seizure.recovery.name().toLowerCase()}"
+                           th:text="${seizure.recovery.displayRecovery}">
+                        </p>
+                    </td>
+
+                    <td th:text="${seizure.note}"></td>
+
+                    <td>
+                        <span th:if="${seizure.isCluster}" class="cluster-yes">Yes</span>
+                        <span th:unless="${seizure.isCluster}" class="cluster-no">No</span>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(seizures)}">
+                    <td colspan="7">No seizures logged in.</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-content">
+            <p class="copyright">© 2026 Dog Seizure Tracker</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

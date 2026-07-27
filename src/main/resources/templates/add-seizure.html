@@ -18,7 +18,7 @@
     <h1>Add New Seizure</h1>
     <div class="container-table-image">
         <section class="form-panel">
-            <form class="add-dog-form add-form" th:method="POST" th:action="@{'/dogs/' + ${dog.id} + '/seizures'}"
+            <form class="add-dog-form add-form" th:method="POST" th:action="@{'/dogs/' + ${dogId} + '/seizures'}"
                   th:object="${createNewSeizureRequest}">
 
                 <div class="form-row-one">
@@ -44,26 +44,26 @@
                             <label for="severity">Severity</label>
                             <select id="severity" th:field="*{severity}">
                                 <option value="">-- Select severity --</option>
-
                                 <option th:each="severity : ${T(app.model.entity.seizure.SeizureSeverity).values()}"
                                         th:value="${severity.name()}"
                                         th:text="${severity?.displaySeverity}">
                                 </option>
                             </select>
                         </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('severity')}" th:errors="*{severity}"></small>
                     </div>
                     <div class="form-row">
                         <div class="form-data">
                             <label for="recovery">Recovery</label>
                             <select id="recovery" th:field="*{recovery}">
                                 <option value="">-- Select recovery --</option>
-
                                 <option th:each="recovery : ${T(app.model.entity.seizure.SeizureRecovery).values()}"
                                         th:value="${recovery.name()}"
                                         th:text="${recovery?.displayRecovery}">
                                 </option>
                             </select>
                         </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('recovery')}" th:errors="*{recovery}"></small>
                     </div>
                 </div>
 
@@ -72,9 +72,18 @@
                         <div class="form-data">
                             <label for="duration">Duration</label>
                             <input type="number" id="duration" placeholder="Duration" th:field="*{duration}">
+                            <span>seconds</span>
                         </div>
                         <small class="alert-warning" th:if="${#fields.hasErrors('duration')}"
                                th:errors="*{duration}"></small>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="cluster">Cluster Seizure</label>
+                            <input type="checkbox" id="cluster" th:field="*{cluster}">
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('cluster')}"
+                               th:errors="*{cluster}"></small>
                     </div>
                 </div>
 
@@ -91,7 +100,7 @@
                     <button class="button save-button">
                         <div>Save</div>
                     </button>
-                    <a th:href="@{/dogs/{id}/seizures(id=${dog.id})}" class="button cancel-button">Cancel</a>
+                    <a th:href="@{/dogs/{id}/seizures(id=${dogId})}" class="button cancel-button">Cancel</a>
                 </div>
             </form>
         </section>

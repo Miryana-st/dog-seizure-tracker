@@ -83,11 +83,9 @@ public class UserController {
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable UUID id, @AuthenticationPrincipal UserData userData) {
 
-        User user = userService.getById(userData.getUserId());
-
         userService.deleteUserById(id);
 
-        if (id.equals(user.getId())) {
+        if (id.equals(userData.getUserId())) {
             return "redirect:/";
         }
 

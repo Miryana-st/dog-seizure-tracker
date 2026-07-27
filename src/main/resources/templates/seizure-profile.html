@@ -50,19 +50,20 @@
                             </option>
                         </select>
                     </div>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('severity')}" th:errors="*{severity}"></small>
                 </div>
                 <div class="form-row">
                     <div class="form-data">
                         <label for="recovery">Recovery</label>
                         <select id="recovery" th:field="*{recovery}">
                             <option value="">-- Select recovery --</option>
-
                             <option th:each="recovery : ${T(app.model.entity.seizure.SeizureRecovery).values()}"
                                     th:value="${recovery.name()}"
                                     th:text="${recovery?.displayRecovery}">
                             </option>
                         </select>
                     </div>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('recovery')}" th:errors="*{recovery}"></small>
                 </div>
             </div>
 
@@ -71,9 +72,18 @@
                     <div class="form-data">
                         <label for="duration">Duration</label>
                         <input type="number" id="duration" placeholder="duration" th:field="*{duration}">
+                        <span>seconds</span>
                     </div>
                     <small class="alert-warning" th:if="${#fields.hasErrors('duration')}"
                            th:errors="*{duration}"></small>
+                </div>
+                <div class="form-row">
+                    <div class="form-data">
+                        <label for="cluster">Cluster Seizure</label>
+                        <input type="checkbox" id="cluster" th:field="*{cluster}">
+                    </div>
+                    <small class="alert-warning" th:if="${#fields.hasErrors('cluster')}"
+                           th:errors="*{cluster}"></small>
                 </div>
             </div>
 
@@ -90,7 +100,7 @@
                 <button class="button save-button">
                     <div>Save</div>
                 </button>
-                <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}" class="button cancel-button">Cancel</a>
+                <a th:href="@{'/dogs/' + ${dogId} + '/seizures'}" class="button cancel-button">Cancel</a>
             </div>
         </form>
     </section>

@@ -63,11 +63,11 @@
                         <tr>
                             <td colspan="2" class="button-table">
                                 <div class="button-in-table">
-                                    <a th:href="@{'/dogs/' + ${dog.id} + '/details'}" class="icon-button"><i
+                                    <a th:href="@{'/dogs/' + ${dog.id} + '/details'}" class="btn-edit"><i
                                             class="fa-solid fa-pen-to-square"></i></a>
                                     <form th:action="@{'/dogs/' + ${dog.id}}" th:method="DELETE"
                                           th:attr="onclick='return confirm(\'Are you sure you want to delete dog profile?\')'"
-                                          class="icon-button">
+                                          class="btn-delete">
                                         <button type="submit"><i class="fa-solid fa-trash"></i></button>
                                     </form>
                                 </div>
@@ -76,9 +76,12 @@
                                     <span><i class="fa-solid fa-paw"></i></span>
                                 </div>
 
-                                <div class="button button-seizures">
-                                    <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}"><i
-                                            class="fa-solid fa-chart-bar"></i>Seizure Logs</a>
+                                <div class="button button-seizures-medications">
+                                    <a th:href="@{'/dogs/' + ${dog.id} + '/seizures'}">
+                                        <i class="fa-solid fa-chart-bar"></i>Seizures</a>
+
+                                    <a th:href="@{'/medications?dogId=' + ${dog.id}}">
+                                        <i class="fa-solid fa-pills"></i> Medications</a>
                                 </div>
                             </td>
                         </tr>

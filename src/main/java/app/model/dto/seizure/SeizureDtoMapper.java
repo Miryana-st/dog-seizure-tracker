@@ -13,6 +13,7 @@ public class SeizureDtoMapper {
                 .time(seizure.getTime())
                 .duration(seizure.getDuration())
                 .note(seizure.getNote())
+                .cluster(seizure.isCluster())
                 .severity(seizure.getSeverity())
                 .recovery(seizure.getRecovery())
                 .build();

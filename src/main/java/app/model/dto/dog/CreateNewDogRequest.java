@@ -24,7 +24,7 @@ public class CreateNewDogRequest {
     @URL(message = "*Invalid URL")
     private String dogPicture;
 
-    @NotNull
+    @NotNull(message = "*Gender cannot be empty")
     private GenderDog gender;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

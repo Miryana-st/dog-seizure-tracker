@@ -20,7 +20,8 @@
 .login-form,
 .register-form,
 .form-edit,
-.add-dog-form {
+.add-dog-form,
+.add-medication-form{
     display: flex;
     flex-direction: column;
     gap: 1rem;

@@ -1,6 +1,6 @@
 button,
 .button {
-    padding: 1em 3em;
+    padding: 1em 2em;
     text-align: center;
     font-size: 1em;
     font-weight: bold;
@@ -17,7 +17,9 @@ button {
 .login-button,
 .logout-button,
 .save-button,
-.change-role-button {
+.change-role-button,
+.risk-analysis,
+.generate-pdf{
     background-color: #F6F6FD;
     color: #6A4EA5;
     border: 0.1em solid #6A4EA5;
@@ -30,7 +32,9 @@ button {
 }
 
 .login-button:hover,
+.generate-pdf:hover,
 .logout-button:hover,
+.risk-analysis:hover,
 .save-button:hover,
 .cancel-button:hover,
 .back-button:hover,

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Dog's Medications - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="/css/side-nav-bar.css">
+    <link rel="stylesheet" href="/css/medication.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+</head>
+<body>
+<header th:insert="fragments/head-logged :: navigation" class="section section-header"></header>
+<main>
+    <section th:insert="fragments/side-nav-bar :: side-nav-bar"></section>
+    <div class="medication-page">
+        <h1>Your Dog's Medications</h1>
+        <p>Select the dog you want to manage medications for:</p>
+
+        <select onchange="if(this.value) location.href='/medications/' + this.value">
+            <option value="">-- Select Dog --</option>
+
+            <option th:each="dog : ${dogs}"
+                    th:value="${dog.id}"
+                    th:text="${dog.name}"
+                    th:selected="${selectedDogId != null && selectedDogId.equals(dog.id)}">
+            </option>
+        </select>
+
+        <section class="first-part">
+            <section class="dog-info" th:if="${dog != null}">
+                <div>
+                    <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+                         th:src="${dog.dogPicture}" alt="Dog image">
+                    <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+                         th:src="@{/images/dog-placeholder.png}" alt="Dog image">
+                    <div>
+                        <h2 th:text="${dog.name}">Dog Name</h2>
+                        <a th:href="@{/dogs}">View Dogs</a>
+                    </div>
+                    <a th:href="@{'/medications/' + ${dog.id} + '/new'}" class="button">+ Add New Medication</a>
+                </div>
+            </section>
+
+            <div class="medications" th:if="${dog != null}">
+                <h2>Active Medications</h2>
+                <table class="medication-table">
+                    <thead>
+                    <tr>
+                        <th>Medication</th>
+                        <th>Concentration</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="medication : ${dogMedications}">
+                        <td>
+                            <div class="medication-name">
+                                <i class="fa-solid fa-pills"></i>
+                                <span th:text="${medication.name}"></span>
+                            </div>
+                        </td>
+                        <td>
+                            <span th:text="${medication.medicationConcentrationMg}"></span>
+                            mg
+                        </td>
+                        <td th:text="${#temporals.format(medication.startDate,'dd MMM yyyy')}"></td>
+                        <td>
+                <span th:if="${medication.endDate != null}"
+                      th:text="${#temporals.format(medication.endDate,'dd MMM yyyy')}">
+                </span>
+                            <span th:if="${medication.endDate == null}">Ongoing
+                </span>
+                        </td>
+                        <td>
+                <span class="status active"
+                      th:if="${medication.endDate == null || medication.endDate.isAfter(T(java.time.LocalDate).now())}">
+                    Active
+                </span>
+                            <span class="status inactive"
+                                  th:if="${medication.endDate != null && medication.endDate.isBefore(T(java.time.LocalDate).now())}">
+                    Stopped
+                </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a th:href="@{'/medications/' + ${dog.id} + '/' + ${medication.id} + '/details'}"
+                                   class="btn-edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <form th:action="@{'/medications/' + ${dog.id} + '/' + ${medication.id}}"
+                                      th:method="DELETE"
+                                      th:attr="onclick='return confirm(\'Are you sure you want to delete this medication?\')'">
+                                    <input type="hidden" name="medicationId" th:value="${medication.id}">
+                                    <input type="hidden" name="dogId" th:value="${dog.id}">
+                                    <button type="submit" class="btn-delete">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+    </div>
+</main>
+</body>
+</html>

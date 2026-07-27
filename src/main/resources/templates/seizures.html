@@ -28,6 +28,7 @@
                     <th>Severity</th>
                     <th>Recovery</th>
                     <th>Notes</th>
+                    <th>Cluster</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -35,25 +36,32 @@
                 <tr th:each="seizure : ${seizures}">
                     <td th:text="${seizure.date!= null ? (T(java.time.format.DateTimeFormatter).ofPattern('MMMM d, yyyy').format(seizure.date)) : ''}"></td>
                     <td th:text="${seizure.time}"></td>
-                    <td th:number="${seizure.duration}"></td>
+                    <td th:text="${seizure.duration + ' seconds'}"></td>
                     <td>
                         <p th:if="${seizure.severity != null}"
                            th:class="${'severity-' + seizure.severity.name().toLowerCase()}"
-                           th:text="${seizure.severity.displaySeverity}"></p>
-                        <p th:unless="${seizure.severity != null}" class="severity-none">----------</p>
+                           th:text="${seizure.severity.displaySeverity}">
+                        </p>
                     </td>
+
                     <td>
                         <p th:if="${seizure.recovery != null}"
                            th:class="${'recovery-' + seizure.recovery.name().toLowerCase()}"
-                           th:text="${seizure.recovery.displayRecovery}"></p>
-                        <p th:unless="${seizure.recovery != null}" class="recovery-none">----------</p>
+                           th:text="${seizure.recovery.displayRecovery}">
+                        </p>
                     </td>
                     <td th:text="${seizure.note}"></td>
-
+                    <td>
+                        <i th:class="${seizure.cluster} ?
+                            'fa-solid fa-check cluster-yes' :
+                             'fa-solid fa-xmark cluster-no'">
+                        </i>
+                    </td>
                     <td class="button-table">
                         <div class="button-in-table">
-                            <a th:href="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id} + '/details'}" class="edit-seizure"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <form th:action="@{'/dogs/' + ${dog.id} + '/seizures/' + ${seizure.id}}" th:method="DELETE"
+                            <a th:href="@{'/dogs/' + ${dogId} + '/seizures/' + ${seizure.id} + '/details'}"
+                               class="edit-seizure"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <form th:action="@{'/dogs/' + ${dogId} + '/seizures/' + ${seizure.id}}" th:method="DELETE"
                                   th:attr="onclick='return confirm(\'Are you sure you want to delete seizure?\')'">
                                 <button type="submit"><i class="fa-solid fa-trash"></i></button>
                             </form>
@@ -61,16 +69,20 @@
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(seizures)}">
-                    <td colspan="7">No seizures logged in.</td>
+                    <td colspan="8">No seizures logged in.</td>
                 </tr>
                 </tbody>
             </table>
 
             <div class="button button-container">
-                <a th:href="@{/dogs/{id}/seizures/new(id=${dog.id})}" class="button add-seizure">Add New Seizure</a>
-                <a th:href="@{/dogs/{id}/risk-analysis(id=${dog.id})}" class="button">Risk Analysis</a>
+                <a th:href="@{/dogs/{id}/seizures/new(id=${dogId})}" class="button add-seizure">Add New Seizure</a>
             </div>
-
+        </div>
+        <div class="button button-container-second">
+            <a th:href="@{/dogs/{id}/seizures/pdf(id=${dogId})}" class="button generate-pdf"><i
+                    class="fa-solid fa-file-pdf"></i>Export PDF</a>
+            <a th:href="@{/dogs/{id}/risk-analysis(id=${dogId})}" class="button risk-analysis"><i
+                    class="fa-solid fa-chart-line"></i>Risk Analysis</a>
         </div>
     </section>
 </main>

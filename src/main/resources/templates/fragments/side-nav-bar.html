@@ -6,6 +6,8 @@
                 <li><a th:href="@{/dogs}"><i class="fa-solid fa-dog"></i>My Dogs</a></li>
                 <li><a th:href="@{/dogs/new}"><i class="fa-solid fa-circle-plus"></i>Add New Dog</a></li>
                 <li><a th:href="@{/risk-analysis}"><i class="fa-solid fa-calendar-days"></i>Risk Analysis</a></li>
+                <li><a th:href="@{/medications}"><i class="fa-solid fa-capsules"></i>Medications</a></li>
+                <li><a th:href="@{/medication-schedule}"><i class="fa-solid fa-clipboard-list"></i>Medication Schedule</a></li>
                 <li sec:authorize="hasRole('ADMIN')">
                     <ul class="admin-tab">
                         <li>ADMIN</li>

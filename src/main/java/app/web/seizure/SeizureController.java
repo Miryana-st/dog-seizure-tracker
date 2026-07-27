@@ -5,14 +5,14 @@ import app.model.dto.seizure.EditSeizureRequest;
 import app.model.dto.seizure.SeizureDtoMapper;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
-import app.model.entity.user.User;
-import app.security.user.UserData;
 import app.service.dog.DogService;
+import app.service.pdf.PdfService;
 import app.service.seizure.SeizureService;
-import app.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -25,28 +25,21 @@ import java.util.UUID;
 public class SeizureController {
 
     private final SeizureService seizureService;
-    private final UserService userService;
     private final DogService dogService;
+    private final PdfService pdfService;
 
     @Autowired
-    public SeizureController(SeizureService seizureService, UserService userService, DogService dogService) {
+    public SeizureController(SeizureService seizureService, DogService dogService, PdfService pdfService) {
         this.seizureService = seizureService;
-        this.userService = userService;
         this.dogService = dogService;
+        this.pdfService = pdfService;
     }
 
     @GetMapping()
-    public ModelAndView getSeizuresForDog(@PathVariable UUID dogId,
-                                          @AuthenticationPrincipal UserData userData) {
-
-        User user = userService.getById(userData.getUserId());
-
-        Dog dog = dogService.getDogById(dogId);
+    public ModelAndView getSeizuresForDog(@PathVariable UUID dogId) {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("dog", dog);
         modelAndView.setViewName("seizures");
         modelAndView.addObject("seizures", seizureService.findAllByDog_IdOrderByDateDescTimeDesc(dogId));
 
@@ -54,18 +47,11 @@ public class SeizureController {
     }
 
     @GetMapping("/new")
-    public ModelAndView getNewSeizurePage(@PathVariable UUID dogId,
-                                          @AuthenticationPrincipal UserData userData) {
-
-        User user = userService.getById(userData.getUserId());
-
-        Dog dog = dogService.getDogById(dogId);
+    public ModelAndView getNewSeizurePage(@PathVariable UUID dogId) {
 
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("add-seizure");
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("dog", dog);
         modelAndView.addObject("createNewSeizureRequest", new CreateNewSeizureRequest());
 
         return modelAndView;
@@ -74,18 +60,14 @@ public class SeizureController {
     @PostMapping()
     public ModelAndView createNewSeizurePage(@Valid @ModelAttribute("createNewSeizureRequest") CreateNewSeizureRequest createNewSeizureRequest,
                                              BindingResult result,
-                                             @PathVariable UUID dogId,
-                                             @AuthenticationPrincipal UserData userData) {
+                                             @PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
 
         if (result.hasErrors()) {
 
-            User user = userService.getById(userData.getUserId());
-
             ModelAndView modelAndView = new ModelAndView("add-seizure");
 
-            modelAndView.addObject("user", user);
             modelAndView.addObject("dog", dog);
             modelAndView.addObject("createNewSeizureRequest", createNewSeizureRequest);
 
@@ -99,12 +81,7 @@ public class SeizureController {
 
     @GetMapping("/{seizureId}/details")
     public ModelAndView getSeizureLog(@PathVariable UUID dogId,
-                                      @PathVariable UUID seizureId,
-                                      @AuthenticationPrincipal UserData userData) {
-
-        User user = userService.getById(userData.getUserId());
-
-        Dog dog = dogService.getDogById(dogId);
+                                      @PathVariable UUID seizureId) {
 
         Seizure seizure = seizureService.getSeizureById(seizureId);
         EditSeizureRequest editSeizureRequest = SeizureDtoMapper.fromSeizure(seizure);
@@ -112,8 +89,6 @@ public class SeizureController {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("seizure-profile");
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("dog", dog);
         modelAndView.addObject("seizure", seizure);
         modelAndView.addObject("editSeizureRequest", editSeizureRequest);
 
@@ -130,10 +105,8 @@ public class SeizureController {
 
             ModelAndView modelAndView = new ModelAndView("seizure-profile");
 
-            Dog dog = dogService.getDogById(dogId);
             Seizure seizure = seizureService.getSeizureById(seizureId);
 
-            modelAndView.addObject("dog", dog);
             modelAndView.addObject("seizure", seizure);
             modelAndView.addObject("editSeizureRequest", editSeizureRequest);
 
@@ -151,5 +124,17 @@ public class SeizureController {
         seizureService.deleteSeizureById(seizureId);
 
         return "redirect:/dogs/" + dogId + "/seizures";
+    }
+
+    @GetMapping("/pdf")
+    public ResponseEntity<byte[]> exportSeizureReport(@PathVariable UUID dogId) throws Exception {
+
+        byte[] pdf = pdfService.generateSeizureReport(dogId);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=seizure-report.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
     }
 }

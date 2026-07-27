@@ -24,7 +24,7 @@ h1 {
 
 .dogs-horizontal {
     display: grid;
-    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
     gap: 1.5em;
     width: 100%;
@@ -40,8 +40,9 @@ h1 {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 20em;
+    height: clamp(10em, 20vw, 20em);
 }
+
 
 .dog-picture {
     border-radius: 3em;
@@ -55,14 +56,19 @@ h1 {
     border: none;
     box-shadow: none;
     border-collapse: collapse;
-    width: 90%;
-    margin: 1em 0;
+    width: 100%;
+    margin: 0;
+    table-layout: fixed;
+    word-wrap: break-word;
 }
 
 .dogs-horizontal .dog-card .dog-table td,
 .dogs-horizontal .dog-card .dog-table th {
     border: none;
     padding: 0.2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 table {
@@ -79,7 +85,7 @@ table {
 }
 
 th {
-    width: 10em;
+    width: auto;
     text-align: left;
 }
 
@@ -93,34 +99,35 @@ th {
     text-align: center;
 }
 
-.button-seizures {
+.button-seizures-medications {
     padding-top: 1em;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1em;
 }
 
-.button-seizures a {
+.button-seizures-medications a {
     color: rgb(75 67 122);
     display: flex;
     gap: 1em;
     padding: 1em;
     transition: color 0.3s ease;
-    width: 15em;
+    width: 12em;
     border: 0.1em solid rgb(75 67 122);
     border-radius: 0.5em;
     align-items: center;
     justify-content: center;
 }
 
-.button-seizures a:hover,
-.button-seizures a:hover i {
+.button-seizures-medications a:hover,
+.button-seizures-medications a:hover i {
     background-color: #4b437a;
     color: #ffffff;
     border-radius: 0.5em;
 }
 
-.button-seizures i {
+.button-seizures-medications i {
     color: rgb(104 97 166);
     transition: color 0.3s ease;
 }
@@ -135,7 +142,6 @@ th {
     justify-content: center;
     box-shadow: 0.2em 0.5em 0.5em rgba(95, 92, 92, 0.2);
     padding: 0.5em;
-    min-width: 27em;
 }
 
 .add-dog-button {
@@ -166,6 +172,11 @@ th {
     max-width: 100%;
 }
 
+.dog-card {
+    overflow: hidden;
+}
+
+
 .add-new-dog-container i {
     font-size: 5em;
     color: rgb(43 40 71);
@@ -192,6 +203,25 @@ th {
     background: rgb(43 40 71);
     border-radius: 0.5em;
     margin: 2em;
+}
+
+.btn-delete:hover{
+    cursor: pointer;
+    i {
+        color: #970303;
+    }
+}
+
+.btn-edit:hover{
+    cursor: pointer;
+    i {
+        color: dodgerblue;
+    }
+}
+
+.btn-edit,
+.btn-delete {
+    font-size: 1.5rem;
 }
 
 button {

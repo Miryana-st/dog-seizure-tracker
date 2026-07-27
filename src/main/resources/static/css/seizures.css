@@ -99,15 +99,35 @@ button {
     font-size: 1.3em;
 }
 
-button:hover,
-.edit-seizure:hover {
+button:hover{
     cursor: pointer;
     i {
         color: #970303;
     }
 }
 
+.edit-seizure:hover{
+    cursor: pointer;
+    i {
+        color: dodgerblue;
+    }
+}
+
 .edit-seizure{
     padding: 0.5em;
     font-size: 1.3em;
+}
+
+i.cluster-yes {
+    color: #28a745;
+}
+
+i.cluster-no {
+    color: #dc3545;
+}
+
+.button-container-second {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
 }

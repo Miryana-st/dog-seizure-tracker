@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Medication - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="/css/add-edit-page.css">
+
+</head>
+<body>
+<header th:insert="fragments/head-logged :: navigation" class="section section-header"></header>
+<main class="main-content">
+    <h1>Add New Medication</h1>
+    <div class="container-table-image">
+        <section class="form-panel">
+            <form class="add-medication-form add-form" th:method="POST" th:action="@{'/medications/' + ${dog.id} + '/new'}"
+                  th:object="${addMedicationRequest}">
+
+                <div class="form-row-one">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="name">Medication Name</label>
+                            <input type="text" id="name" placeholder="Medication name" th:field="*{name}" required>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                    </div>
+                </div>
+
+                <div class="form-row-one">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="medicationConcentrationMg">Concentration in Mg</label>
+                            <input type="number" id="medicationConcentrationMg" placeholder="Concentration in Mg" th:field="*{medicationConcentrationMg}" required>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('medicationConcentrationMg')}" th:errors="*{medicationConcentrationMg}"></small>
+                    </div>
+                </div>
+
+                <div class="form-row-one">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" id="startDate" th:field="*{startDate}" required>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="endDate">End Date</label>
+                            <input type="date" id="endDate" th:field="*{endDate}">
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></small>
+                    </div>
+                </div>
+
+                <div class="button-wrapper">
+                    <button type="submit" class="button save-button">
+                        <div>Save</div>
+                    </button>
+                    <a th:href="@{'/medications/' + ${dog.id}}" class="button cancel-button">Cancel</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+<footer th:insert="fragments/footer :: footer"></footer>
+</body>
+</html>

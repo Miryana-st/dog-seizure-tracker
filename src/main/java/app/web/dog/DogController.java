@@ -34,11 +34,8 @@ public class DogController {
     @GetMapping
     public ModelAndView getUserDogsPage(@AuthenticationPrincipal UserData userData) {
 
-        User user = userService.getById(userData.getUserId());
-
         ModelAndView modelAndView = new ModelAndView("dogs");
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(user.getId()));
+        modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(userData.getUserId()));
 
         return modelAndView;
     }
@@ -46,11 +43,8 @@ public class DogController {
     @GetMapping("/new")
     public ModelAndView getNewDogPage(@AuthenticationPrincipal UserData userData) {
 
-        User user = userService.getById(userData.getUserId());
-
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("add-dog");
-        modelAndView.addObject("user", user);
         modelAndView.addObject("createNewDogRequest", new CreateNewDogRequest());
 
         return modelAndView;
@@ -64,10 +58,9 @@ public class DogController {
         User user = userService.getById(userData.getUserId());
 
         if (result.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("add-dog");
 
+            ModelAndView modelAndView = new ModelAndView("add-dog");
             modelAndView.addObject("createNewDogRequest", createNewDogRequest);
-            modelAndView.addObject("user", userService.getById(user.getId()));
 
             return modelAndView;
         }
@@ -78,10 +71,7 @@ public class DogController {
     }
 
     @GetMapping("/{id}/details")
-    public ModelAndView getDogProfilePage(@PathVariable UUID id,
-                                          @AuthenticationPrincipal UserData userData) {
-
-        User user = userService.getById(userData.getUserId());
+    public ModelAndView getDogProfilePage(@PathVariable UUID id) {
 
         Dog dog = dogService.getDogById(id);
         EditDogRequest editDogRequest = DogDtoMapper.fromDog(dog);
@@ -90,14 +80,13 @@ public class DogController {
 
         modelAndView.setViewName("dog-profile");
 
-        modelAndView.addObject("user", user);
         modelAndView.addObject("dog", dog);
         modelAndView.addObject("editDogRequest", editDogRequest);
 
         return modelAndView;
     }
 
-    @PutMapping("/{id}/dog-profile")
+    @PutMapping("/{id}/details")
     public ModelAndView updateDogProfilePage(@Valid @ModelAttribute("editDogRequest") EditDogRequest editDogRequest,
                                              BindingResult bindingResult,
                                              @PathVariable UUID id) {

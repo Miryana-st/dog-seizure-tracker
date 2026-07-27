@@ -1,0 +1,92 @@
+@page {
+    size: A4 landscape;
+    margin: 15mm;
+}
+
+body {
+    padding-bottom: 25mm;
+}
+
+.seizures-table table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.seizures-table {
+    width: 100%;
+}
+
+.seizures-table th,
+.seizures-table td {
+    word-wrap: break-word;
+    font-size: 0.75em;
+}
+
+.seizures-table th {
+    background: #2b2847;
+    color: #F6F6FD;
+    padding: 3mm 1em;
+    text-align: left;
+    border: 0.05em solid #F6F6FD;
+}
+
+.seizures-table td {
+    text-align: center;
+    border-bottom: 0.05em solid #e5e7eb;
+    color: #374151;
+    vertical-align: middle;
+}
+
+
+.severity-mild,
+.severity-severe,
+.severity-moderate,
+.recovery-fast ,
+.recovery-slow,
+.recovery-normal {
+    display: inline-block;
+    padding: 0.2em 3mm;
+    font-weight: bold;
+}
+
+.severity-mild,
+.recovery-fast {
+    color: green;
+    padding: 0.2em 1em;
+}
+
+.severity-severe,
+.recovery-slow {
+    color: red;
+    padding: 0.2em 1em;
+}
+
+.severity-moderate,
+.recovery-normal {
+    color: orange;
+}
+
+.cluster-yes {
+    color: #28a745;
+}
+
+.cluster-no {
+    color: #dc3545;
+}
+
+footer {
+    position: fixed;
+    bottom: -5%;
+    left: 0;
+    width: 100%;
+    height: 20mm;
+    z-index: 1000;
+}
+
+.copyright {
+    margin-top: 1em;
+    font-size: 0.7em;
+    color: rgb(8, 34, 68);
+    text-align: right;
+}

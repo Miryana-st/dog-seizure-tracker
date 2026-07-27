@@ -71,6 +71,7 @@
                                         th:value="${gender.name()}" th:text="${gender.displayGender}"></option>
                             </select>
                         </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></small>
                     </div>
                     <div class="form-row">
                         <div class="form-data">

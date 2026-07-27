@@ -39,6 +39,8 @@ public class Seizure {
     @Column
     private String note;
 
+    private boolean cluster;
+
     @ManyToOne
     @JoinColumn(name = "dog_id")
     private Dog dog;

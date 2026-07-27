@@ -34,6 +34,7 @@ public class SeizureService {
                 .time(createNewSeizureRequest.getTime())
                 .duration(createNewSeizureRequest.getDuration())
                 .note(createNewSeizureRequest.getNote())
+                .cluster(createNewSeizureRequest.isCluster())
                 .severity(createNewSeizureRequest.getSeverity())
                 .recovery(createNewSeizureRequest.getRecovery())
                 .build();
@@ -62,6 +63,7 @@ public class SeizureService {
         seizure.setSeverity(editSeizureRequest.getSeverity());
         seizure.setRecovery(editSeizureRequest.getRecovery());
         seizure.setNote(editSeizureRequest.getNote());
+        seizure.setCluster(editSeizureRequest.isCluster());
 
         seizureRepository.save(seizure);
     }
