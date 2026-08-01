@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Medication Schedule - Dog Seizure Tracker</title>
-
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/button.css">
     <link rel="stylesheet" href="/css/footer.css">
@@ -33,79 +31,67 @@
             </option>
         </select>
 
-        <section class="dog-info panel" th:if="${dog != null}">
-            <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                 th:src="${dog.dogPicture}" alt="Dog image">
-            <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                 th:src="@{/images/dog-placeholder.png}" alt="Dog image">
-            <div>
-                <h2 th:text="${dog.name}">Dog Name</h2>
-                <p>Daily medication timetable</p>
-            </div>
-        </section>
+        <div class="container" th:if="${dog != null}">
+            <div class="page-top">
+                <section class="dog-info">
+                    <div class="dog-card-inner">
+                        <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+                             th:src="${dog.dogPicture}"
+                             alt="Dog image">
 
-        <!-- Schedule -->
-        <section class="schedule panel" th:if="${dog != null}">
-            <div class="schedule-header">
-                <h2>Medication Schedule</h2>
-                <a th:href="@{'/medication-schedule/' + ${dog.id} + '/new'}"
-                   class="button">
-                    <i class="fa-solid fa-plus"></i>
-                    Add Time
-                </a>
+                        <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+                             th:src="@{/images/dog-placeholder.png}"
+                             alt="Dog image">
+
+                        <div class="dog-text">
+                            <h2 th:text="${dog.name}"></h2>
+                            <span th:text="${dog.breed}"></span>
+                        </div>
+                    </div>
+
+                    <a th:href="@{/dogs}" class="view-dogs-link"><i class="fa-solid fa-dog"></i>View all dogs</a>
+                </section>
             </div>
 
-            <table class="schedule-table">
-                <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Medication</th>
-                    <th>Dosage</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="schedule : ${medicationSchedules}">
-                    <td>
-                        <div class="cell-inner">
-                            <i class="fa-solid fa-clock"></i>
+            <section class="schedule-timeline" th:if="${dog != null}">
+                <div class="schedule-header">
+                    <div>
+                        <h2>Daily Medication Timeline</h2>
+                        <p>Today's medication administration plan</p>
+                    </div>
+                    <a th:href="@{'/medication-schedule/' + ${dog.id} + '/new'}" class="button add-schedule"><i class="fa-solid fa-plus"></i>Add Schedule</a>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item" th:each="schedule : ${medicationSchedules}">
+                        <div class="timeline-time"><i class="fa-solid fa-clock"></i>
                             <span th:text="${schedule.administrationTime}"></span>
                         </div>
-                    </td>
-                    <td>
-                        <div class="cell-inner">
-                            <i class="fa-solid fa-pills"></i>
-                            <span th:text="${schedule.medicationName}"></span>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="medication-icon">
+                                <i class="fa-solid fa-pills"></i>
+                            </div>
+                            <div class="medication-details">
+                                <h3 th:text="${schedule.medicationName}">Medication</h3>
+                                <p>
+                                    <span th:text="${schedule.amount}"></span>
+                                    <span th:text="${schedule.dosage}"></span>
+                                </p>
+                            </div>
+                            <div class="timeline-actions">
+                                <a th:href="@{'/medication-schedule/' + ${dog.id} + '/' + ${schedule.id} + '/details'}" class="edit-action"><i class="fa-solid fa-pen"></i></a>
+                                <form th:action="@{'/medication-schedule/'+ ${dog.id}+ '/'+ ${schedule.id}}"th:method="DELETE">
+                                    <button class="delete-action" onclick="return confirm('Delete this schedule entry?')"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </div>
                         </div>
-                    </td>
-                    <td>
-                        <span th:text="${schedule.amount}"></span> <span th:text="${schedule.dosage}"></span>
-                    </td>
-                    <td>
-                        <a th:href="@{'/medication-schedule/'
-            + ${dog.id}
-            + '/'
-            + ${schedule.id}
-            + '/details'}"
-                           class="btn-edit"><i class="fa-solid fa-pen"></i></a>
-                        <form th:action="@{'/medication-schedule/' + ${dog.id} + '/' + ${schedule.id}}"
-                              th:method="DELETE"
-                              style="display:inline;">
-                            <button type="submit"
-                                    class="btn-delete"
-                                    onclick="return confirm('Delete this schedule entry?')">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <tr th:if="${medicationSchedules == null || #lists.isEmpty(medicationSchedules)}">
-                    <td colspan="4">No medication schedule created yet.</td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-    </div>
+                    </div>
+                    <div class="empty-timeline" th:if="${medicationSchedules == null || #lists.isEmpty(medicationSchedules)}"><i class="fa-solid fa-calendar-xmark"></i>
+                        <p>No medication schedule created yet.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
 </main>
 </body>
 </html>

@@ -24,7 +24,6 @@
 
         <select onchange="if(this.value) location.href='/medications/' + this.value">
             <option value="">-- Select Dog --</option>
-
             <option th:each="dog : ${dogs}"
                     th:value="${dog.id}"
                     th:text="${dog.name}"
@@ -32,22 +31,31 @@
             </option>
         </select>
 
-        <section class="first-part">
-            <section class="dog-info" th:if="${dog != null}">
-                <div>
-                    <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                         th:src="${dog.dogPicture}" alt="Dog image">
-                    <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                         th:src="@{/images/dog-placeholder.png}" alt="Dog image">
-                    <div>
-                        <h2 th:text="${dog.name}">Dog Name</h2>
-                        <a th:href="@{/dogs}">View Dogs</a>
-                    </div>
-                    <a th:href="@{'/medications/' + ${dog.id} + '/new'}" class="button">+ Add New Medication</a>
-                </div>
-            </section>
+            <div class="container" th:if="${dog != null}">
+                <div class="page-top">
+                    <section class="dog-info">
+                        <div class="dog-card-inner">
+                            <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+                                 th:src="${dog.dogPicture}"
+                                 alt="Dog image">
 
-            <div class="medications" th:if="${dog != null}">
+                            <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+                                 th:src="@{/images/dog-placeholder.png}"
+                                 alt="Dog image">
+
+                            <div class="dog-text">
+                                <h2 th:text="${dog.name}"></h2>
+                                <span th:text="${dog.breed}"></span>
+                            </div>
+                        </div>
+
+                        <a th:href="@{/dogs}" class="view-dogs-link"><i class="fa-solid fa-dog"></i>View all dogs</a>
+                    </section>
+                    <a th:href="@{'/medications/' + ${dog.id} + '/new'}" class="button add-btn">+ Add New Medication</a>
+
+                </div>
+
+            <div class="medications">
                 <h2>Active Medications</h2>
                 <table class="medication-table">
                     <thead>
@@ -61,7 +69,6 @@
                     </tr>
                     </thead>
                     <tbody>
-
                     <tr th:if="${#lists.isEmpty(dogMedications)}">
                         <td colspan="6" class="empty-table">
                             <i class="fa-solid fa-pills"></i>
@@ -69,7 +76,6 @@
                             <p>This dog doesn't have any medications yet.</p>
                         </td>
                     </tr>
-
                     <tr th:each="medication : ${dogMedications}">
                         <td>
                             <div class="medication-name">
@@ -78,26 +84,23 @@
                             </div>
                         </td>
                         <td>
-                            <span th:text="${medication.medicationConcentrationMg}"></span>
-                            mg
+                            <span th:text="${medication.medicationConcentrationMg}"></span> mg
                         </td>
                         <td th:text="${#temporals.format(medication.startDate,'dd MMM yyyy')}"></td>
                         <td>
-                <span th:if="${medication.endDate != null}"
-                      th:text="${#temporals.format(medication.endDate,'dd MMM yyyy')}">
-                </span>
-                            <span th:if="${medication.endDate == null}">Ongoing
-                </span>
+                        <span th:if="${medication.endDate != null}"
+                              th:text="${#temporals.format(medication.endDate,'dd MMM yyyy')}"></span>
+                            <span th:if="${medication.endDate == null}">Ongoing</span>
                         </td>
                         <td>
-                <span class="status active"
-                      th:if="${medication.endDate == null || medication.endDate.isAfter(T(java.time.LocalDate).now())}">
-                    Active
-                </span>
+                        <span class="status active"
+                              th:if="${medication.endDate == null || medication.endDate.isAfter(T(java.time.LocalDate).now())}">
+                            Active
+                        </span>
                             <span class="status inactive"
                                   th:if="${medication.endDate != null && medication.endDate.isBefore(T(java.time.LocalDate).now())}">
-                    Stopped
-                </span>
+                            Stopped
+                        </span>
                         </td>
                         <td>
                             <div class="action-buttons">
@@ -113,17 +116,14 @@
                                     <button type="submit" class="btn-delete">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
-
                                 </form>
                             </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-
             </div>
-
-        </section>
+        </div>
     </div>
 </main>
 </body>

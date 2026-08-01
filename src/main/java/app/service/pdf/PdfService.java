@@ -1,5 +1,6 @@
 package app.service.pdf;
 
+import app.exception.PdfGenerationException;
 import app.model.entity.seizure.Seizure;
 import app.service.seizure.SeizureService;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
@@ -26,27 +27,31 @@ public class PdfService {
         this.seizureService = seizureService;
     }
 
-    public byte[] generateSeizureReport(UUID dogId) throws Exception {
+    public byte[] generateSeizureReport(UUID dogId) {
 
-        List<Seizure> seizures = seizureService.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
+        try {
+            List<Seizure> seizures = seizureService.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
 
-        Context context = new Context();
-        context.setVariable("seizures", seizures);
-        context.setVariable("dogId", dogId);
+            Context context = new Context();
+            context.setVariable("seizures", seizures);
+            context.setVariable("dogId", dogId);
 
-        String html = templateEngine.process(
-                "pdf/seizures-report",
-                context
-        );
+            String html = templateEngine.process(
+                    "pdf/seizures-report",
+                    context
+            );
 
-        ByteArrayOutputStream outputStream =
-                new ByteArrayOutputStream();
+            ByteArrayOutputStream outputStream =
+                    new ByteArrayOutputStream();
 
-        PdfRendererBuilder builder = new PdfRendererBuilder();
-        builder.withHtmlContent(html, new ClassPathResource("static/").getURL().toString());
-        builder.toStream(outputStream);
-        builder.run();
+            PdfRendererBuilder builder = new PdfRendererBuilder();
+            builder.withHtmlContent(html, new ClassPathResource("static/").getURL().toString());
+            builder.toStream(outputStream);
+            builder.run();
 
-        return outputStream.toByteArray();
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            throw new PdfGenerationException("Failed to generate PDF report for dog with ID: " + dogId, e);
+        }
     }
 }

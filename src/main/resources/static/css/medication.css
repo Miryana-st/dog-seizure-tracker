@@ -1,15 +1,15 @@
 .medication-page {
     width: 100%;
-    padding: 2rem;
+    padding: 2em;
 }
 
 .medication-page > p {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5em;
     color: #687280;
 }
 
 .medication-page select {
-    width: 20rem;
+    width: 20em;
     padding: 0.7rem 1rem;
     border: 1px solid #D8D5F3;
     border-radius: 8px;
@@ -17,72 +17,101 @@
     margin-bottom: 2rem;
 }
 
-.dog-info {
-    background: #FFF;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 8px 20px rgba(50, 40, 100, 0.08);
-    flex-shrink: 0;
-    width: 320px;
-    align-self: flex-start;
+.first-part {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-.dog-info > div {
+.medications-header {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
+    gap: 2em;
+    padding-bottom: 2em;
+}
+
+.dog-info {
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:20px;
+    padding:1.3rem 1.5rem;
+    box-shadow: 0 10px 25px rgba(50,40,100,.08);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.page-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+    padding-right: 20em;
+}
+
+.dog-card-inner {
+    display:flex;
+    align-items:center;
+    gap:1rem;
 }
 
 .dog-info img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #F2F1FD;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #F2F0FE;
 }
 
-.dog-info div div {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    align-items: center;
+.dog-text h2 {
+    margin:0;
+    color:#2b2847;
 }
 
-.dog-info h2 {
-    color: #2b2847;
+.dog-text span {
+    color:#687280;
 }
 
-.dog-info a:not(.button) {
-    color: #6A4EA5;
+.view-dogs-link {
+    color:#6A4EA5;
+    font-size:.9rem;
+    text-decoration:none;
+}
+
+.view-dogs-link i {
+    margin-right:.3rem;
+}
+
+.add-btn {
+    background: #6A4EA5;
+    color: white;
+    padding: .7rem 1.2rem;
+    border-radius: 10px;
     font-weight: bold;
 }
 
-.dog-info .button {
-    margin-left: 0;
-    background: #6A4EA5;
-    color: white;
-    border: none;
-    width: 100%;
-    text-align: center;
+.add-btn:hover {
+    background: #2b2847;
 }
 
-.dog-info .button:hover {
-    background: #2b2847;
+.medications {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.medications h2 {
+    color: #2b2847;
+    margin: 0;
 }
 
 .medication-table {
     width: 100%;
     border-collapse: collapse;
     background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(50,40,100,.08);
-}
-
-.medication-table thead {
-    background: #F6F6FD;
 }
 
 .medication-table th {
@@ -91,8 +120,6 @@
     font-size: 0.95rem;
     background: #2b2847;
     color: #F6F6FD;
-
-
 }
 
 .medication-table td {
@@ -102,7 +129,7 @@
 }
 
 .medication-table tbody tr {
-    transition: .25s;
+    transition: background .25s;
 }
 
 .medication-table tbody tr:hover {
@@ -118,14 +145,15 @@
 }
 
 .medication-name i {
-    font-size: 2em;
+    font-size: 1.1rem;
     color: #6A4EA5;
     background: #F2F0FE;
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 50%;
 }
 
 .status {
@@ -149,63 +177,29 @@
 .action-buttons {
     display: flex;
     gap: .5rem;
-}
-
-.action-buttons a {
-    width: 38px;
-    height: 38px;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 8px;
-    transition: .2s;
 }
 
-.action-buttons i {
-    font-size: 1.3em;
-    padding: 0.5em;
-}
-
-.btn-edit{
+.btn-edit,
+.btn-delete {
+    background: none;
+    border: none;
     cursor: pointer;
-    i {
-        padding-right: 1em;
-    }
+    padding: .3rem .5rem;
 }
 
-.btn-delete:hover{
-    cursor: pointer;
-    i {
-        color: #970303;
-    }
+.btn-edit i,
+.btn-delete i {
+    font-size: 1.1rem;
+    transition: color .2s;
 }
 
-.btn-edit:hover{
-    cursor: pointer;
-    i {
-        color: dodgerblue;
-    }
+.btn-edit:hover i {
+    color: dodgerblue;
 }
 
-.page-title h2 {
-    margin: 1.5rem 0 1rem;
-    color: #2b2847;
-}
-
-.first-part {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5rem;
-    align-items: flex-start;
-}
-
-.medications {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    flex: 1;
-    min-width: 0;
-    overflow-x: auto;
+.btn-delete:hover i {
+    color: #970303;
 }
 
 button {
@@ -213,4 +207,3 @@ button {
     border: none;
     padding: 0;
 }
-

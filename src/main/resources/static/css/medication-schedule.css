@@ -1,198 +1,213 @@
-.schedule-page {
-    width: 100%;
-    padding: 2rem;
-}
-
-.schedule-page > p {
-    margin-bottom: 1.5rem;
-    color: #687280;
-}
-
-.schedule-page select {
-    width: 20rem;
-    padding: 0.7rem 1rem;
-    border: 1px solid #D8D5F3;
-    border-radius: 8px;
-    background: #FFF;
-    margin-bottom: 2rem;
-}
-
 .dog-info {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    background: #FFF;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 8px 20px rgba(50, 40, 100, 0.08);
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:20px;
+    padding:1.3rem 1.5rem;
+    box-shadow: 0 10px 25px rgba(50,40,100,.08);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.page-top {
+    padding-bottom: 2em;
+}
+
+.dog-card-inner {
+    display:flex;
+    align-items:center;
+    gap:1rem;
 }
 
 .dog-info img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #F2F1FD;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #F2F0FE;
 }
 
-.dog-info h2 {
-    margin: 0;
-    color: #2b2847;
+.dog-text h2 {
+    margin:0;
+    color:#2b2847;
 }
 
-.dog-info p {
-    color: #687280;
-    margin-top: .5rem;
+.dog-text span {
+    color:#687280;
 }
 
-/* Schedule container */
-.schedule {
-    background: #FFF;
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 8px 20px rgba(50, 40, 100, 0.08);
+.view-dogs-link {
+    color:#6A4EA5;
+    font-size:.9rem;
+    text-decoration:none;
 }
 
-/* Header */
+.view-dogs-link i {
+    margin-right:.3rem;
+}
+
+.schedule-timeline {
+    background:white;
+    border-radius:24px;
+    padding:2rem;
+    box-shadow: 0 10px 30px rgba(50,40,100,.08);
+}
+
 .schedule-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:2rem;
+    gap: 2em
 }
 
 .schedule-header h2 {
-    color: #2b2847;
-    margin: 0;
+    margin:0;
+    color:#2b2847;
 }
 
-/* Add button */
-.schedule-header .button {
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    background: #6A4EA5;
-    color: white;
-    padding: .7rem 1.2rem;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: bold;
+.schedule-header p {
+    color:#687280;
+    margin-top:.4rem;
 }
 
-.schedule-header .button:hover {
-    background: #2b2847;
+.timeline {
+    position:relative;
+    padding-left:2rem;
 }
 
-.schedule-header .button i {
-    font-size: 0.9rem;
-    color: white;
+.timeline::before {
+    content:"";
+    position:absolute;
+    left:110px;
+    top:0;
+    bottom:0;
+    width:3px;
+    background:#E6E1F8;
 }
 
-/* Table */
-.schedule-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
+.timeline-item {
+    position:relative;
+    display:grid;
+    grid-template-columns:90px 40px 1fr;
+    align-items:center;
+    margin-bottom:2rem;
 }
 
-.schedule-table thead {
-    background: #2b2847;
-    color: #F6F6FD;
+.timeline-time {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-weight:bold;
+    color:#2b2847;
 }
 
-.schedule-table th {
-    padding: 1rem;
-    text-align: left;
-    font-size: .95rem;
+.timeline-time i {
+    color:#6A4EA5;
+    margin-bottom:.4rem;
 }
 
-.schedule-table td {
-    padding: 1rem;
-    border-top: 1px solid #ECEAF8;
-    vertical-align: middle;
+.timeline-dot {
+    width:18px;
+    height:18px;
+    background:#6A4EA5;
+    border-radius:50%;
+    border:4px solid white;
+    box-shadow: 0 0 0 3px #DDD8F3;
+    z-index:2;
 }
 
-.schedule-table tbody tr {
-    transition: background .25s;
-}
-
-.schedule-table tbody tr:hover {
-    background: #FBFAFF;
-}
-
-/* Cell content alignment — use inner wrapper instead of flex on td */
-.schedule-table td .cell-inner {
-    display: inline-flex;
-    align-items: center;
-    gap: .6rem;
-}
-
-.schedule-table td .cell-inner i {
-    font-size: 1rem;
-    color: #6A4EA5;
-    background: #F2F0FE;
-    padding: .45rem;
-    border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
+.timeline-card {
+    background: #FAF9FF;
+    border-radius: 18px;
+    padding: 1.2rem 1.8rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 2em;
+    transition: .2s;
+    width: 100%;
+    min-width: 0;
 }
 
-/* Medication icon — no background circle */
-.schedule-table td:nth-child(2) .cell-inner i {
-    background: none;
-    padding: 0;
-    font-size: 1.1rem;
+.timeline-card:hover {
+    transform:translateX(5px);
+    box-shadow: 0 8px 20px rgba(50,40,100,.10);
 }
 
-/* Action buttons */
-.schedule-table td:last-child {
-    white-space: nowrap;
+.medication-icon {
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#F0EBFF;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.btn-edit,
-.btn-delete {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: .3rem .5rem;
+.medication-icon i {
+    color:#6A4EA5;
+    font-size:1.4rem;
 }
 
-.btn-edit i,
-.btn-delete i {
-    font-size: 1.1rem;
-    transition: color .2s;
+.medication-details {
+    flex: 1;
+    min-width: 0;
 }
 
-.btn-edit:hover i {
+.medication-details h3 {
+    margin:0;
+    color:#2b2847;
+}
+
+.medication-details p {
+    margin:.4rem 0 0;
+    color:#687280;
+}
+
+.timeline-actions {
+    display:flex;
+    gap:.5rem;
+}
+
+.timeline-actions a,
+.timeline-actions button {
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.edit-action {
+    background:#EAF2FF;
+    color:#2563EB;
+}
+
+.delete-action {
+    background:#FEECEC;
+    color:#B91C1C;
+}
+
+.edit-action:hover i {
     color: dodgerblue;
 }
 
-.btn-delete:hover i {
+.delete-action:hover i {
     color: #970303;
 }
 
-/* Empty row */
-.schedule-table td[colspan="4"] {
-    text-align: center;
-    padding: 2rem;
-    color: #687280;
-    font-style: italic;
+.empty-timeline {
+    text-align:center;
+    padding:3rem;
+    color:#687280;
 }
 
-@media (max-width: 900px) {
-    .schedule-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-
-    .schedule-table {
-        display: block;
-        overflow-x: auto;
-    }
+.empty-timeline i {
+    font-size:3rem;
+    color:#D8D5F3;
 }
 

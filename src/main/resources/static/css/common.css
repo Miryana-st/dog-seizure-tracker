@@ -10,7 +10,6 @@
 
 select {
     font: 18px/1.5 Lato;
-
 }
 
 body {
@@ -88,4 +87,14 @@ i:nth-child(1) {
 
 p {
     padding-bottom: 0.5em;
+}
+
+.medication-page select,
+.schedule-page select{
+    width: 20rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid #D8D5F3;
+    border-radius: 8px;
+    background: #FFF;
+    margin-bottom: 2rem;
 }

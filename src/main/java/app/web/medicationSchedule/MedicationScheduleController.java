@@ -40,6 +40,7 @@ public class MedicationScheduleController {
 
         ModelAndView modelAndView = new ModelAndView("medication-schedule");
         modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(userData.getUserId()));
+        modelAndView.addObject("medicationSchedules", Collections.emptyList());
 
         return modelAndView;
     }
@@ -53,12 +54,8 @@ public class MedicationScheduleController {
         modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(userData.getUserId()));
         modelAndView.addObject("selectedDogId", dogId);
 
-        if (dogId != null) {
-            modelAndView.addObject("dog", dogService.getDogById(dogId));
-            modelAndView.addObject("medicationSchedules", medicationScheduleService.getMedicationSchedulesByDogId(dogId));
-        } else {
-            modelAndView.addObject("medicationSchedules", Collections.emptyList());
-        }
+        modelAndView.addObject("dog", dogService.getDogById(dogId));
+        modelAndView.addObject("medicationSchedules", medicationScheduleService.getMedicationSchedulesByDogId(dogId));
 
         return modelAndView;
     }

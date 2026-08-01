@@ -127,14 +127,14 @@ public class SeizureController {
     }
 
     @GetMapping("/pdf")
-    public ResponseEntity<byte[]> exportSeizureReport(@PathVariable UUID dogId) throws Exception {
+        public ResponseEntity<byte[]> exportSeizureReport(@PathVariable UUID dogId) {
 
-        byte[] pdf = pdfService.generateSeizureReport(dogId);
+            byte[] pdf = pdfService.generateSeizureReport(dogId);
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=seizure-report.pdf")
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdf);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=seizure-report.pdf")
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(pdf);
     }
 }

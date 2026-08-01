@@ -18,7 +18,7 @@
     <h1 th:text="${dog.name + '''s Information:'}"></h1>
     <div class="container-table-image">
         <section class="form-panel">
-            <form class="form-edit" th:action="@{'/dogs/' + ${dog.id} + '/dog-profile'}" th:object="${editDogRequest}"
+            <form class="form-edit" th:action="@{'/dogs/' + ${dog.id} + '/details'}" th:object="${editDogRequest}"
                   th:method="PUT">
 
                 <div class="form-row-one">

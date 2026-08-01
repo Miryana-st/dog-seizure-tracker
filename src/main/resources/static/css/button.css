@@ -25,7 +25,8 @@ button {
     border: 0.1em solid #6A4EA5;
 }
 
-.add-dog-button {
+.add-dog-button,
+.add-btn {
     background-color: rgb(104 97 166);
     color: rgb(225 230 234);
     border: 0.1em solid rgb(43 40 71);
@@ -41,7 +42,8 @@ button {
 .register-button:hover,
 .my-dog-button:hover,
 .add-dog-button:hover,
-.save-button:hover{
+.save-button:hover,
+.add-btn:hover {
     background-color: #2b2847;
     color: #F9F7FE;
     border: 0.1em solid #2b2847;
@@ -158,4 +160,28 @@ button {
     i {
         color: #970303;
     }
+}
+
+.add-schedule {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    background: linear-gradient(135deg, #6A4EA5, #8A72D8);
+    color: #fff;
+    padding: .85rem 1.4rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 8px 18px rgba(106, 78, 165, 0.25);
+    transition: background .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+
+.add-schedule i {
+ color: white;
+}
+
+.add-schedule:hover {
+    background: linear-gradient(135deg, #5B3F99, #7357C8);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px rgba(106, 78, 165, 0.35);
 }
