@@ -51,10 +51,7 @@ public class MedicationController {
 
         if (dogId != null) {
             modelAndView.addObject("dog", dogService.getDogById(dogId));
-            modelAndView.addObject(
-                    "dogMedications",
-                    medicationService.getMedicationsByDogId(dogId)
-            );
+            modelAndView.addObject("dogMedications", medicationService.getMedicationsByDogId(dogId));
         } else {
             modelAndView.addObject("dogMedications", Collections.emptyList());
         }

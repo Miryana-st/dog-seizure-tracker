@@ -2,6 +2,8 @@ package app.service.medication.client;
 
 import app.model.dto.medication.MedicationResponse;
 import app.model.dto.medication.MedicationRequest;
+import app.model.dto.medication.MedicationScheduleRequest;
+import app.model.dto.medication.MedicationScheduleResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,4 +28,21 @@ public interface MedicationClient {
 
     @DeleteMapping("/medications/{dogId}/{medicationId}")
     ResponseEntity<Void> deleteMedication(@PathVariable("dogId") UUID dogId, @PathVariable("medicationId") UUID medicationId);
+
+    @GetMapping("/medication-schedule/{dogId}")
+    List<MedicationScheduleResponse> getMedicationScheduleByDogId(@PathVariable("dogId") UUID dogId);
+
+    @PostMapping("/medication-schedule/{dogId}/new")
+    ResponseEntity<Void> createMedicationSchedule(@PathVariable("dogId") UUID dogId, @RequestBody MedicationScheduleRequest requestBody);
+
+    @DeleteMapping("/medication-schedule/{dogId}/{medicationScheduleId}")
+    ResponseEntity<Void> deleteMedicationSchedule(@PathVariable("dogId") UUID dogId, @PathVariable("medicationScheduleId") UUID medicationScheduleId);
+
+    @GetMapping("/medication-schedule/{dogId}/{medicationScheduleId}/details")
+    ResponseEntity<MedicationScheduleResponse> getMedicationScheduleById(@PathVariable("dogId") UUID dogId, @PathVariable("medicationScheduleId") UUID medicationId);
+
+    @PutMapping("/medication-schedule/{dogId}/{medicationScheduleId}/details")
+    ResponseEntity<MedicationScheduleResponse> updateMedicationSchedule(@PathVariable("dogId") UUID dogId, @PathVariable("medicationScheduleId") UUID medicationScheduleId, @RequestBody MedicationScheduleRequest request);
+
+
 }

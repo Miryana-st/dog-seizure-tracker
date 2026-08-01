@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Medication Schedule - Dog Seizure Tracker</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/button.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/form.css">
+    <link rel="stylesheet" href="/css/head.css">
+    <link rel="stylesheet" href="/css/add-edit-page.css">
+</head>
+<body>
+<header th:insert="fragments/head-logged :: navigation" class="section section-header"></header>
+<main class="main-content">
+    <h1>Add Medication Schedule</h1>
+    <div class="container-table-image">
+        <section class="form-panel">
+            <form class="add-medication-form add-form"
+                  th:method="POST"
+                  th:action="@{'/medication-schedule/' + ${dog.id} + '/new'}"
+                  th:object="${addMedicationScheduleRequest}">
+                <div class="form-row-one">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="medicationId">Medication</label>
+                            <select id="medicationId"
+                                    th:field="*{medicationId}"
+                                    required>
+                                <option value="">-- Select Medication --</option>
+                                <option th:each="medication : ${medications}"
+                                        th:value="${medication.id}"
+                                        th:text="${medication.name}">
+                                </option>
+                            </select>
+                        </div>
+                        <small class="alert-warning"
+                               th:if="${#fields.hasErrors('medicationId')}"
+                               th:errors="*{medicationId}">
+                        </small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="administrationTime">Administration Time</label>
+                            <input type="time" id="administrationTime" th:field="*{administrationTime}" required>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('administrationTime')}" th:errors="*{administrationTime}">
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="form-row-one">
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="amount">Amount</label>
+                            <input type="number" id="amount" step="0.1" placeholder="Amount" th:field="*{amount}" required>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">
+                        </small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-data">
+                            <label for="dosage">Dosage Unit</label>
+                            <select id="dosage" th:field="*{dosage}" required>
+                                <option value="">-- Select Unit --</option>
+                                <option th:each="unit : ${T(app.model.dto.medication.Dosage).values()}"
+                                        th:value="${unit}"
+                                        th:text="${unit}">
+                                </option>
+                            </select>
+                        </div>
+                        <small class="alert-warning" th:if="${#fields.hasErrors('dosage')}" th:errors="*{dosage}">
+                        </small>
+                    </div>
+
+
+                </div>
+
+                <div class="button-wrapper">
+                    <button type="submit" class="button save-button">
+                        <div>Save</div>
+                    </button>
+
+                    <a th:href="@{'/medication-schedule/' + ${dog.id}}"
+                       class="button cancel-button">Cancel</a>
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+<footer th:insert="fragments/footer :: footer"></footer>
+</body>
+</html>

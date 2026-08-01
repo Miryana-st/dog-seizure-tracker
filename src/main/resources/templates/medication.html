@@ -61,6 +61,15 @@
                     </tr>
                     </thead>
                     <tbody>
+
+                    <tr th:if="${#lists.isEmpty(dogMedications)}">
+                        <td colspan="6" class="empty-table">
+                            <i class="fa-solid fa-pills"></i>
+                            <h3>No medications found</h3>
+                            <p>This dog doesn't have any medications yet.</p>
+                        </td>
+                    </tr>
+
                     <tr th:each="medication : ${dogMedications}">
                         <td>
                             <div class="medication-name">
