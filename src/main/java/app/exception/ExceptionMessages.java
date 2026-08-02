@@ -5,6 +5,8 @@ public class ExceptionMessages {
     public static final String DOG_NOT_FOUND = "Dog was not found!";
     public static final String USER_NOT_FOUND = "User was not found!";
     public static final String USER_WITH_EMAIL_OR_USERNAME_EXISTS = "User with this email or username already exists!";
-    public static final String USER_INCORRECT_PASSWORD_OR_USERNAME = "Incorrect username or password!";
+    public static final String MEDICATION_NOT_FOUND = "Medication was not found!";
+    public static final String MEDICATION_SCHEDULE_NOT_FOUND = "Medication schedule was not found!";
+    public static final String MEDICATION_MICROSERVICE_UNAVAILABLE = "Medication microservice is currently unavailable!";
 
 }

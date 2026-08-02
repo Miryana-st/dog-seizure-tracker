@@ -116,8 +116,7 @@ public class MedicationScheduleController {
 
         modelAndView.addObject("medicationSchedule", medicationSchedule);
         modelAndView.addObject("editMedicationScheduleRequest", editMedicationScheduleRequest);
-        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId)
-        );
+        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId));
         return modelAndView;
     }
 

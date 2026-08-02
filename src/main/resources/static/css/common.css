@@ -98,3 +98,11 @@ p {
     background: #FFF;
     margin-bottom: 2rem;
 }
+
+.alert-warning-error {
+    padding: 0.5em;
+    border: 0.1em solid #FF0000;
+    border-radius: 0.5em;
+    background-color: #FFECEF;
+    color: #FF0000;
+}
