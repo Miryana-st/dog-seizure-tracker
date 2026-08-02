@@ -1,8 +1,9 @@
 package app.service.seizure;
 
-import app.exception.SeizureNotFound;
+import app.exception.NotFoundException;
 import app.model.dto.seizure.CreateNewSeizureRequest;
 import app.model.dto.seizure.EditSeizureRequest;
+import app.model.dto.seizure.SeizureDto;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
 import app.repository.seizure.SeizureRepository;
@@ -18,7 +19,7 @@ import static app.exception.ExceptionMessages.SEIZURE_NOT_FOUND;
 @Service
 public class SeizureService {
 
-    SeizureRepository seizureRepository;
+    private final SeizureRepository seizureRepository;
 
     @Autowired
     public SeizureService(SeizureRepository seizureRepository) {
@@ -48,14 +49,14 @@ public class SeizureService {
 
     public Seizure getSeizureById(UUID seizureId) {
         return seizureRepository.findById(seizureId)
-                .orElseThrow(() -> new SeizureNotFound(SEIZURE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(SEIZURE_NOT_FOUND));
     }
 
     @Transactional
     public void updateSeizureEntry(UUID id, EditSeizureRequest editSeizureRequest) {
         Seizure seizure = seizureRepository.findById(id)
                 .orElseThrow(
-                        () -> new SeizureNotFound(SEIZURE_NOT_FOUND));
+                        () -> new NotFoundException(SEIZURE_NOT_FOUND));
 
         seizure.setDate(editSeizureRequest.getDate());
         seizure.setTime(editSeizureRequest.getTime());
@@ -72,10 +73,25 @@ public class SeizureService {
     public void deleteSeizureById(UUID seizureId) {
 
         Seizure seizureToDelete = seizureRepository.findById(seizureId)
-                .orElseThrow(() -> new SeizureNotFound(SEIZURE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(SEIZURE_NOT_FOUND));
 
         seizureToDelete.getDog().getSeizures().remove(seizureToDelete);
 
         seizureRepository.delete(seizureToDelete);
     }
+
+//    public List<SeizureDto> getSeizuresByDogId(UUID dogId) {
+//
+//        List<Seizure> seizures = seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
+//
+//        return seizures.stream()
+//                .map(seizure -> SeizureDto.builder()
+//                        .date(seizure.getDate())
+//                        .duration(seizure.getDuration())
+//                        .severity(seizure.getSeverity())
+//                        .recovery(seizure.getRecovery())
+//                        .cluster(seizure.isCluster())
+//                        .build())
+//                .toList();
+//    }
 }

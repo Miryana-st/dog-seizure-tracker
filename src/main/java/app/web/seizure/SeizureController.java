@@ -38,9 +38,12 @@ public class SeizureController {
     @GetMapping()
     public ModelAndView getSeizuresForDog(@PathVariable UUID dogId) {
 
+        Dog dog = dogService.getDogById(dogId);
+
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("seizures");
+        modelAndView.addObject("dog", dog);
         modelAndView.addObject("seizures", seizureService.findAllByDog_IdOrderByDateDescTimeDesc(dogId));
 
         return modelAndView;
@@ -49,9 +52,12 @@ public class SeizureController {
     @GetMapping("/new")
     public ModelAndView getNewSeizurePage(@PathVariable UUID dogId) {
 
+        Dog dog = dogService.getDogById(dogId);
+
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("add-seizure");
+        modelAndView.addObject("dog", dog);
         modelAndView.addObject("createNewSeizureRequest", new CreateNewSeizureRequest());
 
         return modelAndView;
@@ -83,6 +89,7 @@ public class SeizureController {
     public ModelAndView getSeizureLog(@PathVariable UUID dogId,
                                       @PathVariable UUID seizureId) {
 
+        Dog dog = dogService.getDogById(dogId);
         Seizure seizure = seizureService.getSeizureById(seizureId);
         EditSeizureRequest editSeizureRequest = SeizureDtoMapper.fromSeizure(seizure);
 
@@ -90,6 +97,7 @@ public class SeizureController {
 
         modelAndView.setViewName("seizure-profile");
         modelAndView.addObject("seizure", seizure);
+        modelAndView.addObject("dog", dog);
         modelAndView.addObject("editSeizureRequest", editSeizureRequest);
 
         return modelAndView;
@@ -105,13 +113,17 @@ public class SeizureController {
 
             ModelAndView modelAndView = new ModelAndView("seizure-profile");
 
+            Dog dog = dogService.getDogById(dogId);
+
             Seizure seizure = seizureService.getSeizureById(seizureId);
 
             modelAndView.addObject("seizure", seizure);
+            modelAndView.addObject("dog", dog);
             modelAndView.addObject("editSeizureRequest", editSeizureRequest);
 
             return modelAndView;
         }
+
 
         seizureService.updateSeizureEntry(seizureId, editSeizureRequest);
 

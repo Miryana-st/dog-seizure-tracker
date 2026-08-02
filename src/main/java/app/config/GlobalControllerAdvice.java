@@ -16,26 +16,8 @@ import java.nio.file.AccessDeniedException;
 public class GlobalControllerAdvice {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(UserNotFound.class)
-    public ModelAndView handleUserNotFoundException(UserNotFound e) {
-
-        ModelAndView modelAndView = new ModelAndView("error-page-not-found");
-
-        return modelAndView;
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(DogNotFound.class)
-    public ModelAndView handleDogNotFoundException(DogNotFound e) {
-
-        ModelAndView modelAndView = new ModelAndView("error-page-not-found");
-
-        return modelAndView;
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(SeizureNotFound.class)
-    public ModelAndView handleSeizureNotFoundException(SeizureNotFound e) {
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFoundException(NotFoundException e) {
 
         ModelAndView modelAndView = new ModelAndView("error-page-not-found");
 
@@ -55,24 +37,6 @@ public class GlobalControllerAdvice {
             MethodArgumentTypeMismatchException.class
     })
     public ModelAndView handleSpringException(Exception exception) {
-
-        ModelAndView modelAndView = new ModelAndView("error-page-not-found");
-
-        return modelAndView;
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(MedicationNotFoundException.class)
-    public ModelAndView handleMedicationNotFoundException(MedicationNotFoundException e) {
-
-        ModelAndView modelAndView = new ModelAndView("error-page-not-found");
-
-        return modelAndView;
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(MedicationScheduleNotFoundException.class)
-    public ModelAndView handleMedicationScheduleNotFoundException(MedicationScheduleNotFoundException e) {
 
         ModelAndView modelAndView = new ModelAndView("error-page-not-found");
 

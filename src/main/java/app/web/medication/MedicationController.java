@@ -57,7 +57,8 @@ public class MedicationController {
     }
 
     @GetMapping("/{dogId}/new")
-    public ModelAndView getAddMedicationPage(@PathVariable UUID dogId) {
+    public ModelAndView getAddMedicationPage(
+            @PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -71,9 +72,9 @@ public class MedicationController {
 
     @PostMapping("/{dogId}/new")
     public ModelAndView addMedicationPage(
-            @PathVariable UUID dogId,
             @Valid @ModelAttribute("addMedicationRequest") MedicationRequest addMedicationRequest,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            @PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -95,7 +96,8 @@ public class MedicationController {
     }
 
     @GetMapping("/{dogId}/{medicationId}/details")
-    public ModelAndView getEditMedicationPage(@PathVariable UUID dogId, @PathVariable UUID medicationId) {
+    public ModelAndView getEditMedicationPage(@PathVariable UUID dogId,
+                                              @PathVariable UUID medicationId) {
 
         MedicationResponse medication = medicationService.getMedicationByIdAndDogId(medicationId, dogId);
 
@@ -120,10 +122,10 @@ public class MedicationController {
 
     @PutMapping("/{dogId}/{medicationId}/details")
     public ModelAndView updateMedication(
-            @PathVariable UUID dogId,
-            @PathVariable UUID medicationId,
             @Valid @ModelAttribute("editMedicationRequest") MedicationRequest editMedicationRequest,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            @PathVariable UUID dogId,
+            @PathVariable UUID medicationId) {
 
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("medication-profile");
@@ -143,7 +145,8 @@ public class MedicationController {
     }
 
     @DeleteMapping("/{dogId}/{medicationId}")
-    public String deleteMedication(@PathVariable UUID dogId, @PathVariable UUID medicationId) {
+    public String deleteMedication(@PathVariable UUID dogId,
+                                   @PathVariable UUID medicationId) {
 
         medicationService.deleteMedication(medicationId, dogId);
 

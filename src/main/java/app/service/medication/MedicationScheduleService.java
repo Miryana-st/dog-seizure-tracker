@@ -1,7 +1,7 @@
 package app.service.medication;
 
 import app.exception.MedicationMicroserviceUnavailableException;
-import app.exception.MedicationScheduleNotFoundException;
+import app.exception.NotFoundException;
 import app.model.dto.medication.Dosage;
 import app.model.dto.medication.MedicationScheduleRequest;
 import app.model.dto.medication.MedicationScheduleResponse;
@@ -54,7 +54,7 @@ public class MedicationScheduleService {
             return client.getMedicationScheduleByDogId(dogId);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
-            throw new MedicationScheduleNotFoundException(MEDICATION_SCHEDULE_NOT_FOUND);
+            throw new NotFoundException(MEDICATION_SCHEDULE_NOT_FOUND);
         }
     }
 
@@ -73,7 +73,7 @@ public class MedicationScheduleService {
             return client.getMedicationScheduleById(dogId, medicationScheduleId).getBody();
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
-            throw new MedicationScheduleNotFoundException(MEDICATION_SCHEDULE_NOT_FOUND);
+            throw new NotFoundException(MEDICATION_SCHEDULE_NOT_FOUND);
         }
     }
 
@@ -91,7 +91,7 @@ public class MedicationScheduleService {
             client.updateMedicationSchedule(dogId, medicationScheduleId, dto);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
-            throw new MedicationScheduleNotFoundException(MEDICATION_SCHEDULE_NOT_FOUND);
+            throw new NotFoundException(MEDICATION_SCHEDULE_NOT_FOUND);
         }
     }
 }

@@ -1,11 +1,12 @@
 package app.service.dog;
 
-import app.exception.DogNotFound;
+import app.exception.NotFoundException;
 import app.model.dto.dog.CreateNewDogRequest;
 import app.model.dto.dog.EditDogRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.user.User;
 import app.repository.dog.DogRepository;
+import app.service.riskAnallysis.RiskAnalysisService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,13 @@ import static app.exception.ExceptionMessages.DOG_NOT_FOUND;
 @Service
 public class DogService {
 
-    DogRepository dogRepository;
+//    private final RiskAnalysisService riskAnalysisService;
+    private final DogRepository dogRepository;
 
     @Autowired
-    public DogService(DogRepository dogRepository) {
+    public DogService(DogRepository dogRepository/*, RiskAnalysisService riskAnalysisService*/) {
         this.dogRepository = dogRepository;
+//        this.riskAnalysisService = riskAnalysisService;
     }
 
     @Transactional
@@ -39,6 +42,7 @@ public class DogService {
                 .build();
 
         dogRepository.save(dog);
+//        riskAnalysisService.upsertRiskSettings(dog.getId(), null, null, null, null);
     }
 
     public List<Dog> getAllDogsByOwnerId(UUID ownerId) {
@@ -47,14 +51,14 @@ public class DogService {
 
     public Dog getDogById(UUID dogId) {
         return dogRepository.findById(dogId)
-                .orElseThrow(() -> new DogNotFound(DOG_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
     }
 
     @Transactional
     public void updateDogInformation(UUID id, EditDogRequest editDogRequest) {
         Dog dog = dogRepository.findById(id)
                 .orElseThrow(
-                        () -> new DogNotFound(DOG_NOT_FOUND));
+                        () -> new NotFoundException(DOG_NOT_FOUND));
 
         dog.setName(editDogRequest.getName());
         dog.setBreed(editDogRequest.getBreed());
@@ -70,7 +74,7 @@ public class DogService {
     public void deletedDogById(UUID id) {
 
         Dog dogToDelete = dogRepository.findById(id)
-                .orElseThrow(() -> new DogNotFound(DOG_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
 
         dogToDelete.getOwner().getDogs().remove(dogToDelete);
 

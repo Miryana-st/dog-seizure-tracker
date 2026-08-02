@@ -61,7 +61,8 @@ public class MedicationScheduleController {
     }
 
     @GetMapping("/{dogId}/new")
-    public ModelAndView getAddMedicationSchedulePage(@PathVariable UUID dogId) {
+    public ModelAndView getAddMedicationSchedulePage(
+            @PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -76,9 +77,9 @@ public class MedicationScheduleController {
 
     @PostMapping("/{dogId}/new")
     public ModelAndView addMedicationSchedulePage(
-            @PathVariable UUID dogId,
             @Valid @ModelAttribute("addMedicationScheduleRequest") MedicationScheduleRequest addMedicationScheduleRequest,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            @PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -100,7 +101,9 @@ public class MedicationScheduleController {
     }
 
     @GetMapping("/{dogId}/{medicationScheduleId}/details")
-    public ModelAndView getEditMedicationSchedulePage(@PathVariable UUID dogId, @PathVariable UUID medicationScheduleId) {
+    public ModelAndView getEditMedicationSchedulePage(
+            @PathVariable UUID dogId,
+            @PathVariable UUID medicationScheduleId) {
 
         MedicationScheduleResponse medicationSchedule = medicationScheduleService.getMedicationScheduleById(dogId, medicationScheduleId);
 
@@ -122,10 +125,10 @@ public class MedicationScheduleController {
 
     @PutMapping("/{dogId}/{medicationScheduleId}/details")
     public ModelAndView updateMedicationSchedule(
-            @PathVariable UUID dogId,
-            @PathVariable UUID medicationScheduleId,
             @Valid @ModelAttribute("editMedicationScheduleRequest") MedicationScheduleRequest editMedicationScheduleRequest,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            @PathVariable UUID dogId,
+            @PathVariable UUID medicationScheduleId) {
 
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("medication-schedule-profile");
@@ -152,7 +155,9 @@ public class MedicationScheduleController {
 
 
     @DeleteMapping("/{dogId}/{medicationScheduleId}")
-    public String deleteMedicationSchedule(@PathVariable UUID dogId, @PathVariable UUID medicationScheduleId) {
+    public String deleteMedicationSchedule(
+            @PathVariable UUID dogId,
+            @PathVariable UUID medicationScheduleId) {
 
         medicationScheduleService.deleteMedicationSchedule(dogId, medicationScheduleId);
 

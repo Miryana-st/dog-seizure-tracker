@@ -1,7 +1,7 @@
 package app.service.medication;
 
 import app.exception.MedicationMicroserviceUnavailableException;
-import app.exception.MedicationNotFoundException;
+import app.exception.NotFoundException;
 import app.model.dto.medication.MedicationResponse;
 import app.model.dto.medication.MedicationRequest;
 import app.service.medication.client.MedicationClient;
@@ -52,7 +52,7 @@ public class MedicationService {
             return client.getMedicationsByDogId(dogId);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
-            throw new MedicationNotFoundException(MEDICATION_NOT_FOUND);
+            throw new NotFoundException(MEDICATION_NOT_FOUND);
         }
     }
 
@@ -70,7 +70,7 @@ public class MedicationService {
             client.updateMedication(dogId, medicationId, dto);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
-            throw new MedicationNotFoundException(MEDICATION_NOT_FOUND);
+            throw new NotFoundException(MEDICATION_NOT_FOUND);
         }
     }
 
@@ -79,7 +79,7 @@ public class MedicationService {
             return client.getMedicationById(dogId, id);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
-            throw new MedicationNotFoundException(MEDICATION_NOT_FOUND);
+            throw new NotFoundException(MEDICATION_NOT_FOUND);
         }
     }
 

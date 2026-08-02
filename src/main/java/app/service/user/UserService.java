@@ -1,6 +1,6 @@
 package app.service.user;
 
-import app.exception.UserNotFound;
+import app.exception.NotFoundException;
 import app.exception.UserWithEmailOrUsernameExists;
 import app.model.dto.user.UserEditRequest;
 import app.model.dto.user.UserRegisterRequest;
@@ -63,7 +63,7 @@ public class UserService implements UserDetailsService {
     public void updateUser(UUID id, UserEditRequest userEditRequest) {
         User user = userRepository.findById(id)
                 .orElseThrow(
-                        () -> new UserNotFound(USER_NOT_FOUND));
+                        () -> new NotFoundException(USER_NOT_FOUND));
 
         user.setFirstName(userEditRequest.getFirstName());
         user.setLastName(userEditRequest.getLastName());
@@ -77,7 +77,7 @@ public class UserService implements UserDetailsService {
     public void switchRole(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(
-                        () -> new UserNotFound(USER_NOT_FOUND));
+                        () -> new NotFoundException(USER_NOT_FOUND));
 
         user.setRole(user.getRole() == UserRole.USER ? UserRole.ADMIN : UserRole.USER);
 
@@ -87,7 +87,7 @@ public class UserService implements UserDetailsService {
     public User getById(UUID userId) {
 
         return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFound(USER_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
     }
 
     public List<User> getAllUsers() {
@@ -98,7 +98,7 @@ public class UserService implements UserDetailsService {
     public void deleteUserById(UUID id) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFound(USER_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
 
         userRepository.delete(user);
     }
