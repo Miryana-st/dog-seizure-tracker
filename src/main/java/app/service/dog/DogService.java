@@ -1,7 +1,6 @@
 package app.service.dog;
 
 import app.exception.NotFoundException;
-import app.exception.UnauthorizedException;
 import app.model.dto.dog.CreateNewDogRequest;
 import app.model.dto.dog.EditDogRequest;
 import app.model.entity.dog.Dog;
@@ -51,11 +50,9 @@ public class DogService {
                 .orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
     }
 
-    public void verifyOwnership(UUID dogId, UUID userId) {
+    public boolean isDogOwner(UUID dogId, UUID userId) {
         Dog dog = getDogById(dogId);
-        if (!dog.getOwner().getId().equals(userId)) {
-            throw new UnauthorizedException("You are not authorized to access this dog's data.");
-        }
+        return dog.getOwner().getId().equals(userId);
     }
 
     @Transactional

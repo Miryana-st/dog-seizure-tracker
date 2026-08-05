@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface MedicationClient {
 
     @PostMapping("/medications/{dogId}/new")
-    ResponseEntity<Void> createMedication(@PathVariable("dogId") UUID dogId, @RequestHeader("X-User-Id") UUID userId, @RequestBody MedicationRequest requestBody);
+    ResponseEntity<Void> createMedication(@PathVariable("dogId") UUID dogId, @RequestBody MedicationRequest requestBody);
 
     @GetMapping("/medications/{dogId}")
     List<MedicationResponse> getMedicationsByDogId(@PathVariable("dogId") UUID dogId);
@@ -24,23 +24,23 @@ public interface MedicationClient {
     MedicationResponse getMedicationById(@PathVariable("dogId") UUID dogId, @PathVariable("medicationId") UUID medicationId);
 
     @PutMapping("/medications/{dogId}/{medicationId}/details")
-    ResponseEntity<MedicationResponse> updateMedication(@PathVariable("dogId") UUID dogId, @PathVariable("medicationId") UUID medicationId, @RequestHeader("X-User-Id") UUID userId, @RequestBody MedicationRequest request);
+    ResponseEntity<MedicationResponse> updateMedication(@PathVariable("dogId") UUID dogId, @PathVariable("medicationId") UUID medicationId, @RequestBody MedicationRequest request);
 
     @DeleteMapping("/medications/{dogId}/{medicationId}")
-    ResponseEntity<Void> deleteMedication(@PathVariable("dogId") UUID dogId, @PathVariable("medicationId") UUID medicationId, @RequestHeader("X-User-Id") UUID userId);
+    ResponseEntity<Void> deleteMedication(@PathVariable("dogId") UUID dogId, @PathVariable("medicationId") UUID medicationId);
 
     @GetMapping("/medication-schedule/{dogId}")
     List<MedicationScheduleResponse> getMedicationScheduleByDogId(@PathVariable("dogId") UUID dogId);
 
     @PostMapping("/medication-schedule/{dogId}/new")
-    ResponseEntity<Void> createMedicationSchedule(@PathVariable("dogId") UUID dogId, @RequestHeader("X-User-Id") UUID userId, @RequestBody MedicationScheduleRequest requestBody);
+    ResponseEntity<Void> createMedicationSchedule(@PathVariable("dogId") UUID dogId, @RequestBody MedicationScheduleRequest requestBody);
 
     @DeleteMapping("/medication-schedule/{dogId}/{medicationScheduleId}")
-    ResponseEntity<Void> deleteMedicationSchedule(@PathVariable("dogId") UUID dogId, @PathVariable("medicationScheduleId") UUID medicationScheduleId, @RequestHeader("X-User-Id") UUID userId);
+    ResponseEntity<Void> deleteMedicationSchedule(@PathVariable("dogId") UUID dogId, @PathVariable("medicationScheduleId") UUID medicationScheduleId);
 
     @GetMapping("/medication-schedule/{dogId}/{medicationScheduleId}/details")
     ResponseEntity<MedicationScheduleResponse> getMedicationScheduleById(@PathVariable("dogId") UUID dogId, @PathVariable("medicationScheduleId") UUID medicationId);
 
     @PutMapping("/medication-schedule/{dogId}/{medicationScheduleId}/details")
-    ResponseEntity<MedicationScheduleResponse> updateMedicationSchedule(@PathVariable("dogId") UUID dogId, @PathVariable("medicationScheduleId") UUID medicationScheduleId, @RequestHeader("X-User-Id") UUID userId, @RequestBody MedicationScheduleRequest request);
+    ResponseEntity<MedicationScheduleResponse> updateMedicationSchedule(@PathVariable("dogId") UUID dogId, @PathVariable("medicationScheduleId") UUID medicationScheduleId, @RequestBody MedicationScheduleRequest request);
 }

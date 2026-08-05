@@ -8,6 +8,7 @@ import app.service.dog.DogService;
 import app.service.medication.MedicationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -42,6 +43,7 @@ public class MedicationController {
     }
 
     @GetMapping("/{dogId}")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView getMedicationsPage(
             @PathVariable UUID dogId,
             @AuthenticationPrincipal UserData userData) {
@@ -50,15 +52,15 @@ public class MedicationController {
         modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(userData.getUserId()));
         modelAndView.addObject("selectedDogId", dogId);
         modelAndView.addObject("dog", dogService.getDogById(dogId));
-        modelAndView.addObject("dogMedications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
+        modelAndView.addObject("dogMedications", medicationService.getMedicationsByDogId(dogId));
 
         return modelAndView;
     }
 
     @GetMapping("/{dogId}/new")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView getAddMedicationPage(
-            @PathVariable UUID dogId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -71,11 +73,11 @@ public class MedicationController {
     }
 
     @PostMapping("/{dogId}/new")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView addMedicationPage(
             @Valid @ModelAttribute("addMedicationRequest") MedicationRequest addMedicationRequest,
             BindingResult bindingResult,
-            @PathVariable UUID dogId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -88,26 +90,27 @@ public class MedicationController {
             return modelAndView;
         }
 
-        addMedicationRequest.setDogId(dogId);
-
-        medicationService.addMedication(addMedicationRequest.getDogId(), addMedicationRequest.getName(),
-                addMedicationRequest.getStartDate(), addMedicationRequest.getEndDate(), addMedicationRequest.getMedicationConcentrationMg(), userData.getUserId());
+        medicationService.addMedication(
+                dogId,
+                addMedicationRequest.getName(),
+                addMedicationRequest.getStartDate(),
+                addMedicationRequest.getEndDate(),
+                addMedicationRequest.getMedicationConcentrationMg());
 
         return new ModelAndView("redirect:/medications/" + dogId);
     }
 
     @GetMapping("/{dogId}/{medicationId}/details")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView getEditMedicationPage(
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID medicationId) {
 
-        MedicationResponse medication = medicationService.getMedicationByIdAndDogId(medicationId, dogId, userData.getUserId());
+        MedicationResponse medication = medicationService.getMedicationByIdAndDogId(medicationId, dogId);
 
-        Dog dog = dogService.getDogById(medication.getDogId());
+        Dog dog = dogService.getDogById(dogId);
 
         MedicationRequest editMedicationRequest = MedicationRequest.builder()
-                .dogId(medication.getDogId())
                 .name(medication.getName())
                 .startDate(medication.getStartDate())
                 .endDate(medication.getEndDate())
@@ -124,36 +127,42 @@ public class MedicationController {
     }
 
     @PutMapping("/{dogId}/{medicationId}/details")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView updateMedication(
             @Valid @ModelAttribute("editMedicationRequest") MedicationRequest editMedicationRequest,
             BindingResult bindingResult,
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID medicationId) {
 
         if (bindingResult.hasErrors()) {
+
             ModelAndView modelAndView = new ModelAndView("medication-profile");
 
-            modelAndView.addObject("medication", medicationService.getMedicationByIdAndDogId(medicationId, dogId, userData.getUserId()));
-            modelAndView.addObject("dog", dogService.getDogById(editMedicationRequest.getDogId()));
+            modelAndView.addObject("medication", medicationService.getMedicationByIdAndDogId(medicationId, dogId));
+            modelAndView.addObject("dog", dogService.getDogById(dogId));
             modelAndView.addObject("editMedicationRequest", editMedicationRequest);
 
             return modelAndView;
         }
 
-        medicationService.updateMedication(medicationId, editMedicationRequest.getDogId(), editMedicationRequest.getName(),
-                editMedicationRequest.getStartDate(), editMedicationRequest.getEndDate(), editMedicationRequest.getMedicationConcentrationMg(), userData.getUserId());
+        medicationService.updateMedication(
+                medicationId,
+                dogId,
+                editMedicationRequest.getName(),
+                editMedicationRequest.getStartDate(),
+                editMedicationRequest.getEndDate(),
+                editMedicationRequest.getMedicationConcentrationMg());
 
-        return new ModelAndView("redirect:/medications/" + editMedicationRequest.getDogId());
+        return new ModelAndView("redirect:/medications/" + dogId);
     }
 
     @DeleteMapping("/{dogId}/{medicationId}")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public String deleteMedication(
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID medicationId) {
 
-        medicationService.deleteMedication(medicationId, dogId, userData.getUserId());
+        medicationService.deleteMedication(medicationId, dogId);
 
         return "redirect:/medications/" + dogId;
     }

@@ -48,6 +48,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/details")
+    @PreAuthorize("@userService.isUserOwned(#id, authentication.principal.userId) or hasRole('ADMIN')")
     public ModelAndView getProfilePage(@PathVariable UUID id) {
 
         User user = userService.getById(id);
@@ -62,6 +63,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/profile")
+    @PreAuthorize("@userService.isUserOwned(#id, authentication.principal.userId) or hasRole('ADMIN')")
     public ModelAndView updateProfilePage(@Valid @ModelAttribute("userEditRequest") UserEditRequest userEditRequest,
                                           BindingResult result,
                                           @PathVariable UUID id) {
@@ -81,6 +83,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@userService.isUserOwned(#id, authentication.principal.userId) or hasRole('ADMIN')")
     public String deleteUser(@PathVariable UUID id, @AuthenticationPrincipal UserData userData) {
 
         userService.deleteUserById(id);

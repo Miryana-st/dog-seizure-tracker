@@ -13,13 +13,12 @@
     <link rel="stylesheet" href="/css/add-edit-page.css">
 </head>
 <body>
-<header th:insert="fragments/head-logged :: navigation"class="section section-header"></header>
+<header th:insert="fragments/head-logged :: navigation" class="section section-header"></header>
 <main class="main-content">
     <h1>Edit Medication Schedule</h1>
     <div class="container-table-image">
         <section class="form-panel">
             <form class="add-medication-form add-form" th:object="${editMedicationScheduleRequest}" th:method="PUT" th:action="@{'/medication-schedule/' + ${medicationSchedule.dogId} + '/' + ${medicationSchedule.id} + '/details'}">
-                <input type="hidden" th:field="*{dogId}"/>
                 <div class="form-row-one">
                     <div class="form-row">
                         <div class="form-data">

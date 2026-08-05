@@ -103,6 +103,10 @@ public class UserService implements UserDetailsService {
         userRepository.delete(user);
     }
 
+    public boolean isUserOwned(UUID userId, UUID loggedUserId) {
+        return userId.equals(loggedUserId);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

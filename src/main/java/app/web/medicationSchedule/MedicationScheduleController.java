@@ -9,6 +9,7 @@ import app.service.medication.MedicationScheduleService;
 import app.service.medication.MedicationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,6 +46,7 @@ public class MedicationScheduleController {
     }
 
     @GetMapping("/{dogId}")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView getMedicationSchedulePage(
             @PathVariable UUID dogId,
             @AuthenticationPrincipal UserData userData) {
@@ -53,32 +55,32 @@ public class MedicationScheduleController {
         modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(userData.getUserId()));
         modelAndView.addObject("selectedDogId", dogId);
         modelAndView.addObject("dog", dogService.getDogById(dogId));
-        modelAndView.addObject("medicationSchedules", medicationScheduleService.getMedicationSchedulesByDogId(dogId, userData.getUserId()));
+        modelAndView.addObject("medicationSchedules", medicationScheduleService.getMedicationSchedulesByDogId(dogId));
 
         return modelAndView;
     }
 
     @GetMapping("/{dogId}/new")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView getAddMedicationSchedulePage(
-            @PathVariable UUID dogId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
 
         ModelAndView modelAndView = new ModelAndView("add-medication-schedule");
         modelAndView.addObject("dog", dog);
-        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
+        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId));
         modelAndView.addObject("addMedicationScheduleRequest", new MedicationScheduleRequest());
 
         return modelAndView;
     }
 
     @PostMapping("/{dogId}/new")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView addMedicationSchedulePage(
             @Valid @ModelAttribute("addMedicationScheduleRequest") MedicationScheduleRequest addMedicationScheduleRequest,
             BindingResult bindingResult,
-            @PathVariable UUID dogId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -86,29 +88,31 @@ public class MedicationScheduleController {
             ModelAndView modelAndView = new ModelAndView("add-medication-schedule");
 
             modelAndView.addObject("dog", dog);
-            modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
+            modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId));
             modelAndView.addObject("addMedicationScheduleRequest", addMedicationScheduleRequest);
 
             return modelAndView;
         }
 
-        addMedicationScheduleRequest.setDogId(dogId);
-
-        medicationScheduleService.addMedicationSchedule(addMedicationScheduleRequest.getDogId(), addMedicationScheduleRequest.getMedicationId(), addMedicationScheduleRequest.getAdministrationTime(), addMedicationScheduleRequest.getAmount(), addMedicationScheduleRequest.getDosage(), userData.getUserId());
+        medicationScheduleService.addMedicationSchedule(
+                dogId,
+                addMedicationScheduleRequest.getMedicationId(),
+                addMedicationScheduleRequest.getAdministrationTime(),
+                addMedicationScheduleRequest.getAmount(),
+                addMedicationScheduleRequest.getDosage());
 
         return new ModelAndView("redirect:/medication-schedule/" + dogId);
     }
 
     @GetMapping("/{dogId}/{medicationScheduleId}/details")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView getEditMedicationSchedulePage(
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationScheduleId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID medicationScheduleId) {
 
-        MedicationScheduleResponse medicationSchedule = medicationScheduleService.getMedicationScheduleById(dogId, medicationScheduleId, userData.getUserId());
+        MedicationScheduleResponse medicationSchedule = medicationScheduleService.getMedicationScheduleById(dogId, medicationScheduleId);
 
         MedicationScheduleRequest editMedicationScheduleRequest = MedicationScheduleRequest.builder()
-                .dogId(medicationSchedule.getDogId())
                 .medicationId(medicationSchedule.getMedicationId())
                 .administrationTime(medicationSchedule.getAdministrationTime())
                 .amount(medicationSchedule.getAmount())
@@ -119,25 +123,25 @@ public class MedicationScheduleController {
 
         modelAndView.addObject("medicationSchedule", medicationSchedule);
         modelAndView.addObject("editMedicationScheduleRequest", editMedicationScheduleRequest);
-        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
+        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId));
         return modelAndView;
     }
 
     @PutMapping("/{dogId}/{medicationScheduleId}/details")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView updateMedicationSchedule(
             @Valid @ModelAttribute("editMedicationScheduleRequest") MedicationScheduleRequest editMedicationScheduleRequest,
             BindingResult bindingResult,
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationScheduleId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID medicationScheduleId) {
 
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("medication-schedule-profile");
 
-            modelAndView.addObject("medicationSchedule", medicationScheduleService.getMedicationScheduleById(dogId, medicationScheduleId, userData.getUserId()));
-            modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
+            modelAndView.addObject("medicationSchedule", medicationScheduleService.getMedicationScheduleById(dogId, medicationScheduleId));
+            modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId));
             modelAndView.addObject("editMedicationScheduleRequest", editMedicationScheduleRequest);
-            modelAndView.addObject("dog", dogService.getDogById(editMedicationScheduleRequest.getDogId()));
+            modelAndView.addObject("dog", dogService.getDogById(dogId));
 
             return modelAndView;
         }
@@ -148,19 +152,18 @@ public class MedicationScheduleController {
                 editMedicationScheduleRequest.getMedicationId(),
                 editMedicationScheduleRequest.getAdministrationTime(),
                 editMedicationScheduleRequest.getAmount(),
-                editMedicationScheduleRequest.getDosage(),
-                userData.getUserId());
+                editMedicationScheduleRequest.getDosage());
 
         return new ModelAndView("redirect:/medication-schedule/" + dogId);
     }
 
     @DeleteMapping("/{dogId}/{medicationScheduleId}")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public String deleteMedicationSchedule(
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationScheduleId,
-            @AuthenticationPrincipal UserData userData) {
+            @PathVariable UUID medicationScheduleId) {
 
-        medicationScheduleService.deleteMedicationSchedule(dogId, medicationScheduleId, userData.getUserId());
+        medicationScheduleService.deleteMedicationSchedule(dogId, medicationScheduleId);
 
         return "redirect:/medication-schedule/" + dogId;
     }

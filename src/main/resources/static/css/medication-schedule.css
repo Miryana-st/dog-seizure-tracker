@@ -14,6 +14,11 @@
     padding-bottom: 2em;
 }
 
+.schedule-page > p {
+    margin-bottom: 1.5em;
+    color: #687280;
+}
+
 .dog-card-inner {
     display:flex;
     align-items:center;

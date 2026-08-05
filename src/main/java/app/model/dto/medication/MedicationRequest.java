@@ -11,16 +11,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class MedicationRequest {
-
-    @NotNull
-    private UUID dogId;
 
     @NotBlank(message = "*Medication name must not be empty.")
     private String name;

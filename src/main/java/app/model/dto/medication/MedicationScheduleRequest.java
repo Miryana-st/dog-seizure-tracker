@@ -20,9 +20,6 @@ import java.util.UUID;
 public class MedicationScheduleRequest {
 
     @NotNull
-    private UUID dogId;
-
-    @NotNull
     private UUID medicationId;
 
     @NotNull(message = "Administration time is required")

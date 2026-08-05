@@ -20,7 +20,6 @@
         <section class="form-panel">
             <form class="add-medication-form add-form" th:method="PUT" th:action="@{'/medications/' + ${dog.id} + '/' + ${medication.id} + '/details'}"
                   th:object="${editMedicationRequest}">
-                <input type="hidden" th:field="*{dogId}"/>
 
                 <div class="form-row-one">
                     <div class="form-row">

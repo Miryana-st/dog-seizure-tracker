@@ -10,6 +10,7 @@ import app.service.dog.DogService;
 import app.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -41,7 +42,7 @@ public class DogController {
     }
 
     @GetMapping("/new")
-    public ModelAndView getNewDogPage(@AuthenticationPrincipal UserData userData) {
+    public ModelAndView getNewDogPage() {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("add-dog");
@@ -71,6 +72,7 @@ public class DogController {
     }
 
     @GetMapping("/{id}/details")
+    @PreAuthorize("@dogService.isDogOwner(#id, authentication.principal.userId)")
     public ModelAndView getDogProfilePage(@PathVariable UUID id) {
 
         Dog dog = dogService.getDogById(id);
@@ -87,6 +89,7 @@ public class DogController {
     }
 
     @PutMapping("/{id}/details")
+    @PreAuthorize("@dogService.isDogOwner(#id, authentication.principal.userId)")
     public ModelAndView updateDogProfilePage(@Valid @ModelAttribute("editDogRequest") EditDogRequest editDogRequest,
                                              BindingResult bindingResult,
                                              @PathVariable UUID id) {
@@ -107,6 +110,7 @@ public class DogController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@dogService.isDogOwner(#id, authentication.principal.userId)")
     public String deleteDog(@PathVariable UUID id) {
 
         dogService.deletedDogById(id);

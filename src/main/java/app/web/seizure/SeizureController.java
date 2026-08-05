@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,7 @@ public class SeizureController {
     }
 
     @GetMapping()
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView getSeizuresForDog(@PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
@@ -50,6 +52,7 @@ public class SeizureController {
     }
 
     @GetMapping("/new")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView getNewSeizurePage(@PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
@@ -64,6 +67,7 @@ public class SeizureController {
     }
 
     @PostMapping()
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView createNewSeizurePage(@Valid @ModelAttribute("createNewSeizureRequest") CreateNewSeizureRequest createNewSeizureRequest,
                                              BindingResult result,
                                              @PathVariable UUID dogId) {
@@ -86,6 +90,7 @@ public class SeizureController {
     }
 
     @GetMapping("/{seizureId}/details")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView getSeizureLog(@PathVariable UUID dogId,
                                       @PathVariable UUID seizureId) {
 
@@ -104,6 +109,7 @@ public class SeizureController {
     }
 
     @PutMapping("/{seizureId}/seizure-profile")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ModelAndView updateSeizureLog(@PathVariable UUID dogId,
                                          @PathVariable UUID seizureId,
                                          @Valid @ModelAttribute("editSeizureRequest") EditSeizureRequest editSeizureRequest,
@@ -130,6 +136,7 @@ public class SeizureController {
     }
 
     @DeleteMapping("/{seizureId}")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public String deleteSeizure(@PathVariable UUID dogId, @PathVariable UUID seizureId) {
 
         seizureService.deleteSeizureById(seizureId);
@@ -138,6 +145,7 @@ public class SeizureController {
     }
 
     @GetMapping("/pdf")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ResponseEntity<byte[]> exportSeizureReport(@PathVariable UUID dogId) {
 
         byte[] pdf = pdfService.generateSeizureReport(dogId);
