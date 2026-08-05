@@ -53,23 +53,22 @@ public class MedicationScheduleController {
         ModelAndView modelAndView = new ModelAndView("medication-schedule");
         modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(userData.getUserId()));
         modelAndView.addObject("selectedDogId", dogId);
-
         modelAndView.addObject("dog", dogService.getDogById(dogId));
-        modelAndView.addObject("medicationSchedules", medicationScheduleService.getMedicationSchedulesByDogId(dogId));
+        modelAndView.addObject("medicationSchedules", medicationScheduleService.getMedicationSchedulesByDogId(dogId, userData.getUserId()));
 
         return modelAndView;
     }
 
     @GetMapping("/{dogId}/new")
     public ModelAndView getAddMedicationSchedulePage(
-            @PathVariable UUID dogId) {
+            @PathVariable UUID dogId,
+            @AuthenticationPrincipal UserData userData) {
 
         Dog dog = dogService.getDogById(dogId);
 
         ModelAndView modelAndView = new ModelAndView("add-medication-schedule");
-
         modelAndView.addObject("dog", dog);
-        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId));
+        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
         modelAndView.addObject("addMedicationScheduleRequest", new MedicationScheduleRequest());
 
         return modelAndView;
@@ -79,7 +78,8 @@ public class MedicationScheduleController {
     public ModelAndView addMedicationSchedulePage(
             @Valid @ModelAttribute("addMedicationScheduleRequest") MedicationScheduleRequest addMedicationScheduleRequest,
             BindingResult bindingResult,
-            @PathVariable UUID dogId) {
+            @PathVariable UUID dogId,
+            @AuthenticationPrincipal UserData userData) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -87,7 +87,7 @@ public class MedicationScheduleController {
             ModelAndView modelAndView = new ModelAndView("add-medication-schedule");
 
             modelAndView.addObject("dog", dog);
-            modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId));
+            modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
             modelAndView.addObject("addMedicationScheduleRequest", addMedicationScheduleRequest);
 
             return modelAndView;
@@ -95,7 +95,7 @@ public class MedicationScheduleController {
 
         addMedicationScheduleRequest.setDogId(dogId);
 
-        medicationScheduleService.addMedicationSchedule(addMedicationScheduleRequest.getDogId(), addMedicationScheduleRequest.getMedicationId(), addMedicationScheduleRequest.getAdministrationTime(), addMedicationScheduleRequest.getAmount(), addMedicationScheduleRequest.getDosage());
+        medicationScheduleService.addMedicationSchedule(addMedicationScheduleRequest.getDogId(), addMedicationScheduleRequest.getMedicationId(), addMedicationScheduleRequest.getAdministrationTime(), addMedicationScheduleRequest.getAmount(), addMedicationScheduleRequest.getDosage(), userData.getUserId());
 
         return new ModelAndView("redirect:/medication-schedule/" + dogId);
     }
@@ -103,9 +103,10 @@ public class MedicationScheduleController {
     @GetMapping("/{dogId}/{medicationScheduleId}/details")
     public ModelAndView getEditMedicationSchedulePage(
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationScheduleId) {
+            @PathVariable UUID medicationScheduleId,
+            @AuthenticationPrincipal UserData userData) {
 
-        MedicationScheduleResponse medicationSchedule = medicationScheduleService.getMedicationScheduleById(dogId, medicationScheduleId);
+        MedicationScheduleResponse medicationSchedule = medicationScheduleService.getMedicationScheduleById(dogId, medicationScheduleId, userData.getUserId());
 
         MedicationScheduleRequest editMedicationScheduleRequest = MedicationScheduleRequest.builder()
                 .dogId(medicationSchedule.getDogId())
@@ -119,7 +120,7 @@ public class MedicationScheduleController {
 
         modelAndView.addObject("medicationSchedule", medicationSchedule);
         modelAndView.addObject("editMedicationScheduleRequest", editMedicationScheduleRequest);
-        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId));
+        modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
         return modelAndView;
     }
 
@@ -128,19 +129,19 @@ public class MedicationScheduleController {
             @Valid @ModelAttribute("editMedicationScheduleRequest") MedicationScheduleRequest editMedicationScheduleRequest,
             BindingResult bindingResult,
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationScheduleId) {
+            @PathVariable UUID medicationScheduleId,
+            @AuthenticationPrincipal UserData userData) {
 
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("medication-schedule-profile");
 
-            modelAndView.addObject("medicationSchedule", medicationScheduleService.getMedicationScheduleById(dogId, medicationScheduleId));
-            modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId));  // ← also missing
+            modelAndView.addObject("medicationSchedule", medicationScheduleService.getMedicationScheduleById(dogId, medicationScheduleId, userData.getUserId()));
+            modelAndView.addObject("medications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
             modelAndView.addObject("editMedicationScheduleRequest", editMedicationScheduleRequest);
             modelAndView.addObject("dog", dogService.getDogById(editMedicationScheduleRequest.getDogId()));
 
             return modelAndView;
         }
-
 
         medicationScheduleService.updateMedicationSchedule(
                 dogId,
@@ -148,7 +149,8 @@ public class MedicationScheduleController {
                 editMedicationScheduleRequest.getMedicationId(),
                 editMedicationScheduleRequest.getAdministrationTime(),
                 editMedicationScheduleRequest.getAmount(),
-                editMedicationScheduleRequest.getDosage());
+                editMedicationScheduleRequest.getDosage(),
+                userData.getUserId());
 
         return new ModelAndView("redirect:/medication-schedule/" + dogId);
     }
@@ -157,9 +159,10 @@ public class MedicationScheduleController {
     @DeleteMapping("/{dogId}/{medicationScheduleId}")
     public String deleteMedicationSchedule(
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationScheduleId) {
+            @PathVariable UUID medicationScheduleId,
+            @AuthenticationPrincipal UserData userData) {
 
-        medicationScheduleService.deleteMedicationSchedule(dogId, medicationScheduleId);
+        medicationScheduleService.deleteMedicationSchedule(dogId, medicationScheduleId, userData.getUserId());
 
         return "redirect:/medication-schedule/" + dogId;
     }

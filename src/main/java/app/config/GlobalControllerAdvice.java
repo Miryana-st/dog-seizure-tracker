@@ -24,12 +24,22 @@ public class GlobalControllerAdvice {
         return modelAndView;
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedException.class)
+    public ModelAndView handleUnauthorizedException(UnauthorizedException e) {
+
+        ModelAndView modelAndView = new ModelAndView("error-page-not-found");
+
+        return modelAndView;
+    }
+
     @ExceptionHandler(UserWithEmailOrUsernameExists.class)
     public String handleUserWithEmailOrUsernameExistsException(UserWithEmailOrUsernameExists e, RedirectAttributes redirectAttributes) {
 
         redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         return "redirect:/register";
     }
+
 
     @ExceptionHandler({
             NoResourceFoundException.class,

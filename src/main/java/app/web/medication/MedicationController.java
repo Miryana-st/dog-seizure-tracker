@@ -49,16 +49,16 @@ public class MedicationController {
         ModelAndView modelAndView = new ModelAndView("medication");
         modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(userData.getUserId()));
         modelAndView.addObject("selectedDogId", dogId);
-
         modelAndView.addObject("dog", dogService.getDogById(dogId));
-        modelAndView.addObject("dogMedications", medicationService.getMedicationsByDogId(dogId));
+        modelAndView.addObject("dogMedications", medicationService.getMedicationsByDogId(dogId, userData.getUserId()));
 
         return modelAndView;
     }
 
     @GetMapping("/{dogId}/new")
     public ModelAndView getAddMedicationPage(
-            @PathVariable UUID dogId) {
+            @PathVariable UUID dogId,
+            @AuthenticationPrincipal UserData userData) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -74,7 +74,8 @@ public class MedicationController {
     public ModelAndView addMedicationPage(
             @Valid @ModelAttribute("addMedicationRequest") MedicationRequest addMedicationRequest,
             BindingResult bindingResult,
-            @PathVariable UUID dogId) {
+            @PathVariable UUID dogId,
+            @AuthenticationPrincipal UserData userData) {
 
         Dog dog = dogService.getDogById(dogId);
 
@@ -90,16 +91,18 @@ public class MedicationController {
         addMedicationRequest.setDogId(dogId);
 
         medicationService.addMedication(addMedicationRequest.getDogId(), addMedicationRequest.getName(),
-                addMedicationRequest.getStartDate(), addMedicationRequest.getEndDate(), addMedicationRequest.getMedicationConcentrationMg());
+                addMedicationRequest.getStartDate(), addMedicationRequest.getEndDate(), addMedicationRequest.getMedicationConcentrationMg(), userData.getUserId());
 
         return new ModelAndView("redirect:/medications/" + dogId);
     }
 
     @GetMapping("/{dogId}/{medicationId}/details")
-    public ModelAndView getEditMedicationPage(@PathVariable UUID dogId,
-                                              @PathVariable UUID medicationId) {
+    public ModelAndView getEditMedicationPage(
+            @PathVariable UUID dogId,
+            @PathVariable UUID medicationId,
+            @AuthenticationPrincipal UserData userData) {
 
-        MedicationResponse medication = medicationService.getMedicationByIdAndDogId(medicationId, dogId);
+        MedicationResponse medication = medicationService.getMedicationByIdAndDogId(medicationId, dogId, userData.getUserId());
 
         Dog dog = dogService.getDogById(medication.getDogId());
 
@@ -125,30 +128,32 @@ public class MedicationController {
             @Valid @ModelAttribute("editMedicationRequest") MedicationRequest editMedicationRequest,
             BindingResult bindingResult,
             @PathVariable UUID dogId,
-            @PathVariable UUID medicationId) {
+            @PathVariable UUID medicationId,
+            @AuthenticationPrincipal UserData userData) {
 
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("medication-profile");
 
-            modelAndView.addObject("medication", medicationService.getMedicationByIdAndDogId(medicationId, dogId));
+            modelAndView.addObject("medication", medicationService.getMedicationByIdAndDogId(medicationId, dogId, userData.getUserId()));
             modelAndView.addObject("dog", dogService.getDogById(editMedicationRequest.getDogId()));
             modelAndView.addObject("editMedicationRequest", editMedicationRequest);
 
             return modelAndView;
         }
 
-
         medicationService.updateMedication(medicationId, editMedicationRequest.getDogId(), editMedicationRequest.getName(),
-                editMedicationRequest.getStartDate(), editMedicationRequest.getEndDate(), editMedicationRequest.getMedicationConcentrationMg());
+                editMedicationRequest.getStartDate(), editMedicationRequest.getEndDate(), editMedicationRequest.getMedicationConcentrationMg(), userData.getUserId());
 
         return new ModelAndView("redirect:/medications/" + editMedicationRequest.getDogId());
     }
 
     @DeleteMapping("/{dogId}/{medicationId}")
-    public String deleteMedication(@PathVariable UUID dogId,
-                                   @PathVariable UUID medicationId) {
+    public String deleteMedication(
+            @PathVariable UUID dogId,
+            @PathVariable UUID medicationId,
+            @AuthenticationPrincipal UserData userData) {
 
-        medicationService.deleteMedication(medicationId, dogId);
+        medicationService.deleteMedication(medicationId, dogId, userData.getUserId());
 
         return "redirect:/medications/" + dogId;
     }

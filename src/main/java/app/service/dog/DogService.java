@@ -1,12 +1,12 @@
 package app.service.dog;
 
 import app.exception.NotFoundException;
+import app.exception.UnauthorizedException;
 import app.model.dto.dog.CreateNewDogRequest;
 import app.model.dto.dog.EditDogRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.user.User;
 import app.repository.dog.DogRepository;
-import app.service.riskAnallysis.RiskAnalysisService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import static app.exception.ExceptionMessages.DOG_NOT_FOUND;
 @Service
 public class DogService {
 
-//    private final RiskAnalysisService riskAnalysisService;
+    //    private final RiskAnalysisService riskAnalysisService;
     private final DogRepository dogRepository;
 
     @Autowired
@@ -52,6 +52,13 @@ public class DogService {
     public Dog getDogById(UUID dogId) {
         return dogRepository.findById(dogId)
                 .orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
+    }
+
+    public void verifyOwnership(UUID dogId, UUID userId) {
+        Dog dog = getDogById(dogId);
+        if (!dog.getOwner().getId().equals(userId)) {
+            throw new UnauthorizedException("You are not authorized to access this dog's data.");
+        }
     }
 
     @Transactional

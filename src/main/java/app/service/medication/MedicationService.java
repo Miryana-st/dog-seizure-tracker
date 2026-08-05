@@ -4,6 +4,7 @@ import app.exception.MedicationMicroserviceUnavailableException;
 import app.exception.NotFoundException;
 import app.model.dto.medication.MedicationResponse;
 import app.model.dto.medication.MedicationRequest;
+import app.service.dog.DogService;
 import app.service.medication.client.MedicationClient;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +24,16 @@ import static app.exception.ExceptionMessages.MEDICATION_NOT_FOUND;
 public class MedicationService {
 
     private final MedicationClient client;
+    private final DogService dogService;
 
     @Autowired
-    public MedicationService(MedicationClient client) {
+    public MedicationService(MedicationClient client, DogService dogService) {
         this.client = client;
+        this.dogService = dogService;
     }
 
-    public void addMedication(UUID dogId, String name, LocalDate startDate, LocalDate endDate, BigDecimal medicationConcentrationMg) {
+    public void addMedication(UUID dogId, String name, LocalDate startDate, LocalDate endDate, BigDecimal medicationConcentrationMg, UUID userId) {
+        dogService.verifyOwnership(dogId, userId);
 
         MedicationRequest dto = MedicationRequest.builder()
                 .dogId(dogId)
@@ -40,14 +44,15 @@ public class MedicationService {
                 .build();
 
         try {
-            client.createMedication(dogId, dto);
+            client.createMedication(dogId, userId, dto);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
             throw new MedicationMicroserviceUnavailableException(MEDICATION_MICROSERVICE_UNAVAILABLE);
         }
     }
 
-    public List<MedicationResponse> getMedicationsByDogId(UUID dogId) {
+    public List<MedicationResponse> getMedicationsByDogId(UUID dogId, UUID userId) {
+        dogService.verifyOwnership(dogId, userId);
         try {
             return client.getMedicationsByDogId(dogId);
         } catch (FeignException e) {
@@ -56,7 +61,8 @@ public class MedicationService {
         }
     }
 
-    public void updateMedication(UUID medicationId, UUID dogId, String name, LocalDate startDate, LocalDate endDate, BigDecimal medicationConcentrationMg) {
+    public void updateMedication(UUID medicationId, UUID dogId, String name, LocalDate startDate, LocalDate endDate, BigDecimal medicationConcentrationMg, UUID userId) {
+        dogService.verifyOwnership(dogId, userId);
 
         MedicationRequest dto = MedicationRequest.builder()
                 .dogId(dogId)
@@ -67,14 +73,15 @@ public class MedicationService {
                 .build();
 
         try {
-            client.updateMedication(dogId, medicationId, dto);
+            client.updateMedication(dogId, medicationId, userId, dto);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
             throw new NotFoundException(MEDICATION_NOT_FOUND);
         }
     }
 
-    public MedicationResponse getMedicationByIdAndDogId(UUID id, UUID dogId) {
+    public MedicationResponse getMedicationByIdAndDogId(UUID id, UUID dogId, UUID userId) {
+        dogService.verifyOwnership(dogId, userId);
         try {
             return client.getMedicationById(dogId, id);
         } catch (FeignException e) {
@@ -83,9 +90,10 @@ public class MedicationService {
         }
     }
 
-    public void deleteMedication(UUID medicationId, UUID dogId) {
+    public void deleteMedication(UUID medicationId, UUID dogId, UUID userId) {
+        dogService.verifyOwnership(dogId, userId);
         try {
-            client.deleteMedication(dogId, medicationId);
+            client.deleteMedication(dogId, medicationId, userId);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
             throw new MedicationMicroserviceUnavailableException(MEDICATION_MICROSERVICE_UNAVAILABLE);
