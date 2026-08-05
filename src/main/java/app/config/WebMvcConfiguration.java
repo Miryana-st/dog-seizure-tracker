@@ -23,11 +23,10 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                         .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-//                        .usernameParameter("email") for login with email
-                        .defaultSuccessUrl("/home", true)
-                        .failureUrl("/login?error")
-                        .permitAll()
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/home", true)
+                                .failureUrl("/login?error")
+                                .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
@@ -35,7 +34,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
         return httpSecurity.build();
     }
-
 }
 
 

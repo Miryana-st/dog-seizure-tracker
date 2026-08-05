@@ -23,7 +23,6 @@ public class UserData implements UserDetails {
 
     private UserRole role;
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -41,5 +40,4 @@ public class UserData implements UserDetails {
     public String getUsername() {
         return this.username;
     }
-
 }

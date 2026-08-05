@@ -19,13 +19,11 @@ import static app.exception.ExceptionMessages.DOG_NOT_FOUND;
 @Service
 public class DogService {
 
-    //    private final RiskAnalysisService riskAnalysisService;
     private final DogRepository dogRepository;
 
     @Autowired
-    public DogService(DogRepository dogRepository/*, RiskAnalysisService riskAnalysisService*/) {
+    public DogService(DogRepository dogRepository) {
         this.dogRepository = dogRepository;
-//        this.riskAnalysisService = riskAnalysisService;
     }
 
     @Transactional
@@ -42,7 +40,6 @@ public class DogService {
                 .build();
 
         dogRepository.save(dog);
-//        riskAnalysisService.upsertRiskSettings(dog.getId(), null, null, null, null);
     }
 
     public List<Dog> getAllDogsByOwnerId(UUID ownerId) {

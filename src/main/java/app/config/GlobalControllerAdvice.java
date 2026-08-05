@@ -40,7 +40,6 @@ public class GlobalControllerAdvice {
         return "redirect:/register";
     }
 
-
     @ExceptionHandler({
             NoResourceFoundException.class,
             AccessDeniedException.class,

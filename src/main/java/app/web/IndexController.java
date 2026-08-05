@@ -67,7 +67,6 @@ public class IndexController {
             modelAndView.addObject("errorMessage", "*Invalid username or password.");
         }
 
-
         return modelAndView;
     }
 

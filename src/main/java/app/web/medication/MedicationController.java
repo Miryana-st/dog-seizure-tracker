@@ -157,5 +157,4 @@ public class MedicationController {
 
         return "redirect:/medications/" + dogId;
     }
-
 }

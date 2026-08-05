@@ -8,5 +8,4 @@ public class ExceptionMessages {
     public static final String MEDICATION_NOT_FOUND = "Medication was not found!";
     public static final String MEDICATION_SCHEDULE_NOT_FOUND = "Medication schedule was not found!";
     public static final String MEDICATION_MICROSERVICE_UNAVAILABLE = "Medication microservice is currently unavailable!";
-
 }

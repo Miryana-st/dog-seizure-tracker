@@ -80,7 +80,7 @@
                             </div>
                             <div class="timeline-actions">
                                 <a th:href="@{'/medication-schedule/' + ${dog.id} + '/' + ${schedule.id} + '/details'}" class="edit-action"><i class="fa-solid fa-pen"></i></a>
-                                <form th:action="@{'/medication-schedule/'+ ${dog.id}+ '/'+ ${schedule.id}}"th:method="DELETE">
+                                <form th:action="@{'/medication-schedule/'+ ${dog.id}+ '/'+ ${schedule.id}}" th:method="DELETE">
                                     <button class="delete-action" onclick="return confirm('Delete this schedule entry?')"><i class="fa-solid fa-trash"></i></button>
                                 </form>
                             </div>

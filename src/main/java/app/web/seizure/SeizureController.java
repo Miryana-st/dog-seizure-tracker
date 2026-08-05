@@ -124,7 +124,6 @@ public class SeizureController {
             return modelAndView;
         }
 
-
         seizureService.updateSeizureEntry(seizureId, editSeizureRequest);
 
         return new ModelAndView("redirect:/dogs/" + dogId + "/seizures");
@@ -139,14 +138,14 @@ public class SeizureController {
     }
 
     @GetMapping("/pdf")
-        public ResponseEntity<byte[]> exportSeizureReport(@PathVariable UUID dogId) {
+    public ResponseEntity<byte[]> exportSeizureReport(@PathVariable UUID dogId) {
 
-            byte[] pdf = pdfService.generateSeizureReport(dogId);
+        byte[] pdf = pdfService.generateSeizureReport(dogId);
 
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION,
-                            "attachment; filename=seizure-report.pdf")
-                    .contentType(MediaType.APPLICATION_PDF)
-                    .body(pdf);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=seizure-report.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
     }
 }

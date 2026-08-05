@@ -23,6 +23,7 @@ public class SeizureService {
 
     @Autowired
     public SeizureService(SeizureRepository seizureRepository) {
+
         this.seizureRepository = seizureRepository;
     }
 
@@ -44,16 +45,19 @@ public class SeizureService {
     }
 
     public List<Seizure> findAllByDog_IdOrderByDateDescTimeDesc(UUID dogId) {
+
         return seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
     }
 
     public Seizure getSeizureById(UUID seizureId) {
+
         return seizureRepository.findById(seizureId)
                 .orElseThrow(() -> new NotFoundException(SEIZURE_NOT_FOUND));
     }
 
     @Transactional
     public void updateSeizureEntry(UUID id, EditSeizureRequest editSeizureRequest) {
+
         Seizure seizure = seizureRepository.findById(id)
                 .orElseThrow(
                         () -> new NotFoundException(SEIZURE_NOT_FOUND));
@@ -80,18 +84,18 @@ public class SeizureService {
         seizureRepository.delete(seizureToDelete);
     }
 
-//    public List<SeizureDto> getSeizuresByDogId(UUID dogId) {
-//
-//        List<Seizure> seizures = seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
-//
-//        return seizures.stream()
-//                .map(seizure -> SeizureDto.builder()
-//                        .date(seizure.getDate())
-//                        .duration(seizure.getDuration())
-//                        .severity(seizure.getSeverity())
-//                        .recovery(seizure.getRecovery())
-//                        .cluster(seizure.isCluster())
-//                        .build())
-//                .toList();
-//    }
+    public List<SeizureDto> getSeizuresByDogId(UUID dogId) {
+
+        List<Seizure> seizures = seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
+
+        return seizures.stream()
+                .map(seizure -> SeizureDto.builder()
+                        .date(seizure.getDate())
+                        .duration(seizure.getDuration())
+                        .severity(seizure.getSeverity())
+                        .recovery(seizure.getRecovery())
+                        .cluster(seizure.isCluster())
+                        .build())
+                .toList();
+    }
 }

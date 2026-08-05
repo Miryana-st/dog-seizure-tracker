@@ -62,7 +62,6 @@ public class MedicationScheduleService {
         }
     }
 
-
     public void deleteMedicationSchedule(UUID dogId, UUID medicationScheduleId, UUID userId) {
         dogService.verifyOwnership(dogId, userId);
         try {

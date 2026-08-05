@@ -33,7 +33,6 @@ public class MedicationScheduleController {
         this.medicationScheduleService = medicationScheduleService;
     }
 
-
     @GetMapping
     public ModelAndView getMedicationScheduleSelectionPage(
             @AuthenticationPrincipal UserData userData) {
@@ -154,7 +153,6 @@ public class MedicationScheduleController {
 
         return new ModelAndView("redirect:/medication-schedule/" + dogId);
     }
-
 
     @DeleteMapping("/{dogId}/{medicationScheduleId}")
     public String deleteMedicationSchedule(

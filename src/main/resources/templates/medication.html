@@ -31,29 +31,29 @@
             </option>
         </select>
 
-            <div class="container" th:if="${dog != null}">
-                <div class="page-top">
-                    <section class="dog-info">
-                        <div class="dog-card-inner">
-                            <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                                 th:src="${dog.dogPicture}"
-                                 alt="Dog image">
+        <div class="container" th:if="${dog != null}">
+            <div class="page-top">
+                <section class="dog-info">
+                    <div class="dog-card-inner">
+                        <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+                             th:src="${dog.dogPicture}"
+                             alt="Dog image">
 
-                            <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                                 th:src="@{/images/dog-placeholder.png}"
-                                 alt="Dog image">
+                        <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+                             th:src="@{/images/dog-placeholder.png}"
+                             alt="Dog image">
 
-                            <div class="dog-text">
-                                <h2 th:text="${dog.name}"></h2>
-                                <span th:text="${dog.breed}"></span>
-                            </div>
+                        <div class="dog-text">
+                            <h2 th:text="${dog.name}"></h2>
+                            <span th:text="${dog.breed}"></span>
                         </div>
+                    </div>
 
-                        <a th:href="@{/dogs}" class="view-dogs-link"><i class="fa-solid fa-dog"></i>View all dogs</a>
-                    </section>
-                    <a th:href="@{'/medications/' + ${dog.id} + '/new'}" class="button add-btn">+ Add New Medication</a>
+                    <a th:href="@{/dogs}" class="view-dogs-link"><i class="fa-solid fa-dog"></i>View all dogs</a>
+                </section>
+                <a th:href="@{'/medications/' + ${dog.id} + '/new'}" class="button add-btn">+ Add New Medication</a>
 
-                </div>
+            </div>
 
             <div class="medications">
                 <h2>Active Medications</h2>
