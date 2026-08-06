@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="/css/head.css">
     <link rel="stylesheet" href="/css/side-nav-bar.css">
     <link rel="stylesheet" href="/css/medication-schedule.css">
+    <link rel="stylesheet" href="/css/dog-card.css">
+
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
@@ -20,46 +22,36 @@
 <main>
     <section th:insert="fragments/side-nav-bar :: side-nav-bar"></section>
     <div class="schedule-page">
-        <h1>Medication Schedule</h1>
-        <p>Manage medication administration times for your dog.</p>
-        <select onchange="if(this.value) location.href='/medication-schedule/' + this.value">
-            <option value="">-- Select Dog --</option>
-            <option th:each="dog : ${dogs}"
-                    th:value="${dog.id}"
-                    th:text="${dog.name}"
-                    th:selected="${selectedDogId != null && selectedDogId.equals(dog.id)}">
-            </option>
-        </select>
 
-        <div class="container" th:if="${dog != null}">
-            <div class="page-top">
-                <section class="dog-info">
-                    <div class="dog-card-inner">
-                        <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                             th:src="${dog.dogPicture}"
-                             alt="Dog image">
-
-                        <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                             th:src="@{/images/dog-placeholder.png}"
-                             alt="Dog image">
-
-                        <div class="dog-text">
-                            <h2 th:text="${dog.name}"></h2>
-                            <span th:text="${dog.breed}"></span>
-                        </div>
-                    </div>
-
-                    <a th:href="@{/dogs}" class="view-dogs-link"><i class="fa-solid fa-dog"></i>View all dogs</a>
-                </section>
+        <section class="hero-card">
+            <div>
+                <h1>Medication Schedule</h1>
+                <p>Manage medication administration times for your dog.</p>
             </div>
 
+            <div class="dog-selector">
+                <label for="dog-select">Select Dog</label>
+                <select id="dog-select" onchange="if(this.value) location.href='/medication-schedule/' + this.value">
+                    <option value="">Choose Dog</option>
+                    <option th:each="dog : ${dogs}"
+                            th:value="${dog.id}"
+                            th:text="${dog.name}"
+                            th:selected="${selectedDogId != null && selectedDogId.equals(dog.id)}">
+                    </option>
+                </select>
+            </div>
+        </section>
+
+        <div class="container" th:if="${dog != null}">
+            <div th:insert="fragments/dog-card :: dog-card"></div>
             <section class="schedule-timeline" th:if="${dog != null}">
                 <div class="schedule-header">
                     <div>
                         <h2>Daily Medication Timeline</h2>
                         <p>Today's medication administration plan</p>
                     </div>
-                    <a th:href="@{'/medication-schedule/' + ${dog.id} + '/new'}" class="button add-schedule"><i class="fa-solid fa-plus"></i>Add Schedule</a>
+                    <a th:href="@{'/medication-schedule/' + ${dog.id} + '/new'}" class="button add-schedule"><i
+                            class="fa-solid fa-plus"></i>Add Schedule</a>
                 </div>
                 <div class="timeline">
                     <div class="timeline-item" th:each="schedule : ${medicationSchedules}">
@@ -79,19 +71,33 @@
                                 </p>
                             </div>
                             <div class="timeline-actions">
-                                <a th:href="@{'/medication-schedule/' + ${dog.id} + '/' + ${schedule.id} + '/details'}" class="edit-action"><i class="fa-solid fa-pen"></i></a>
-                                <form th:action="@{'/medication-schedule/'+ ${dog.id}+ '/'+ ${schedule.id}}" th:method="DELETE">
-                                    <button class="delete-action" onclick="return confirm('Delete this schedule entry?')"><i class="fa-solid fa-trash"></i></button>
+                                <a th:href="@{'/medication-schedule/' + ${dog.id} + '/' + ${schedule.id} + '/details'}"
+                                   class="edit-action"><i class="fa-solid fa-pen"></i></a>
+                                <form th:action="@{'/medication-schedule/'+ ${dog.id}+ '/'+ ${schedule.id}}"
+                                      th:method="DELETE">
+                                    <button class="delete-action"
+                                            onclick="return confirm('Delete this schedule entry?')"><i
+                                            class="fa-solid fa-trash"></i></button>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div class="empty-timeline" th:if="${medicationSchedules == null || #lists.isEmpty(medicationSchedules)}"><i class="fa-solid fa-calendar-xmark"></i>
+                    <div class="empty-timeline"
+                         th:if="${medicationSchedules == null || #lists.isEmpty(medicationSchedules)}"><i
+                            class="fa-solid fa-calendar-xmark"></i>
                         <p>No medication schedule created yet.</p>
                     </div>
                 </div>
             </section>
+
+            <div class="empty-schedule" th:if="${dog == null}">
+                <i class="fa-solid fa-dog"></i>
+                <h2>Select a dog</h2>
+                <p>Please select a dog to see medication schedules.</p>
+            </div>
         </div>
+    </div>
 </main>
+<footer th:insert="fragments/footer :: footer"></footer>
 </body>
 </html>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/head.css">
     <link rel="stylesheet" href="/css/side-nav-bar.css">
     <link rel="stylesheet" href="/css/medication.css">
+    <link rel="stylesheet" href="/css/dog-card.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
 </head>
@@ -19,42 +20,27 @@
 <main>
     <section th:insert="fragments/side-nav-bar :: side-nav-bar"></section>
     <div class="medication-page">
-        <h1>Your Dog's Medications</h1>
-        <p>Select the dog you want to manage medications for:</p>
-
-        <select onchange="if(this.value) location.href='/medications/' + this.value">
-            <option value="">-- Select Dog --</option>
-            <option th:each="dog : ${dogs}"
-                    th:value="${dog.id}"
-                    th:text="${dog.name}"
-                    th:selected="${selectedDogId != null && selectedDogId.equals(dog.id)}">
-            </option>
-        </select>
-
-        <div class="container" th:if="${dog != null}">
-            <div class="page-top">
-                <section class="dog-info">
-                    <div class="dog-card-inner">
-                        <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                             th:src="${dog.dogPicture}"
-                             alt="Dog image">
-
-                        <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
-                             th:src="@{/images/dog-placeholder.png}"
-                             alt="Dog image">
-
-                        <div class="dog-text">
-                            <h2 th:text="${dog.name}"></h2>
-                            <span th:text="${dog.breed}"></span>
-                        </div>
-                    </div>
-
-                    <a th:href="@{/dogs}" class="view-dogs-link"><i class="fa-solid fa-dog"></i>View all dogs</a>
-                </section>
-                <a th:href="@{'/medications/' + ${dog.id} + '/new'}" class="button add-btn">+ Add New Medication</a>
-
+        <section class="hero-card">
+            <div>
+                <h1>Your Dog's Medications</h1>
+                <p>Manage and review your dog's current medications.</p>
             </div>
 
+            <div class="dog-selector">
+                <label for="dog-select">Select Dog</label>
+                <select id="dog-select" onchange="if(this.value) location.href='/medications/' + this.value">
+                    <option value="">Choose Dog</option>
+                    <option th:each="dog : ${dogs}"
+                            th:value="${dog.id}"
+                            th:text="${dog.name}"
+                            th:selected="${selectedDogId != null && selectedDogId.equals(dog.id)}">
+                    </option>
+                </select>
+            </div>
+        </section>
+
+        <div class="container" th:if="${dog != null}">
+            <div th:insert="fragments/dog-card :: dog-card"></div>
             <div class="medications">
                 <h2>Active Medications</h2>
                 <table class="medication-table">
@@ -122,9 +108,16 @@
                     </tr>
                     </tbody>
                 </table>
+                <div class="page-actions">
+                    <a th:href="@{'/medications/' + ${dog.id} + '/new'}"
+                       class="button add-btn">
+                        + Add New Medication
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </main>
+<footer th:insert="fragments/footer :: footer"></footer>
 </body>
 </html>

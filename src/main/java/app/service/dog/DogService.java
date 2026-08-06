@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,5 +82,19 @@ public class DogService {
         dogToDelete.getOwner().getDogs().remove(dogToDelete);
 
         dogRepository.delete(dogToDelete);
+    }
+
+    public int calculateDogAge(UUID dogId) {
+
+        Dog dog = getDogById(dogId);
+
+        if (dog.getDateOfBirth() == null) {
+            return 0;
+        }
+
+        return Period.between(
+                dog.getDateOfBirth(),
+                LocalDate.now()
+        ).getYears();
     }
 }

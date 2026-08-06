@@ -1,0 +1,44 @@
+<div th:fragment="dog-card" class="dog-card">
+
+    <div class="dog-profile-header">
+        <img th:if="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+             th:src="${dog.dogPicture}"
+             alt="Dog image">
+        <img th:unless="${dog.dogPicture != null and !#strings.isEmpty(dog.dogPicture)}"
+             th:src="@{/images/dog-placeholder.png}"
+             alt="Dog image">
+
+        <div class="dog-profile-details">
+            <h2 th:text="${dog.name}"></h2>
+            <div class="dog-meta">
+                <span class="dog-breed">
+                    <i class="fa-solid fa-paw"></i>
+                    <span th:text="${dog.breed}"></span>
+                </span>
+                <span class="dog-gender">
+                    <span th:text="${dog.gender != null ? dog.gender.displayGender : 'Unknown'}"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="dog-profile-stats">
+        <div class="dog-stat">
+            <i class="fa-solid fa-calendar"></i>
+            <div>
+                <small>Age</small>
+                <strong>
+                    <span th:text="${dogAge}">0</span> yrs
+                </strong>
+            </div>
+        </div>
+        <div class="dog-stat">
+            <i class="fa-solid fa-bolt"></i>
+            <div>
+                <small>Seizures</small>
+                <strong th:text="${#lists.size(dog.seizures)}"></strong>
+            </div>
+        </div>
+    </div>
+
+</div>

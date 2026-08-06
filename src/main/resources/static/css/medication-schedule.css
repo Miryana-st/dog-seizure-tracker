@@ -1,17 +1,16 @@
-.dog-info {
-    width:100%;
-    max-width:420px;
-    background:white;
-    border-radius:20px;
-    padding:1.3rem 1.5rem;
-    box-shadow: 0 10px 25px rgba(50,40,100,.08);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.schedule-page {
+    width: 100%;
+    padding: 1rem 2rem;
 }
 
-.page-top {
-    padding-bottom: 2em;
+body {
+    font: 18px/1.5 Lato;
+    background-color: #F9F7FE;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: rgb(95, 92, 92);
+    overflow-x: hidden;
 }
 
 .schedule-page > p {
@@ -19,108 +18,114 @@
     color: #687280;
 }
 
-.dog-card-inner {
-    display:flex;
-    align-items:center;
-    gap:1rem;
+.hero-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+    margin-bottom: 2rem;
 }
 
-.dog-info img {
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    object-fit:cover;
-    border:4px solid #F2F0FE;
+.hero-card h1 {
+    color: #2b2847;
+    margin-bottom: .5rem;
 }
 
-.dog-text h2 {
-    margin:0;
-    color:#2b2847;
+.hero-card p {
+    color: #777;
 }
 
-.dog-text span {
-    color:#687280;
+.dog-selector {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
 }
 
-.view-dogs-link {
-    color:#6A4EA5;
-    font-size:.9rem;
-    text-decoration:none;
+.dog-selector select {
+    width: 20em;
+    padding: 0.7rem 1rem;
+    border: 1px solid #D8D5F3;
+    border-radius: 8px;
+    background: #FFF;
+    margin-bottom: 2rem;
 }
 
-.view-dogs-link i {
-    margin-right:.3rem;
+.page-top {
+    padding-bottom: 2em;
 }
 
 .schedule-timeline {
-    background:white;
-    border-radius:24px;
-    padding:2rem;
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
     box-shadow: 0 10px 30px rgba(50,40,100,.08);
 }
 
 .schedule-header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:2rem;
-    gap: 2em
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 2em;
 }
 
 .schedule-header h2 {
-    margin:0;
-    color:#2b2847;
+    margin: 0;
+    color: #2b2847;
 }
 
 .schedule-header p {
-    color:#687280;
-    margin-top:.4rem;
+    color: #687280;
+    margin-top: .4rem;
 }
 
 .timeline {
-    position:relative;
-    padding-left:2rem;
+    position: relative;
+    padding-left: 2rem;
 }
 
 .timeline::before {
-    content:"";
-    position:absolute;
-    left:110px;
-    top:0;
-    bottom:0;
-    width:3px;
-    background:#E6E1F8;
+    content: "";
+    position: absolute;
+    left: 110px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #E6E1F8;
 }
 
 .timeline-item {
-    position:relative;
-    display:grid;
-    grid-template-columns:90px 40px 1fr;
-    align-items:center;
-    margin-bottom:2rem;
+    position: relative;
+    display: grid;
+    grid-template-columns: 90px 40px 1fr;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
 .timeline-time {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    font-weight:bold;
-    color:#2b2847;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    color: #2b2847;
 }
 
 .timeline-time i {
-    color:#6A4EA5;
-    margin-bottom:.4rem;
+    color: #6A4EA5;
+    margin-bottom: .4rem;
 }
 
 .timeline-dot {
-    width:18px;
-    height:18px;
-    background:#6A4EA5;
-    border-radius:50%;
-    border:4px solid white;
+    width: 18px;
+    height: 18px;
+    background: #6A4EA5;
+    border-radius: 50%;
+    border: 4px solid white;
     box-shadow: 0 0 0 3px #DDD8F3;
-    z-index:2;
+    z-index: 2;
 }
 
 .timeline-card {
@@ -136,23 +141,23 @@
 }
 
 .timeline-card:hover {
-    transform:translateX(5px);
+    transform: translateX(5px);
     box-shadow: 0 8px 20px rgba(50,40,100,.10);
 }
 
 .medication-icon {
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    background:#F0EBFF;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #F0EBFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .medication-icon i {
-    color:#6A4EA5;
-    font-size:1.4rem;
+    color: #6A4EA5;
+    font-size: 1.4rem;
 }
 
 .medication-details {
@@ -161,40 +166,40 @@
 }
 
 .medication-details h3 {
-    margin:0;
-    color:#2b2847;
+    margin: 0;
+    color: #2b2847;
 }
 
 .medication-details p {
-    margin:.4rem 0 0;
-    color:#687280;
+    margin: .4rem 0 0;
+    color: #687280;
 }
 
 .timeline-actions {
-    display:flex;
-    gap:.5rem;
+    display: flex;
+    gap: .5rem;
 }
 
 .timeline-actions a,
 .timeline-actions button {
-    width:38px;
-    height:38px;
-    border-radius:10px;
-    border:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .edit-action {
-    background:#EAF2FF;
-    color:#2563EB;
+    background: #EAF2FF;
+    color: #2563EB;
 }
 
 .delete-action {
-    background:#FEECEC;
-    color:#B91C1C;
+    background: #FEECEC;
+    color: #B91C1C;
 }
 
 .edit-action:hover i {
@@ -206,13 +211,12 @@
 }
 
 .empty-timeline {
-    text-align:center;
-    padding:3rem;
-    color:#687280;
+    text-align: center;
+    padding: 3rem;
+    color: #687280;
 }
 
 .empty-timeline i {
-    font-size:3rem;
-    color:#D8D5F3;
+    font-size: 3rem;
+    color: #D8D5F3;
 }
-

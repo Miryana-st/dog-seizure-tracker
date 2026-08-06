@@ -1,0 +1,102 @@
+.dog-card {
+    width: 100%;
+    max-width: 520px;
+    background: #ffffff;
+    border: 1px solid #E6E1F8;
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(50,40,100,.08);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.dog-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.dog-profile-header img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid #F2F0FE;
+}
+
+.dog-profile-details h2 {
+    margin: 0;
+    color: #2b2847;
+    font-size: 1.6rem;
+}
+
+.dog-profile-details p {
+    margin: 0;
+    color: #687280;
+    font-size: 1rem;
+}
+
+.dog-meta {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    color: #687280;
+    font-size: .95rem;
+}
+
+.dog-breed,
+.dog-gender {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+}
+
+.dog-breed i {
+    color: #6A4EA5;
+}
+
+.dog-gender::before {
+    content: "•";
+    color: #D8D5F3;
+    margin-right: .8rem;
+}
+
+.dog-profile-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.dog-stat {
+    background: #F9F7FE;
+    border: 1px solid #ECE7FA;
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dog-stat i {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #EDE8FF;
+    color: #6A4EA5;
+    font-size: 1rem;
+}
+
+.dog-stat small {
+    display: block;
+    color: #687280;
+}
+
+.dog-stat strong {
+    color: #2b2847;
+    font-size: 1.2rem;
+}

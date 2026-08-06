@@ -52,6 +52,7 @@ public class MedicationController {
         modelAndView.addObject("dogs", dogService.getAllDogsByOwnerId(userData.getUserId()));
         modelAndView.addObject("selectedDogId", dogId);
         modelAndView.addObject("dog", dogService.getDogById(dogId));
+        modelAndView.addObject("dogAge", dogService.calculateDogAge(dogId));
         modelAndView.addObject("dogMedications", medicationService.getMedicationsByDogId(dogId));
 
         return modelAndView;

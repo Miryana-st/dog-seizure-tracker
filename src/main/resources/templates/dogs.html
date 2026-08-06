@@ -35,7 +35,7 @@
                                          th:src="${dog.dogPicture}" alt="Dog Image" class="dog-picture-"/>
                                     <span th:if="${dog.dogPicture == null or #strings.isEmpty(dog.dogPicture)}">
                                     <img th:src="@{/images/dog-placeholder.png}" alt="Dog Image" class="dog-picture">
-                                </span>
+                                    </span>
                                 </div>
                             </td>
                         </tr>
