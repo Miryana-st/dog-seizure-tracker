@@ -3,7 +3,7 @@ package app.service.seizure;
 import app.exception.NotFoundException;
 import app.model.dto.seizure.CreateNewSeizureRequest;
 import app.model.dto.seizure.EditSeizureRequest;
-import app.model.dto.seizure.SeizureDto;
+//import app.model.dto.seizure.SeizureDto;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
 import app.repository.seizure.SeizureRepository;
@@ -84,18 +84,18 @@ public class SeizureService {
         seizureRepository.delete(seizureToDelete);
     }
 
-    public List<SeizureDto> getSeizuresByDogId(UUID dogId) {
-
-        List<Seizure> seizures = seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
-
-        return seizures.stream()
-                .map(seizure -> SeizureDto.builder()
-                        .date(seizure.getDate())
-                        .duration(seizure.getDuration())
-                        .severity(seizure.getSeverity())
-                        .recovery(seizure.getRecovery())
-                        .cluster(seizure.isCluster())
-                        .build())
-                .toList();
-    }
+//    public List<SeizureDto> getSeizuresByDogId(UUID dogId) {
+//
+//        List<Seizure> seizures = seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
+//
+//        return seizures.stream()
+//                .map(seizure -> SeizureDto.builder()
+//                        .date(seizure.getDate())
+//                        .duration(seizure.getDuration())
+//                        .severity(seizure.getSeverity())
+//                        .recovery(seizure.getRecovery())
+//                        .cluster(seizure.isCluster())
+//                        .build())
+//                .toList();
+//    }
 }
