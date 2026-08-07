@@ -61,9 +61,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void updateUser(UUID id, UserEditRequest userEditRequest) {
-        User user = userRepository.findById(id)
-                .orElseThrow(
-                        () -> new NotFoundException(USER_NOT_FOUND));
+        User user = getById(id);
 
         user.setFirstName(userEditRequest.getFirstName());
         user.setLastName(userEditRequest.getLastName());
@@ -75,9 +73,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void switchRole(UUID id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(
-                        () -> new NotFoundException(USER_NOT_FOUND));
+        User user = getById(id);
 
         user.setRole(user.getRole() == UserRole.USER ? UserRole.ADMIN : UserRole.USER);
 
@@ -97,8 +93,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void deleteUserById(UUID id) {
 
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND));
+        User user = getById(id);
 
         userRepository.delete(user);
     }

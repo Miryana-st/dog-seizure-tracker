@@ -113,7 +113,7 @@ public class DogController {
     @PreAuthorize("@dogService.isDogOwner(#id, authentication.principal.userId)")
     public String deleteDog(@PathVariable UUID id) {
 
-        dogService.deletedDogById(id);
+        dogService.deleteDogById(id);
 
         return "redirect:/dogs";
     }

@@ -28,7 +28,8 @@
             <div>
                 <small>Age</small>
                 <strong>
-                    <span th:text="${dogAge}">0</span> yrs
+                    <span th:if="${dogAge != null}" th:text="${dogAge}">years</span>
+                    <span th:unless="${dogAge != null}">Unknown years</span>
                 </strong>
             </div>
         </div>

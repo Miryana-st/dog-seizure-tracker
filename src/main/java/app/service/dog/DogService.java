@@ -74,7 +74,7 @@ public class DogService {
     }
 
     @Transactional
-    public void deletedDogById(UUID id) {
+    public void deleteDogById(UUID id) {
 
         Dog dogToDelete = dogRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
@@ -84,12 +84,12 @@ public class DogService {
         dogRepository.delete(dogToDelete);
     }
 
-    public int calculateDogAge(UUID dogId) {
+    public Integer calculateDogAge(UUID dogId) {
 
         Dog dog = getDogById(dogId);
 
         if (dog.getDateOfBirth() == null) {
-            return 0;
+            return null;
         }
 
         return Period.between(
