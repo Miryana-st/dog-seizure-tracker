@@ -46,7 +46,7 @@ public class SeizureController {
 
         modelAndView.setViewName("seizures");
         modelAndView.addObject("dog", dog);
-        modelAndView.addObject("seizures", seizureService.findAllByDog_IdOrderByDateDescTimeDesc(dogId));
+        modelAndView.addObject("seizures", seizureService.findAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId));
 
         return modelAndView;
     }

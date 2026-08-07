@@ -44,7 +44,7 @@ public class SeizureService {
         seizureRepository.save(seizure);
     }
 
-    public List<Seizure> findAllByDog_IdOrderByDateDescTimeDesc(UUID dogId) {
+    public List<Seizure> findAllSeizuresByDog_IdOrderByDateDescTimeDesc(UUID dogId) {
 
         return seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
     }
