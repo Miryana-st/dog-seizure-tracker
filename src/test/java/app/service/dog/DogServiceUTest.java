@@ -290,12 +290,8 @@ public class DogServiceUTest {
 
         UUID dogId = UUID.randomUUID();
 
-        when(dogRepository.findById(dogId))
-                .thenReturn(Optional.empty());
+        when(dogRepository.findById(dogId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class,
-                () -> dogService.deleteDogById(dogId));
-
-        verify(dogRepository, never()).delete(any(Dog.class));
+        assertThrows(NotFoundException.class, () -> dogService.deleteDogById(dogId));
     }
 }

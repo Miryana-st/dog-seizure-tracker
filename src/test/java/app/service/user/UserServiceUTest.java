@@ -200,7 +200,6 @@ public class UserServiceUTest {
 
         User user = User.builder()
                 .id(userId)
-                .username("testUser")
                 .role(UserRole.USER)
                 .build();
 
@@ -220,7 +219,6 @@ public class UserServiceUTest {
 
         User user = User.builder()
                 .id(userId)
-                .username("adminUser")
                 .role(UserRole.ADMIN)
                 .build();
 

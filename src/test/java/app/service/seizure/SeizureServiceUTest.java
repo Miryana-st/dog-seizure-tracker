@@ -214,7 +214,6 @@ public class SeizureServiceUTest {
                 .seizures(new ArrayList<>())
                 .build();
 
-
         Seizure seizureRetrievedFromDatabase = Seizure.builder()
                 .id(seizureId)
                 .dog(dog)
