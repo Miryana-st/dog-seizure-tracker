@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
+import static app.exception.ExceptionMessages.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,7 +44,9 @@ public class UserServiceUTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> userService.updateUser(userId, dto));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.updateUser(userId, dto));
+
+        assertEquals(USER_NOT_FOUND, exception.getMessage());
     }
 
     @Test
@@ -84,7 +87,9 @@ public class UserServiceUTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> userService.deleteUserById(userId));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.deleteUserById(userId));
+
+        assertEquals(USER_NOT_FOUND, exception.getMessage());
     }
 
     @Test
@@ -190,7 +195,9 @@ public class UserServiceUTest {
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
-        assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername(username));
+        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername(username));
+
+        assertEquals(USER_NOT_FOUND, exception.getMessage());
     }
 
     @Test
@@ -238,7 +245,9 @@ public class UserServiceUTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> userService.switchRole(userId));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.switchRole(userId));
+
+        assertEquals(USER_NOT_FOUND, exception.getMessage());
     }
 
     @Test
@@ -255,7 +264,8 @@ public class UserServiceUTest {
         when(userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail()))
                 .thenReturn(Optional.of(new User()));
 
-        assertThrows(UserWithEmailOrUsernameExists.class, () -> userService.registerUser(dto));
+        UserWithEmailOrUsernameExists exception = assertThrows(UserWithEmailOrUsernameExists.class, () -> userService.registerUser(dto));
+        assertEquals(USER_WITH_EMAIL_OR_USERNAME_EXISTS, exception.getMessage());
     }
 
     @Test
