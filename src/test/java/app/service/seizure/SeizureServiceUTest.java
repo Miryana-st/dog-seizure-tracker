@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
+import static app.exception.ExceptionMessages.SEIZURE_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -139,7 +140,9 @@ public class SeizureServiceUTest {
 
         when(seizureRepository.findById(seizureId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> seizureService.getSeizureById(seizureId));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> seizureService.getSeizureById(seizureId));
+
+        assertEquals(SEIZURE_NOT_FOUND, exception.getMessage());
     }
 
     @Test
@@ -192,7 +195,9 @@ public class SeizureServiceUTest {
 
         when(seizureRepository.findById(seizureId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> seizureService.updateSeizureEntry(seizureId, dto));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> seizureService.updateSeizureEntry(seizureId, dto));
+
+        assertEquals(SEIZURE_NOT_FOUND, exception.getMessage());
     }
 
     @Test
@@ -228,6 +233,8 @@ public class SeizureServiceUTest {
 
         when(seizureRepository.findById(seizureId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> seizureService.deleteSeizureById(seizureId));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> seizureService.deleteSeizureById(seizureId));
+
+        assertEquals(SEIZURE_NOT_FOUND, exception.getMessage());
     }
 }

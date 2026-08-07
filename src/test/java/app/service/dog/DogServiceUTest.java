@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.*;
 
+import static app.exception.ExceptionMessages.DOG_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -70,7 +71,9 @@ public class DogServiceUTest {
 
         when(dogRepository.findById(dogId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> dogService.calculateDogAge(dogId));
+        NotFoundException exception =assertThrows(NotFoundException.class, () -> dogService.calculateDogAge(dogId));
+        assertEquals(DOG_NOT_FOUND, exception.getMessage());
+
     }
 
     @Test
@@ -126,7 +129,9 @@ public class DogServiceUTest {
 
         when(dogRepository.findById(dogId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> dogService.isDogOwner(dogId, userId));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> dogService.isDogOwner(dogId, userId));
+
+        assertEquals(DOG_NOT_FOUND, exception.getMessage());
     }
 
     @Test
@@ -137,7 +142,9 @@ public class DogServiceUTest {
 
         when(dogRepository.findById(dogId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> dogService.updateDogInformation(dogId, dto));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> dogService.updateDogInformation(dogId, dto));
+
+        assertEquals(DOG_NOT_FOUND, exception.getMessage());
     }
 
     @Test
@@ -287,6 +294,8 @@ public class DogServiceUTest {
 
         when(dogRepository.findById(dogId)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> dogService.deleteDogById(dogId));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> dogService.deleteDogById(dogId));
+
+        assertEquals(DOG_NOT_FOUND, exception.getMessage());
     }
 }
