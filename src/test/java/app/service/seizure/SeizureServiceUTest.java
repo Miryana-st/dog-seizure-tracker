@@ -10,6 +10,7 @@ import app.model.entity.seizure.SeizureSeverity;
 import app.repository.seizure.SeizureRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,7 +20,6 @@ import java.time.LocalTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -78,8 +78,6 @@ public class SeizureServiceUTest {
     @Test
     void whenCreateSeizure_thenCreateSeizureAndSaveIt() {
 
-        UUID seizureId = UUID.randomUUID();
-
         Dog dog = Dog.builder()
                 .id(UUID.randomUUID())
                 .build();
@@ -94,21 +92,15 @@ public class SeizureServiceUTest {
                 .recovery(SeizureRecovery.FAST)
                 .build();
 
-        Seizure savedSeizure = Seizure.builder()
-                .id(seizureId)
-                .date(LocalDate.of(2026, 8, 1))
-                .time(LocalTime.of(10, 30))
-                .duration(10)
-                .note("test note")
-                .cluster(true)
-                .severity(SeizureSeverity.MILD)
-                .recovery(SeizureRecovery.FAST)
-                .dog(dog)
-                .build();
-
         seizureService.createSeizureEntry(dto, dog);
 
-        assertEquals(seizureId, savedSeizure.getId());
+        ArgumentCaptor<Seizure> seizureCaptor = ArgumentCaptor.forClass(Seizure.class);
+
+        verify(seizureRepository).save(seizureCaptor.capture());
+
+        Seizure savedSeizure = seizureCaptor.getValue();
+
+
         assertEquals(LocalDate.of(2026, 8, 1), savedSeizure.getDate());
         assertEquals(LocalTime.of(10, 30), savedSeizure.getTime());
         assertEquals(10, savedSeizure.getDuration());
@@ -117,7 +109,6 @@ public class SeizureServiceUTest {
         assertEquals(SeizureSeverity.MILD, savedSeizure.getSeverity());
         assertEquals(SeizureRecovery.FAST, savedSeizure.getRecovery());
         assertEquals(dog, savedSeizure.getDog());
-        verify(seizureRepository).save(any(Seizure.class));
     }
 
     @Test

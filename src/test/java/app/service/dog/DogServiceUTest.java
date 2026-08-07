@@ -9,6 +9,7 @@ import app.model.entity.user.User;
 import app.repository.dog.DogRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,7 +18,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -192,17 +192,13 @@ public class DogServiceUTest {
                 .gender(GenderDog.MALE)
                 .build();
 
-        Dog savedDog = Dog.builder()
-                .name("Max")
-                .breed("Husky")
-                .dogPicture("picture.jpg")
-                .food("Food")
-                .dateOfBirth(LocalDate.of(2020, 1, 1))
-                .gender(GenderDog.MALE)
-                .owner(user)
-                .build();
-
         dogService.createDog(dto, user);
+
+        ArgumentCaptor<Dog> dogCaptor = ArgumentCaptor.forClass(Dog.class);
+
+        verify(dogRepository).save(dogCaptor.capture());
+
+        Dog savedDog = dogCaptor.getValue();
 
         assertEquals(user.getId(), savedDog.getOwner().getId());
         assertEquals("Max", savedDog.getName());
@@ -211,7 +207,6 @@ public class DogServiceUTest {
         assertEquals("Food", savedDog.getFood());
         assertEquals(LocalDate.of(2020, 1, 1), savedDog.getDateOfBirth());
         assertEquals(GenderDog.MALE, savedDog.getGender());
-        verify(dogRepository).save(any(Dog.class));
     }
 
     @Test

@@ -10,6 +10,7 @@ import app.repository.user.UserRepository;
 import app.security.user.UserData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -269,20 +269,27 @@ public class UserServiceUTest {
                 .password("password")
                 .build();
 
+
         when(userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail()))
                 .thenReturn(Optional.empty());
-        when(userRepository.findAll()).thenReturn(List.of(new User()));
-        when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
 
-        User savedUser = User.builder()
-                .username("testUser")
-                .firstName("FirstName")
-                .lastName("LastName")
-                .email("email@email.com")
-                .password("encodedPassword")
-                .role(UserRole.USER).build();
+        when(userRepository.findAll())
+                .thenReturn(List.of(new User()));
+
+        when(passwordEncoder.encode("password"))
+                .thenReturn("encodedPassword");
+
 
         userService.registerUser(dto);
+
+
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+
+        verify(userRepository).save(userCaptor.capture());
+
+
+        User savedUser = userCaptor.getValue();
+
 
         assertEquals("testUser", savedUser.getUsername());
         assertEquals("FirstName", savedUser.getFirstName());
@@ -292,7 +299,6 @@ public class UserServiceUTest {
         assertEquals(UserRole.USER, savedUser.getRole());
 
         verify(passwordEncoder).encode("password");
-        verify(userRepository).save(any(User.class));
     }
 
     @Test
@@ -300,19 +306,31 @@ public class UserServiceUTest {
 
         UserRegisterRequest dto = UserRegisterRequest.builder()
                 .username("testUser")
+                .firstName("FirstName")
+                .lastName("LastName")
                 .email("email@email.com")
+                .password("password")
                 .build();
 
         when(userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail()))
                 .thenReturn(Optional.empty());
-        when(userRepository.findAll()).thenReturn(Collections.emptyList());
 
-        User savedUser = User.builder().role(UserRole.ADMIN).build();
+        when(userRepository.findAll())
+                .thenReturn(Collections.emptyList());
+
+        when(passwordEncoder.encode("password"))
+                .thenReturn("encodedPassword");
+
 
         userService.registerUser(dto);
 
-        assertEquals(UserRole.ADMIN, savedUser.getRole());
 
-        verify(userRepository).save(any(User.class));
+        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+
+        verify(userRepository).save(userCaptor.capture());
+
+        User savedUser = userCaptor.getValue();
+
+        assertEquals(UserRole.ADMIN, savedUser.getRole());
     }
 }
