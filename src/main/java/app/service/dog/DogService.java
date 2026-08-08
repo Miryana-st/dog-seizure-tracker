@@ -6,6 +6,7 @@ import app.model.dto.dog.EditDogRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.user.User;
 import app.repository.dog.DogRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 import static app.exception.ExceptionMessages.DOG_NOT_FOUND;
 
+@Slf4j
 @Service
 public class DogService {
 
@@ -41,20 +43,7 @@ public class DogService {
                 .build();
 
         dogRepository.save(dog);
-    }
-
-    public List<Dog> getAllDogsByOwnerId(UUID ownerId) {
-        return dogRepository.findAllByOwner_Id(ownerId);
-    }
-
-    public Dog getDogById(UUID dogId) {
-        return dogRepository.findById(dogId)
-                .orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
-    }
-
-    public boolean isDogOwner(UUID dogId, UUID userId) {
-        Dog dog = getDogById(dogId);
-        return dog.getOwner().getId().equals(userId);
+        log.info("Created dog '{}' for user with id: {}", createNewDogRequest.getName(), user.getId());
     }
 
     @Transactional
@@ -71,6 +60,7 @@ public class DogService {
         dog.setDateOfBirth(editDogRequest.getDateOfBirth());
 
         dogRepository.save(dog);
+        log.info("Updated dog with id: {}", id);
     }
 
     @Transactional
@@ -82,6 +72,14 @@ public class DogService {
         dogToDelete.getOwner().getDogs().remove(dogToDelete);
 
         dogRepository.delete(dogToDelete);
+        log.info("Deleted dog with id: {}", id);
+    }
+
+    public boolean isDogOwner(UUID dogId, UUID userId) {
+
+        Dog dog = getDogById(dogId);
+
+        return dog.getOwner().getId().equals(userId);
     }
 
     public Integer calculateDogAge(UUID dogId) {
@@ -96,5 +94,15 @@ public class DogService {
                 dog.getDateOfBirth(),
                 LocalDate.now()
         ).getYears();
+    }
+
+    public List<Dog> getAllDogsByOwnerId(UUID ownerId) {
+
+        return dogRepository.findAllByOwner_Id(ownerId);
+    }
+
+    public Dog getDogById(UUID dogId) {
+
+        return dogRepository.findById(dogId).orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
     }
 }

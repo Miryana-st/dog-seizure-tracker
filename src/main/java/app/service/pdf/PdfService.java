@@ -4,6 +4,7 @@ import app.exception.PdfGenerationException;
 import app.model.entity.seizure.Seizure;
 import app.service.seizure.SeizureService;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -13,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class PdfService {
 
@@ -44,6 +46,8 @@ public class PdfService {
             builder.withHtmlContent(html, new ClassPathResource("static/").getURL().toString());
             builder.toStream(outputStream);
             builder.run();
+
+            log.info("Seizure report generated successfully for dog with id: {}", dogId);
 
             return outputStream.toByteArray();
 

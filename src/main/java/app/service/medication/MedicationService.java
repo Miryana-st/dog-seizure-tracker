@@ -46,15 +46,6 @@ public class MedicationService {
         }
     }
 
-    public List<MedicationResponse> getMedicationsByDogId(UUID dogId) {
-        try {
-            return client.getMedicationsByDogId(dogId);
-        } catch (FeignException e) {
-            log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
-            throw new NotFoundException(MEDICATION_NOT_FOUND);
-        }
-    }
-
     public void updateMedication(UUID medicationId, UUID dogId, String name, LocalDate startDate, LocalDate endDate, BigDecimal medicationConcentrationMg) {
 
         MedicationRequest dto = MedicationRequest.builder()
@@ -72,21 +63,30 @@ public class MedicationService {
         }
     }
 
-    public MedicationResponse getMedicationByIdAndDogId(UUID id, UUID dogId) {
-        try {
-            return client.getMedicationById(dogId, id);
-        } catch (FeignException e) {
-            log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
-            throw new NotFoundException(MEDICATION_NOT_FOUND);
-        }
-    }
-
     public void deleteMedication(UUID medicationId, UUID dogId) {
         try {
             client.deleteMedication(dogId, medicationId);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
             throw new MedicationMicroserviceUnavailableException(MEDICATION_MICROSERVICE_UNAVAILABLE);
+        }
+    }
+
+    public List<MedicationResponse> getMedicationsByDogId(UUID dogId) {
+        try {
+            return client.getMedicationsByDogId(dogId);
+        } catch (FeignException e) {
+            log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
+            throw new NotFoundException(MEDICATION_NOT_FOUND);
+        }
+    }
+
+    public MedicationResponse getMedicationByIdAndDogId(UUID id, UUID dogId) {
+        try {
+            return client.getMedicationById(dogId, id);
+        } catch (FeignException e) {
+            log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
+            throw new NotFoundException(MEDICATION_NOT_FOUND);
         }
     }
 }

@@ -47,10 +47,17 @@ public class MedicationScheduleService {
         }
     }
 
-    public List<MedicationScheduleResponse> getMedicationSchedulesByDogId(UUID dogId) {
+    public void updateMedicationSchedule(UUID dogId, UUID medicationScheduleId, UUID medicationId, LocalTime administrationTime, BigDecimal amount, Dosage dosage) {
+
+        MedicationScheduleRequest dto = MedicationScheduleRequest.builder()
+                .medicationId(medicationId)
+                .administrationTime(administrationTime)
+                .amount(amount)
+                .dosage(dosage)
+                .build();
 
         try {
-            return client.getMedicationScheduleByDogId(dogId);
+            client.updateMedicationSchedule(dogId, medicationScheduleId, dto);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
             throw new NotFoundException(MEDICATION_SCHEDULE_NOT_FOUND);
@@ -67,27 +74,20 @@ public class MedicationScheduleService {
         }
     }
 
-    public MedicationScheduleResponse getMedicationScheduleById(UUID dogId, UUID medicationScheduleId) {
+    public List<MedicationScheduleResponse> getMedicationSchedulesByDogId(UUID dogId) {
 
         try {
-            return client.getMedicationScheduleById(dogId, medicationScheduleId).getBody();
+            return client.getMedicationScheduleByDogId(dogId);
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
             throw new NotFoundException(MEDICATION_SCHEDULE_NOT_FOUND);
         }
     }
 
-    public void updateMedicationSchedule(UUID dogId, UUID medicationScheduleId, UUID medicationId, LocalTime administrationTime, BigDecimal amount, Dosage dosage) {
-
-        MedicationScheduleRequest dto = MedicationScheduleRequest.builder()
-                .medicationId(medicationId)
-                .administrationTime(administrationTime)
-                .amount(amount)
-                .dosage(dosage)
-                .build();
+    public MedicationScheduleResponse getMedicationScheduleById(UUID dogId, UUID medicationScheduleId) {
 
         try {
-            client.updateMedicationSchedule(dogId, medicationScheduleId, dto);
+            return client.getMedicationScheduleById(dogId, medicationScheduleId).getBody();
         } catch (FeignException e) {
             log.error("[S2S Call]: Failed due to %s.".formatted(e.getMessage()));
             throw new NotFoundException(MEDICATION_SCHEDULE_NOT_FOUND);

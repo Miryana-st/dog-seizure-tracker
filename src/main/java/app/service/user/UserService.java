@@ -8,6 +8,7 @@ import app.model.entity.user.User;
 import app.model.entity.user.UserRole;
 import app.repository.user.UserRepository;
 import app.security.user.UserData;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,7 @@ import java.util.UUID;
 
 import static app.exception.ExceptionMessages.*;
 
+@Slf4j
 @Service
 public class UserService implements UserDetailsService {
 
@@ -57,6 +59,7 @@ public class UserService implements UserDetailsService {
         }
 
         userRepository.save(user);
+        log.info("Registering new user with username: {}", userRegisterRequest.getUsername());
     }
 
     @Transactional
@@ -69,6 +72,16 @@ public class UserService implements UserDetailsService {
         user.setPhoneNumber(userEditRequest.getPhoneNumber());
 
         userRepository.save(user);
+        log.info("Updating user with id: {}", id);
+    }
+
+    @Transactional
+    public void deleteUserById(UUID id) {
+
+        User user = getById(id);
+
+        userRepository.delete(user);
+        log.info("Deleting user with id: {}", id);
     }
 
     @Transactional
@@ -78,6 +91,7 @@ public class UserService implements UserDetailsService {
         user.setRole(user.getRole() == UserRole.USER ? UserRole.ADMIN : UserRole.USER);
 
         userRepository.save(user);
+        log.info("Switching role for user with id: {}", id);
     }
 
     public User getById(UUID userId) {
@@ -90,14 +104,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    @Transactional
-    public void deleteUserById(UUID id) {
-
-        User user = getById(id);
-
-        userRepository.delete(user);
-    }
-
     public boolean isUserOwned(UUID userId, UUID loggedUserId) {
         return userId.equals(loggedUserId);
     }
@@ -107,6 +113,10 @@ public class UserService implements UserDetailsService {
 
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 
-        return new UserData(user.getId(), username, user.getPassword(), user.getRole());
+        UserData userData = new UserData(user.getId(), username, user.getPassword(), user.getRole());
+
+        log.info("User '{}' logged in successfully", username);
+
+        return userData;
     }
 }

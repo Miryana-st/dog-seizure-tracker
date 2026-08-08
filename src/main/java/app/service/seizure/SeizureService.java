@@ -7,6 +7,7 @@ import app.model.dto.seizure.EditSeizureRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
 import app.repository.seizure.SeizureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 import static app.exception.ExceptionMessages.SEIZURE_NOT_FOUND;
 
+@Slf4j
 @Service
 public class SeizureService {
 
@@ -42,17 +44,7 @@ public class SeizureService {
                 .build();
 
         seizureRepository.save(seizure);
-    }
-
-    public List<Seizure> findAllSeizuresByDog_IdOrderByDateDescTimeDesc(UUID dogId) {
-
-        return seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
-    }
-
-    public Seizure getSeizureById(UUID seizureId) {
-
-        return seizureRepository.findById(seizureId)
-                .orElseThrow(() -> new NotFoundException(SEIZURE_NOT_FOUND));
+        log.info("Creating seizure entry for dog with id: {}", dog.getId());
     }
 
     @Transactional
@@ -71,6 +63,7 @@ public class SeizureService {
         seizure.setCluster(editSeizureRequest.isCluster());
 
         seizureRepository.save(seizure);
+        log.info("Updating seizure with id: {}", id);
     }
 
     @Transactional
@@ -82,6 +75,18 @@ public class SeizureService {
         seizureToDelete.getDog().getSeizures().remove(seizureToDelete);
 
         seizureRepository.delete(seizureToDelete);
+        log.info("Deleting seizure with id: {}", seizureId);
+    }
+
+    public List<Seizure> findAllSeizuresByDog_IdOrderByDateDescTimeDesc(UUID dogId) {
+
+        return seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
+    }
+
+    public Seizure getSeizureById(UUID seizureId) {
+
+        return seizureRepository.findById(seizureId)
+                .orElseThrow(() -> new NotFoundException(SEIZURE_NOT_FOUND));
     }
 
 //    public List<SeizureDto> getSeizuresByDogId(UUID dogId) {
