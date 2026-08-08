@@ -22,8 +22,8 @@ import java.util.*;
 
 import static app.exception.ExceptionMessages.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceUTest {
@@ -47,6 +47,7 @@ public class UserServiceUTest {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.updateUser(userId, dto));
 
         assertEquals(USER_NOT_FOUND, exception.getMessage());
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -90,6 +91,7 @@ public class UserServiceUTest {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.deleteUserById(userId));
 
         assertEquals(USER_NOT_FOUND, exception.getMessage());
+        verify(userRepository, never()).delete(any(User.class));
     }
 
     @Test
@@ -248,6 +250,7 @@ public class UserServiceUTest {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.switchRole(userId));
 
         assertEquals(USER_NOT_FOUND, exception.getMessage());
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -266,6 +269,7 @@ public class UserServiceUTest {
 
         UserWithEmailOrUsernameExists exception = assertThrows(UserWithEmailOrUsernameExists.class, () -> userService.registerUser(dto));
         assertEquals(USER_WITH_EMAIL_OR_USERNAME_EXISTS, exception.getMessage());
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test

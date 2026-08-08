@@ -73,7 +73,6 @@ public class DogServiceUTest {
 
         NotFoundException exception =assertThrows(NotFoundException.class, () -> dogService.calculateDogAge(dogId));
         assertEquals(DOG_NOT_FOUND, exception.getMessage());
-
     }
 
     @Test
@@ -145,6 +144,7 @@ public class DogServiceUTest {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> dogService.updateDogInformation(dogId, dto));
 
         assertEquals(DOG_NOT_FOUND, exception.getMessage());
+        verify(dogRepository, never()).save(any());
     }
 
     @Test
@@ -297,5 +297,6 @@ public class DogServiceUTest {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> dogService.deleteDogById(dogId));
 
         assertEquals(DOG_NOT_FOUND, exception.getMessage());
+        verify(dogRepository, never()).delete(any());
     }
 }

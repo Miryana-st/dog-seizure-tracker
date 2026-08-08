@@ -21,8 +21,7 @@ import java.util.*;
 
 import static app.exception.ExceptionMessages.SEIZURE_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SeizureServiceUTest {
@@ -133,17 +132,17 @@ public class SeizureServiceUTest {
         verify(seizureRepository).findById(seizureId);
     }
 
-    @Test
-    void whenGetSeizureById_andRepositoryReturnsOptionalEmpty_thenThrowsException() {
+        @Test
+        void whenGetSeizureById_andRepositoryReturnsOptionalEmpty_thenThrowsException() {
 
-        UUID seizureId = UUID.randomUUID();
+            UUID seizureId = UUID.randomUUID();
 
-        when(seizureRepository.findById(seizureId)).thenReturn(Optional.empty());
+            when(seizureRepository.findById(seizureId)).thenReturn(Optional.empty());
 
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> seizureService.getSeizureById(seizureId));
+            NotFoundException exception = assertThrows(NotFoundException.class, () -> seizureService.getSeizureById(seizureId));
 
-        assertEquals(SEIZURE_NOT_FOUND, exception.getMessage());
-    }
+            assertEquals(SEIZURE_NOT_FOUND, exception.getMessage());
+        }
 
     @Test
     void whenUpdateSeizureEntry_andRepositoryReturnsSeizure_thenUpdateSeizureDetailsAndSaveUpdatedSeizure() {
@@ -198,6 +197,7 @@ public class SeizureServiceUTest {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> seizureService.updateSeizureEntry(seizureId, dto));
 
         assertEquals(SEIZURE_NOT_FOUND, exception.getMessage());
+        verify(seizureRepository, never()).save(any(Seizure.class));
     }
 
     @Test
@@ -236,5 +236,6 @@ public class SeizureServiceUTest {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> seizureService.deleteSeizureById(seizureId));
 
         assertEquals(SEIZURE_NOT_FOUND, exception.getMessage());
+        verify(seizureRepository, never()).delete(any(Seizure.class));
     }
 }
