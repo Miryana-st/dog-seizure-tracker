@@ -11,6 +11,7 @@ import app.security.user.UserData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -35,6 +36,9 @@ public class UserServiceUTest {
 
     @InjectMocks
     private UserService userService;
+
+    @Captor
+    private ArgumentCaptor<User> userCaptor;
 
     @Test
     void whenEditUserDetails_andRepositoryReturnsOptionalEmpty_thenThrowsException() {
@@ -283,27 +287,17 @@ public class UserServiceUTest {
                 .password("password")
                 .build();
 
+        when(userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail())).thenReturn(Optional.empty());
 
-        when(userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail()))
-                .thenReturn(Optional.empty());
+        when(userRepository.findAll()).thenReturn(List.of(new User()));
 
-        when(userRepository.findAll())
-                .thenReturn(List.of(new User()));
-
-        when(passwordEncoder.encode("password"))
-                .thenReturn("encodedPassword");
-
+        when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
 
         userService.registerUser(dto);
 
-
-        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-
         verify(userRepository).save(userCaptor.capture());
 
-
         User savedUser = userCaptor.getValue();
-
 
         assertEquals("testUser", savedUser.getUsername());
         assertEquals("FirstName", savedUser.getFirstName());
@@ -326,20 +320,11 @@ public class UserServiceUTest {
                 .password("password")
                 .build();
 
-        when(userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail()))
-                .thenReturn(Optional.empty());
-
-        when(userRepository.findAll())
-                .thenReturn(Collections.emptyList());
-
-        when(passwordEncoder.encode("password"))
-                .thenReturn("encodedPassword");
-
+        when(userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findAll()).thenReturn(Collections.emptyList());
+        when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
 
         userService.registerUser(dto);
-
-
-        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
 
         verify(userRepository).save(userCaptor.capture());
 

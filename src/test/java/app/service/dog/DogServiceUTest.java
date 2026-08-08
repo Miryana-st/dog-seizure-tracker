@@ -10,6 +10,7 @@ import app.repository.dog.DogRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,6 +30,9 @@ public class DogServiceUTest {
 
     @InjectMocks
     private DogService dogService;
+
+    @Captor
+    private ArgumentCaptor<Dog> dogCaptor;
 
     @Test
     void whenCalculateDogAge_andDogHasDateOfBirth_thenReturnDogAge() {
@@ -200,8 +204,6 @@ public class DogServiceUTest {
                 .build();
 
         dogService.createDog(dto, user);
-
-        ArgumentCaptor<Dog> dogCaptor = ArgumentCaptor.forClass(Dog.class);
 
         verify(dogRepository).save(dogCaptor.capture());
 

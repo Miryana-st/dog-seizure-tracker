@@ -11,6 +11,7 @@ import app.repository.seizure.SeizureRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -31,6 +32,9 @@ public class SeizureServiceUTest {
 
     @InjectMocks
     private SeizureService seizureService;
+
+    @Captor
+    private ArgumentCaptor<Seizure> seizureCaptor;
 
     @Test
     void whenFindAllSeizuresByDogId_andRepositoryReturnsSeizures_thenReturnSeizures() {
@@ -94,12 +98,9 @@ public class SeizureServiceUTest {
 
         seizureService.createSeizureEntry(dto, dog);
 
-        ArgumentCaptor<Seizure> seizureCaptor = ArgumentCaptor.forClass(Seizure.class);
-
         verify(seizureRepository).save(seizureCaptor.capture());
 
         Seizure savedSeizure = seizureCaptor.getValue();
-
 
         assertEquals(LocalDate.of(2026, 8, 1), savedSeizure.getDate());
         assertEquals(LocalTime.of(10, 30), savedSeizure.getTime());
