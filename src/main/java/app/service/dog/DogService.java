@@ -30,7 +30,7 @@ public class DogService {
     }
 
     @Transactional
-    public void createDog(CreateNewDogRequest createNewDogRequest, User user) {
+    public Dog createDog(CreateNewDogRequest createNewDogRequest, User user) {
 
         Dog dog = Dog.builder()
                 .owner(user)
@@ -42,8 +42,10 @@ public class DogService {
                 .gender(createNewDogRequest.getGender())
                 .build();
 
-        dogRepository.save(dog);
+        Dog save = dogRepository.save(dog);
         log.info("Created dog '{}' for user with id: {}", createNewDogRequest.getName(), user.getId());
+
+        return save;
     }
 
     @Transactional

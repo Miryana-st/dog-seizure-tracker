@@ -30,7 +30,7 @@ public class SeizureService {
     }
 
     @Transactional
-    public void createSeizureEntry(CreateNewSeizureRequest createNewSeizureRequest, Dog dog) {
+    public Seizure createSeizureEntry(CreateNewSeizureRequest createNewSeizureRequest, Dog dog) {
 
         Seizure seizure = Seizure.builder()
                 .dog(dog)
@@ -43,8 +43,11 @@ public class SeizureService {
                 .recovery(createNewSeizureRequest.getRecovery())
                 .build();
 
-        seizureRepository.save(seizure);
+        Seizure save = seizureRepository.save(seizure);
+
         log.info("Creating seizure entry for dog with id: {}", dog.getId());
+
+        return save;
     }
 
     @Transactional

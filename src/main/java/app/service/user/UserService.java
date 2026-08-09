@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void registerUser(UserRegisterRequest userRegisterRequest) {
+    public User registerUser(UserRegisterRequest userRegisterRequest) {
 
         Optional<User> optionalUser = userRepository.findByUsernameOrEmail(userRegisterRequest.getUsername(), userRegisterRequest.getEmail());
 
@@ -58,8 +58,11 @@ public class UserService implements UserDetailsService {
             user.setRole(UserRole.ADMIN);
         }
 
-        userRepository.save(user);
+        User save = userRepository.save(user);
+
         log.info("Registering new user with username: {}", userRegisterRequest.getUsername());
+
+        return save;
     }
 
     @Transactional
