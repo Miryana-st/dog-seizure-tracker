@@ -255,6 +255,27 @@ public class IndexControllerApiTest {
         verify(userService).getById(user.getId());
     }
 
+    @Test
+    void getUnknownPage_whenNoResourceFoundExceptionOccurs_shouldReturnNotFoundErrorPage() throws Exception {
+
+        User user = aRandomUser();
+
+        UserData authentication = new UserData(
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getRole()
+        );
+
+        MockHttpServletRequestBuilder httpRequest =
+                get("/this-page-does-not-exist")
+                        .with(user(authentication));
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().isOk())
+                .andExpect(view().name("error-page-not-found"));
+    }
+
     public static User aRandomUser() {
 
         return User.builder()

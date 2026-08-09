@@ -62,7 +62,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @PutMapping("/{id}/profile")
+    @PutMapping("/{id}/details")
     @PreAuthorize("@userService.isUserOwned(#id, authentication.principal.userId) or hasRole('ADMIN')")
     public ModelAndView updateProfilePage(@Valid @ModelAttribute("userEditRequest") UserEditRequest userEditRequest,
                                           BindingResult result,

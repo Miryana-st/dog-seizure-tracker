@@ -18,7 +18,7 @@
     <h1>My Profile</h1>
     <div class="container-table-image">
         <section class="form-panel">
-            <form class="form-edit" th:action="@{'/users/' + ${user.id} + '/profile'}" th:object="${userEditRequest}"
+            <form class="form-edit" th:action="@{'/users/' + ${user.id} + '/details'}" th:object="${userEditRequest}"
                   th:method="PUT">
                 <div class="form-row">
                     <div class="form-data">
