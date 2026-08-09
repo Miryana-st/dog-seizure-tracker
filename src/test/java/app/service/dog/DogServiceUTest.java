@@ -158,7 +158,7 @@ public class DogServiceUTest {
         EditDogRequest dto = EditDogRequest.builder()
                 .name("Dog Name")
                 .breed("Dog Breed")
-                .dogPicture("www.dogPicture.com")
+                .dogPicture("https://www.test.com")
                 .gender(GenderDog.MALE)
                 .dateOfBirth(LocalDate.now().minusYears(5))
                 .food("Food")
@@ -168,7 +168,7 @@ public class DogServiceUTest {
                 .id(dogId)
                 .name("Old Dog Name")
                 .breed("Old Dog Breed")
-                .dogPicture("www.oldDogPicture.com")
+                .dogPicture("https://www.oldtest.com")
                 .gender(GenderDog.FEMALE)
                 .dateOfBirth(LocalDate.now().minusYears(3))
                 .food("Old Food")
@@ -180,7 +180,7 @@ public class DogServiceUTest {
 
         assertEquals("Dog Name", dogRetrievedFromDatabase.getName());
         assertEquals("Dog Breed", dogRetrievedFromDatabase.getBreed());
-        assertEquals("www.dogPicture.com", dogRetrievedFromDatabase.getDogPicture());
+        assertEquals("https://www.test.com", dogRetrievedFromDatabase.getDogPicture());
         assertEquals(GenderDog.MALE, dogRetrievedFromDatabase.getGender());
         assertEquals(LocalDate.now().minusYears(5), dogRetrievedFromDatabase.getDateOfBirth());
         assertEquals("Food", dogRetrievedFromDatabase.getFood());
@@ -197,7 +197,7 @@ public class DogServiceUTest {
         CreateNewDogRequest dto = CreateNewDogRequest.builder()
                 .name("Max")
                 .breed("Husky")
-                .dogPicture("picture.jpg")
+                .dogPicture("https://www.test.com")
                 .food("Food")
                 .dateOfBirth(LocalDate.of(2020, 1, 1))
                 .gender(GenderDog.MALE)
@@ -212,7 +212,7 @@ public class DogServiceUTest {
         assertEquals(user.getId(), savedDog.getOwner().getId());
         assertEquals("Max", savedDog.getName());
         assertEquals("Husky", savedDog.getBreed());
-        assertEquals("picture.jpg", savedDog.getDogPicture());
+        assertEquals("https://www.test.com", savedDog.getDogPicture());
         assertEquals("Food", savedDog.getFood());
         assertEquals(LocalDate.of(2020, 1, 1), savedDog.getDateOfBirth());
         assertEquals(GenderDog.MALE, savedDog.getGender());

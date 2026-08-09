@@ -1,5 +1,6 @@
 package app.web.medication;
 
+import app.exception.MedicationMicroserviceUnavailableException;
 import app.model.dto.medication.MedicationResponse;
 import app.model.entity.dog.Dog;
 import app.model.entity.dog.GenderDog;
@@ -124,6 +125,112 @@ public class MedicationControllerApiTest {
         verify(medicationService).getMedicationsByDogId(dog.getId());
     }
 
+    @Test
+    void getMedicationsEndpoint_whenMedicationMicroserviceUnavailable_shouldReturnErrorPage() throws Exception {
+
+        User owner = aRandomUser();
+
+        UserData authentication = new UserData(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getRole()
+        );
+
+        Dog dog = aRandomDog();
+        dog.setOwner(owner);
+
+        when(dogService.isDogOwner(dog.getId(), authentication.getUserId())).thenReturn(true);
+        when(dogService.getAllDogsByOwnerId(authentication.getUserId())).thenReturn(List.of(dog));
+        when(dogService.getDogById(dog.getId())).thenReturn(dog);
+        when(dogService.calculateDogAge(dog.getId())).thenReturn(6);
+        when(medicationService.getMedicationsByDogId(dog.getId())).thenThrow(MedicationMicroserviceUnavailableException.class);
+
+        MockHttpServletRequestBuilder httpRequest =
+                get("/medications/{dogId}", dog.getId())
+                        .with(user(authentication));
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().is5xxServerError())
+                .andExpect(view().name("error-page"));
+    }
+
+    @Test
+    void getAddMedicationEndpoint_whenAuthenticatedUser_shouldReturnAddMedicationView() throws Exception {
+
+        User owner = aRandomUser();
+
+        UserData authentication = new UserData(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getRole());
+
+        Dog dog = aRandomDog();
+        dog.setOwner(owner);
+
+        when(dogService.isDogOwner(dog.getId(), authentication.getUserId())).thenReturn(true);
+        when(dogService.getDogById(dog.getId())).thenReturn(dog);
+
+        MockHttpServletRequestBuilder httpRequest =
+                get("/medications/{dogId}/new", dog.getId())
+                        .with(user(authentication));
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().isOk())
+                .andExpect(view().name("add-medication"))
+                .andExpect(model().attribute("dog", dog))
+                .andExpect(model().attributeExists("addMedicationRequest"));
+
+        verify(dogService).isDogOwner(dog.getId(), authentication.getUserId());
+        verify(dogService).getDogById(dog.getId());
+    }
+
+    @Test
+    void getEditMedicationEndpoint_whenAuthenticatedUser_shouldReturnMedicationProfileView() throws Exception {
+
+        User owner = aRandomUser();
+
+        UserData authentication = new UserData(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getRole());
+
+        Dog dog = aRandomDog();
+        dog.setOwner(owner);
+
+        UUID medicationId = UUID.randomUUID();
+
+        MedicationResponse medication = MedicationResponse.builder()
+                .id(medicationId)
+                .dogId(dog.getId())
+                .name("Test Medication")
+                .startDate(LocalDate.of(2020, 1, 1))
+                .endDate(LocalDate.of(2020, 1, 10))
+                .medicationConcentrationMg(BigDecimal.valueOf(50.5))
+                .build();
+
+        when(dogService.isDogOwner(dog.getId(), authentication.getUserId())).thenReturn(true);
+        when(medicationService.getMedicationByIdAndDogId(medicationId, dog.getId())).thenReturn(medication);
+        when(dogService.getDogById(dog.getId())).thenReturn(dog);
+
+        MockHttpServletRequestBuilder httpRequest =
+                get("/medications/{dogId}/{medicationId}/details",
+                        dog.getId(), medicationId)
+                        .with(user(authentication));
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().isOk())
+                .andExpect(view().name("medication-profile"))
+                .andExpect(model().attribute("dog", dog))
+                .andExpect(model().attribute("medication", medication))
+                .andExpect(model().attributeExists("editMedicationRequest"));
+
+        verify(dogService).isDogOwner(dog.getId(), authentication.getUserId());
+        verify(medicationService).getMedicationByIdAndDogId(medicationId, dog.getId());
+        verify(dogService).getDogById(dog.getId());
+    }
 
     public static User aRandomUser() {
 
@@ -144,7 +251,7 @@ public class MedicationControllerApiTest {
                 .id(UUID.randomUUID())
                 .name("Test Dog")
                 .breed("Husky")
-                .dogPicture("www.testDogPicture.com")
+                .dogPicture("https://www.testDogPicture.com")
                 .gender(GenderDog.MALE)
                 .dateOfBirth(LocalDate.of(2020, 1, 1))
                 .food("Test Dog Food")

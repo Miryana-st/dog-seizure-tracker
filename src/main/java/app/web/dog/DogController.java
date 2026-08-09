@@ -51,7 +51,7 @@ public class DogController {
         return modelAndView;
     }
 
-    @PostMapping()
+    @PostMapping("/new")
     public ModelAndView createNewDogPage(@Valid @ModelAttribute("createNewDogRequest") CreateNewDogRequest createNewDogRequest,
                                          BindingResult result,
                                          @AuthenticationPrincipal UserData userData) {

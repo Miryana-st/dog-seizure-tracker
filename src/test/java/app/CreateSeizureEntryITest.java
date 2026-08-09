@@ -68,7 +68,7 @@ public class CreateSeizureEntryITest {
         CreateNewDogRequest createNewDogRequest = CreateNewDogRequest.builder()
                 .name("testDog")
                 .breed("testBreed")
-                .dogPicture("www.test.com")
+                .dogPicture("https://www.test.com")
                 .gender(GenderDog.MALE)
                 .dateOfBirth(LocalDate.of(2016, 6, 1))
                 .food("testFood")

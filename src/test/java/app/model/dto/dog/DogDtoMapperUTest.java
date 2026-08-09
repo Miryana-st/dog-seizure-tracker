@@ -19,7 +19,7 @@ public class DogDtoMapperUTest {
         Dog dog = Dog.builder()
                 .name("testName")
                 .breed("testBreed")
-                .dogPicture("test.pucture")
+                .dogPicture("https://www.test.com")
                 .gender(GenderDog.MALE)
                 .food("testFood")
                 .dateOfBirth(LocalDate.of(2020, 1, 1))
@@ -29,7 +29,7 @@ public class DogDtoMapperUTest {
 
         assertEquals("testName", result.getName());
         assertEquals("testBreed", result.getBreed());
-        assertEquals("test.pucture", result.getDogPicture());
+        assertEquals("https://www.test.com", result.getDogPicture());
         assertEquals(GenderDog.MALE, result.getGender());
         assertEquals("testFood", result.getFood());
         assertEquals(LocalDate.of(2020, 1, 1), result.getDateOfBirth());

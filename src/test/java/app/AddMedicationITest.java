@@ -62,7 +62,7 @@ public class AddMedicationITest {
         CreateNewDogRequest createNewDogRequest = CreateNewDogRequest.builder()
                 .name("testDog")
                 .breed("testBreed")
-                .dogPicture("www.test.com")
+                .dogPicture("https://www.testDogPicture.com")
                 .gender(GenderDog.MALE)
                 .dateOfBirth(LocalDate.of(2016, 6, 1))
                 .food("testFood")

@@ -165,7 +165,7 @@ public class SeizureControllerApiTest {
                 .id(UUID.randomUUID())
                 .name("Test Dog")
                 .breed("Husky")
-                .dogPicture("www.testDogPicture.com")
+                .dogPicture("https://www.testDogPicture.com")
                 .gender(GenderDog.MALE)
                 .dateOfBirth(LocalDate.of(2020, 1, 1))
                 .food("Test Dog Food")

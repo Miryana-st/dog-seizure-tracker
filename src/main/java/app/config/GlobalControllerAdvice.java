@@ -52,6 +52,7 @@ public class GlobalControllerAdvice {
         return modelAndView;
     }
 
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     @ExceptionHandler(MedicationMicroserviceUnavailableException.class)
     public ModelAndView handleMedicationMicroserviceUnavailableException(MedicationMicroserviceUnavailableException e) {
 

@@ -1,5 +1,6 @@
 package app.web.dog;
 
+import app.model.dto.dog.CreateNewDogRequest;
 import app.model.entity.dog.Dog;
 import app.model.entity.dog.GenderDog;
 import app.model.entity.user.User;
@@ -18,10 +19,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(DogController.class)
@@ -111,6 +116,99 @@ public class DogControllerApiTest {
         verify(dogService).getDogById(dog.getId());
     }
 
+    @Test
+    void postCreateNewDogEndpoint_whenUserIsAuthenticatedAndFormIsValid_shouldRedirectToDogsView() throws Exception {
+
+        User owner = aRandomUser();
+
+        UserData authentication = new UserData(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getRole());
+
+        when(userService.getById(owner.getId())).thenReturn(owner);
+
+        MockHttpServletRequestBuilder httpRequest =
+                post("/dogs/new")
+                        .with(user(authentication))
+                        .with(csrf())
+                        .param("name", "Test Dog")
+                        .param("breed", "Husky")
+                        .param("dogPicture", "https://www.testDogPicture.com")
+                        .param("gender", GenderDog.MALE.name())
+                        .param("dateOfBirth", "2020-01-01")
+                        .param("food", "Test Food");
+
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/dogs"));
+
+        verify(userService).getById(owner.getId());
+        verify(dogService).createDog(any(CreateNewDogRequest.class), eq(owner));
+    }
+
+    @Test
+    void postCreateNewDogEndpoint_whenUserIsAuthenticatedAndFormIsInvalid_shouldRedirectToDogsView() throws Exception {
+        User owner = aRandomUser();
+
+        UserData authentication = new UserData(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getRole());
+
+        when(userService.getById(owner.getId())).thenReturn(owner);
+
+        MockHttpServletRequestBuilder httpRequest =
+                post("/dogs/new")
+                        .with(user(authentication))
+                        .with(csrf())
+                        .param("name", "")
+                        .param("breed", "")
+                        .param("gender", GenderDog.MALE.name())
+                        .param("dateOfBirth", "2020-01-01")
+                        .param("food", "Test Food");
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().isOk())
+                .andExpect(view().name("add-dog"))
+                .andExpect(model().attributeExists("createNewDogRequest"));
+
+        verify(userService).getById(owner.getId());
+        verify(dogService, never()).createDog(any(CreateNewDogRequest.class), eq(owner));
+    }
+
+    @Test
+    void deleteDogEndpoint_whenUserOwnsDog_shouldDeleteDogAndRedirect() throws Exception {
+
+        User owner = aRandomUser();
+
+        UserData authentication = new UserData(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getRole());
+
+        Dog dog = aRandomDog();
+        dog.setOwner(owner);
+
+        when(dogService.isDogOwner(dog.getId(), authentication.getUserId())).thenReturn(true);
+
+        MockHttpServletRequestBuilder httpRequest =
+                delete("/dogs/{id}", dog.getId())
+                        .with(user(authentication))
+                        .with(csrf());
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/dogs"));
+
+        verify(dogService).isDogOwner(dog.getId(), authentication.getUserId());
+        verify(dogService).deleteDogById(dog.getId());
+    }
+
     public static User aRandomUser() {
 
         return User.builder()
@@ -130,7 +228,7 @@ public class DogControllerApiTest {
                 .id(UUID.randomUUID())
                 .name("Test Dog")
                 .breed("Husky")
-                .dogPicture("www.testDogPicture.com")
+                .dogPicture("https://www.testDogPicture.com")
                 .gender(GenderDog.MALE)
                 .dateOfBirth(LocalDate.of(2020, 1, 1))
                 .food("Test Dog Food")
