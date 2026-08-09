@@ -20,10 +20,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-public class AddMedicationITest {
+public class GetMedicationByIdAndDogIdITest {
 
     @Autowired
     private UserService userService;
@@ -44,7 +45,7 @@ public class AddMedicationITest {
     }
 
     @Test
-    void addMedicationToDog_happyPath() {
+    void getMedicationByIdAndDogId_happyPath() {
 
         UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .firstName("FirstName")
@@ -87,9 +88,16 @@ public class AddMedicationITest {
         assertNotNull(medications);
         assertEquals(1, medications.size());
 
-        MedicationResponse medication = medications.getFirst();
+        MedicationResponse addedMedication = medications.getFirst();
 
-        assertNotNull(medication.getId());
+        assertNotNull(addedMedication.getId());
+
+        MedicationResponse medication = medicationService.getMedicationByIdAndDogId(
+                        addedMedication.getId(),
+                        dog.getId());
+
+        assertNotNull(medication);
+        assertEquals(addedMedication.getId(), medication.getId());
         assertEquals(dog.getId(), medication.getDogId());
         assertEquals("testMedication", medication.getName());
         assertEquals(LocalDate.of(2020, 1, 1), medication.getStartDate());

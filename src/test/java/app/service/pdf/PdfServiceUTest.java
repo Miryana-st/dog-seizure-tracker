@@ -41,7 +41,7 @@ public class PdfServiceUTest {
                         .id(UUID.randomUUID())
                         .build());
 
-        when(seizureService.findAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId)).thenReturn(seizures);
+        when(seizureService.getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId)).thenReturn(seizures);
 
         when(templateEngine.process(eq("pdf/seizures-report"), any(Context.class))).thenReturn("<html><body>Test PDF</body></html>");
 
@@ -50,7 +50,7 @@ public class PdfServiceUTest {
         assertNotNull(result);
         assertTrue(result.length > 0);
 
-        verify(seizureService).findAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId);
+        verify(seizureService).getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId);
 
         verify(templateEngine).process(eq("pdf/seizures-report"), any(Context.class));
     }
@@ -60,7 +60,7 @@ public class PdfServiceUTest {
 
         UUID dogId = UUID.randomUUID();
 
-        when(seizureService.findAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId)).thenThrow(new RuntimeException());
+        when(seizureService.getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId)).thenThrow(new RuntimeException());
 
         assertThrows(PdfGenerationException.class, () -> pdfService.generateSeizureReport(dogId));
     }

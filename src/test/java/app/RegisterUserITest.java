@@ -5,6 +5,7 @@ import app.model.entity.user.User;
 import app.model.entity.user.UserRole;
 import app.repository.user.UserRepository;
 import app.service.user.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,8 +23,13 @@ public class RegisterUserITest {
     @Autowired
     private UserRepository userRepository;
 
+    @BeforeEach
+    void cleanDatabase() {
+        userRepository.deleteAll();
+    }
+
     @Test
-    void registerUser_happyPath() {
+    void registerFirstUserWithRoleAdmin_happyPath() {
 
         UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .firstName("FirstName")
@@ -42,7 +48,7 @@ public class RegisterUserITest {
         assertEquals(userRegisterRequest.getUsername(), registeredUser.getUsername());
         assertEquals(userRegisterRequest.getEmail(), registeredUser.getEmail());
         assertTrue(passwordEncoder.matches(userRegisterRequest.getPassword(), registeredUser.getPassword()));
-        assertEquals(UserRole.USER, registeredUser.getRole());
+        assertEquals(UserRole.ADMIN, registeredUser.getRole());
 
         User userFromDatabase = userRepository.findById(registeredUser.getId()) .orElseThrow();
 
@@ -53,5 +59,38 @@ public class RegisterUserITest {
         assertEquals(registeredUser.getEmail(), userFromDatabase.getEmail());
         assertEquals(registeredUser.getRole(), userFromDatabase.getRole());
         assertTrue(passwordEncoder.matches(userRegisterRequest.getPassword(), userFromDatabase.getPassword()));
+    }
+
+    @Test
+    void registerUserWithRoleUser_happyPath() {
+
+        User firstUser = User.builder()
+                .firstName("First")
+                .lastName("Admin")
+                .username("firstAdmin")
+                .email("admin@example.com")
+                .password(passwordEncoder.encode("123456789"))
+                .role(UserRole.ADMIN)
+                .build();
+
+        userRepository.save(firstUser);
+
+        UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
+                .firstName("Second")
+                .lastName("User")
+                .username("secondUser")
+                .password("123456789")
+                .email("user@example.com")
+                .build();
+
+        User registeredUser = userService.registerUser(userRegisterRequest);
+
+        assertNotNull(registeredUser);
+        assertNotNull(registeredUser.getId());
+
+        assertEquals(UserRole.USER, registeredUser.getRole());
+        assertEquals("secondUser", registeredUser.getUsername());
+        assertEquals("user@example.com", registeredUser.getEmail());
+        assertTrue(passwordEncoder.matches(userRegisterRequest.getPassword(), registeredUser.getPassword()));
     }
 }

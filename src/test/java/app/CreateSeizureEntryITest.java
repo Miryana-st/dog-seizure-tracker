@@ -9,10 +9,13 @@ import app.model.entity.seizure.Seizure;
 import app.model.entity.seizure.SeizureRecovery;
 import app.model.entity.seizure.SeizureSeverity;
 import app.model.entity.user.User;
+import app.repository.dog.DogRepository;
 import app.repository.seizure.SeizureRepository;
+import app.repository.user.UserRepository;
 import app.service.dog.DogService;
 import app.service.seizure.SeizureService;
 import app.service.user.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,6 +36,18 @@ public class CreateSeizureEntryITest {
     private SeizureService seizureService;
     @Autowired
     private SeizureRepository seizureRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private DogRepository dogRepository;
+
+    @BeforeEach
+    void cleanDatabase() {
+        seizureRepository.deleteAll();
+        dogRepository.deleteAll();
+        userRepository.deleteAll();
+    }
 
     @Test
     void createSeizureEntry_happyPath() {

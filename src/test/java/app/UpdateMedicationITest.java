@@ -20,10 +20,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-public class AddMedicationITest {
+public class UpdateMedicationITest {
 
     @Autowired
     private UserService userService;
@@ -44,14 +45,14 @@ public class AddMedicationITest {
     }
 
     @Test
-    void addMedicationToDog_happyPath() {
+    void updateMedication_happyPath() {
 
         UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .firstName("FirstName")
                 .lastName("LastName")
-                .username("testUser")
+                .username("testUserUpdate")
                 .password("123456789")
-                .email("testUser@example.com")
+                .email("testUserUpdate@example.com")
                 .build();
 
         User registeredUser = userService.registerUser(userRegisterRequest);
@@ -90,10 +91,27 @@ public class AddMedicationITest {
         MedicationResponse medication = medications.getFirst();
 
         assertNotNull(medication.getId());
-        assertEquals(dog.getId(), medication.getDogId());
-        assertEquals("testMedication", medication.getName());
-        assertEquals(LocalDate.of(2020, 1, 1), medication.getStartDate());
-        assertEquals(LocalDate.of(2020, 1, 10), medication.getEndDate());
-        assertEquals(0, medication.getMedicationConcentrationMg().compareTo(BigDecimal.valueOf(50.5)));
+
+        medicationService.updateMedication(
+                medication.getId(),
+                dog.getId(),
+                "Updated Medication",
+                LocalDate.of(2021, 2, 1),
+                LocalDate.of(2021, 2, 10),
+                BigDecimal.valueOf(75.5));
+
+        List<MedicationResponse> updatedMedications = medicationService.getMedicationsByDogId(dog.getId());
+
+        assertNotNull(updatedMedications);
+        assertEquals(1, updatedMedications.size());
+
+        MedicationResponse updatedMedication = updatedMedications.getFirst();
+
+        assertEquals(medication.getId(), updatedMedication.getId());
+        assertEquals(dog.getId(), updatedMedication.getDogId());
+        assertEquals("Updated Medication", updatedMedication.getName());
+        assertEquals(LocalDate.of(2021, 2, 1), updatedMedication.getStartDate());
+        assertEquals(LocalDate.of(2021, 2, 10), updatedMedication.getEndDate());
+        assertEquals(0, updatedMedication.getMedicationConcentrationMg().compareTo(BigDecimal.valueOf(75.5)));
     }
 }

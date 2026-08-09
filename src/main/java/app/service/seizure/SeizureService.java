@@ -81,7 +81,7 @@ public class SeizureService {
         log.info("Deleting seizure with id: {}", seizureId);
     }
 
-    public List<Seizure> findAllSeizuresByDog_IdOrderByDateDescTimeDesc(UUID dogId) {
+    public List<Seizure> getAllSeizuresByDog_IdOrderByDateDescTimeDesc(UUID dogId) {
 
         return seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
     }

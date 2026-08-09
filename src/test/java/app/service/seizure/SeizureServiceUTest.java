@@ -56,7 +56,7 @@ public class SeizureServiceUTest {
 
         when(seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId)).thenReturn(seizures);
 
-        List<Seizure> result = seizureService.findAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId);
+        List<Seizure> result = seizureService.getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId);
 
         assertEquals(2, result.size());
         assertEquals(seizures, result);
@@ -71,7 +71,7 @@ public class SeizureServiceUTest {
 
         when(seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId)).thenReturn(Collections.emptyList());
 
-        List<Seizure> result = seizureService.findAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId);
+        List<Seizure> result = seizureService.getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());

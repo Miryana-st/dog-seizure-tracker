@@ -35,7 +35,7 @@ public class UserControllerApiTest {
     private MockMvc mockMvc;
 
     @Test
-    void getUsersEndpointWithAdmin_shouldReturn200OkAndUsersView() throws Exception {
+    void getAllUsersEndpointWithAdmin_shouldReturn200OkAndUsersView() throws Exception {
 
         User adminUser = aRandomUser();
         adminUser.setRole(UserRole.ADMIN);
@@ -63,7 +63,7 @@ public class UserControllerApiTest {
     }
 
     @Test
-    void switchUserRole_shouldSwitchRoleAndRedirectToUsers() throws Exception {
+    void putSwitchUserRoleEndpoint_shouldSwitchRoleAndRedirectToUsers() throws Exception {
 
         UUID userId = UUID.randomUUID();
         UserData authorizedUser = admin();
@@ -81,7 +81,7 @@ public class UserControllerApiTest {
     }
 
     @Test
-    void getProfilePage_whenUserOwnsProfile_shouldReturnProfileView() throws Exception {
+    void getProfileEndpoint_whenUserOwnsProfile_shouldReturnProfileView() throws Exception {
 
         User user = aRandomUser();
 
@@ -108,7 +108,7 @@ public class UserControllerApiTest {
     }
 
     @Test
-    void getProfilePage_whenAccessDeniedExceptionOccurs_shouldReturnNotFoundErrorPage() throws Exception {
+    void getProfileEndpoint_whenAccessDeniedExceptionOccurs_shouldReturnNotFoundErrorPage() throws Exception {
 
         User user = aRandomUser();
 
@@ -133,7 +133,7 @@ public class UserControllerApiTest {
     }
 
     @Test
-    void updateProfilePage_whenValidRequest_shouldUpdateUserAndRedirectToHome() throws Exception {
+    void putUpdateProfileEndpoint_whenValidRequest_shouldUpdateUserAndRedirectToHome() throws Exception {
 
         User user = aRandomUser();
 
@@ -161,7 +161,7 @@ public class UserControllerApiTest {
     }
 
     @Test
-    void updateProfilePage_whenValidationErrors_shouldReturnProfileView() throws Exception {
+    void putUpdateProfileEndpoint_whenValidationErrors_shouldReturnProfileView() throws Exception {
 
         User user = aRandomUser();
 
@@ -190,7 +190,7 @@ public class UserControllerApiTest {
     }
 
     @Test
-    void deleteUser_whenDeletingOwnAccount_shouldReturnRedirectToHomePage() throws Exception {
+    void deleteUserEndpoint_whenDeletingOwnAccount_shouldReturnRedirectToHomePage() throws Exception {
 
         User user = aRandomUser();
 
@@ -214,7 +214,7 @@ public class UserControllerApiTest {
     }
 
     @Test
-    void deleteUser_whenAdminDeletesAnotherUser_shouldReturnRedirectToUsers() throws Exception {
+    void deleteUserEndpoint_whenAdminDeletesAnotherUser_shouldReturnRedirectToUsers() throws Exception {
 
         User user = aRandomUser();
 

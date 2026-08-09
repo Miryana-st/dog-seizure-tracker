@@ -32,7 +32,7 @@ public class PdfService {
     public byte[] generateSeizureReport(UUID dogId) {
 
         try {
-            List<Seizure> seizures = seizureService.findAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId);
+            List<Seizure> seizures = seizureService.getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId);
 
             Context context = new Context();
             context.setVariable("seizures", seizures);

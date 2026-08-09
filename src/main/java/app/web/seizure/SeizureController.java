@@ -46,7 +46,7 @@ public class SeizureController {
 
         modelAndView.setViewName("seizures");
         modelAndView.addObject("dog", dog);
-        modelAndView.addObject("seizures", seizureService.findAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId));
+        modelAndView.addObject("seizures", seizureService.getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId));
 
         return modelAndView;
     }
@@ -91,7 +91,7 @@ public class SeizureController {
 
     @GetMapping("/{seizureId}/details")
     @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
-    public ModelAndView getSeizureLog(@PathVariable UUID dogId,
+    public ModelAndView getSeizureLog (@PathVariable UUID dogId,
                                       @PathVariable UUID seizureId) {
 
         Dog dog = dogService.getDogById(dogId);

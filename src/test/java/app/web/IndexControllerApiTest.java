@@ -57,7 +57,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void postRegister_shouldReturn302RedirectAndRedirectToLoginAndInvokeRegisterServiceMethod() throws Exception {
+    void postRegisterNewUserEndpoint_shouldReturn302RedirectAndRedirectToLoginAndInvokeRegisterServiceMethod() throws Exception {
 
         MockHttpServletRequestBuilder httpRequest = post("/register")
                 .formField("firstName", "testFirstName")
@@ -75,7 +75,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void postRegisterWithInvalidFormData_shouldReturn200OkAndShowRegisterViewAndRegisterServiceMethodIsNeverInvoke() throws Exception {
+    void postRegisterNewUserEndpointWithInvalidFormData_shouldReturn200OkAndShowRegisterViewAndRegisterServiceMethodIsNeverInvoke() throws Exception {
 
         MockHttpServletRequestBuilder httpRequest = post("/register")
                 .formField("firstName", "t")
@@ -93,7 +93,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void postRegisterWhenUserWithEmailOrUsernameExists_shouldRedirectToRegisterAndAddFlashAttribute() throws Exception {
+    void postRegisterNewUserEndpointWhenUserWithEmailOrUsernameExists_shouldRedirectToRegisterAndAddFlashAttribute() throws Exception {
 
         UserWithEmailOrUsernameExists exception =
                 new UserWithEmailOrUsernameExists(USER_WITH_EMAIL_OR_USERNAME_EXISTS);
@@ -122,7 +122,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void postRegisterWhenDoneByAdminFromUsersPage_shouldReturn302RedirectAndRedirectToUsersAndInvokeRegisterServiceMethod() throws Exception {
+    void postRegisterNewUserEndpointWhenDoneByAdminFromUsersPage_shouldReturn302RedirectAndRedirectToUsersAndInvokeRegisterServiceMethod() throws Exception {
 
         User user = aRandomUser();
 
@@ -149,7 +149,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void getLoginPage_whenNoErrorMessage_thenReturnLoginPage() throws Exception {
+    void getLoginEndpoint_whenNoErrorMessage_thenReturnLoginPage() throws Exception {
 
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
@@ -160,7 +160,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void getLoginPage_whenLoginError_thenReturnLoginPageWithErrorMessage() throws Exception {
+    void getLoginEndpoint_whenLoginError_thenReturnLoginPageWithErrorMessage() throws Exception {
 
         mockMvc.perform(get("/login").param("error", "true"))
                 .andExpect(status().isOk())
@@ -170,7 +170,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void getHomePage_shouldReturnHomeViewWithUserModelAttributeAndStatusCodeIs200() throws Exception {
+    void getHomeEndpoint_shouldReturnHomeViewWithUserModelAttributeAndStatusCodeIs200() throws Exception {
 
         User user = aRandomUser();
 
@@ -192,7 +192,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void getHomePageAndUserNotFound_ShouldReturnNotFoundErrorView() throws Exception {
+    void getHomeEndpointAndUserNotFound_ShouldReturnNotFoundErrorView() throws Exception {
 
         User user = aRandomUser();
 
@@ -213,7 +213,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void getHomePageAndUnauthorizedUser_ShouldReturnUnauthorizedException() throws Exception {
+    void getHomeEndpointAndUnauthorizedUser_ShouldReturnUnauthorizedException() throws Exception {
 
         User user = aRandomUser();
 
@@ -234,7 +234,7 @@ public class IndexControllerApiTest {
     }
 
     @Test
-    void getHomePage_whenUnexpectedExceptionOccurs_shouldReturnErrorPage() throws Exception {
+    void getHomeEndpoint_whenUnexpectedExceptionOccurs_shouldReturnErrorPage() throws Exception {
 
         User user = aRandomUser();
 
