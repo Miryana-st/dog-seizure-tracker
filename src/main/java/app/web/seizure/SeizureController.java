@@ -11,6 +11,7 @@ import app.service.pdf.PdfService;
 import app.service.seizure.SeizureService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +51,7 @@ public class SeizureController {
         modelAndView.addObject("dog", dog);
         modelAndView.addObject("seizures", seizureService.getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId));
         modelAndView.addObject("seizureSummary", seizureSummery);
+        modelAndView.addObject("monthlyReportAvailable", pdfService.previousMonthReportExists(dogId));
         return modelAndView;
     }
 
@@ -157,5 +159,18 @@ public class SeizureController {
                         "attachment; filename=seizure-report.pdf")
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdf);
+    }
+
+    @GetMapping("/monthly-report")
+    public ResponseEntity<Resource> downloadMonthlyReport(
+            @PathVariable UUID dogId) {
+
+        Resource resource = pdfService.getPreviousMonthReport(dogId);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=monthly-seizure-report.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
     }
 }

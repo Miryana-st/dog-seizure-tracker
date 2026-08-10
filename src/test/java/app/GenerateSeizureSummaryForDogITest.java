@@ -121,7 +121,5 @@ public class GenerateSeizureSummaryForDogITest {
         assertEquals(40, seizureSummary.getAverageDuration());
         assertEquals(50, seizureSummary.getLongestDuration());
         assertEquals(1, seizureSummary.getClusterSeizures());
-        assertEquals(1, seizureSummary.getSeverityCount().get(SeizureSeverity.MILD));
-        assertEquals(1, seizureSummary.getSeverityCount().get(SeizureSeverity.MODERATE));
     }
 }

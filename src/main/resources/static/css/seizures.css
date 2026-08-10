@@ -1,5 +1,6 @@
 h1 {
     padding: 0.5em;
+    font-size: 1.4em;
 }
 
 .seizures-table {
@@ -8,7 +9,7 @@ h1 {
     border-radius: 1em;
     box-shadow: 0 0.8em 2em rgba(0,0,0,0.12);
     overflow-x: auto;
-    font-size: 0.9em;
+    font-size: 0.8em;
 }
 
 .seizures-table table {
@@ -21,7 +22,7 @@ h1 {
 .seizures-table th {
     background: #2b2847;
     color: #F6F6FD;
-    padding: 1em 2.5em;
+    padding: 1em 2em;
     text-align: left;
     border: 0.05em solid #F6F6FD;
 }
@@ -68,6 +69,7 @@ tr {
     padding: 0.5em 1em;
     border-radius: 2em;
     font-weight: bold;
+    font-size: 0.8em;
 }
 
 .severity-mild,
@@ -76,7 +78,6 @@ tr {
     color: green;
     border: 0.05em solid green;
     padding: 0.5em 2em;
-
 }
 
 .severity-severe,
@@ -132,6 +133,7 @@ i.cluster-no {
     display: flex;
     justify-content: center;
     gap: 1em;
+    padding: 1em;
 }
 
 .seizure-summary {
@@ -143,14 +145,14 @@ i.cluster-no {
     border-radius: 1em;
     box-shadow: 0 0.8em 2em rgba(0, 0, 0, 0.12);
     box-sizing: border-box;
-    font-size: 0.9em;
+    font-size: 0.8em;
 }
 
 .seizure-summary h2 {
     margin: 0 0 1.5em;
     text-align: center;
     color: #2b2847;
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 
 .summary-stat {
@@ -163,6 +165,7 @@ i.cluster-no {
     background: white;
     border-radius: 0.7em;
     border: 0.05em solid #e5e7eb;
+    font-size: 1em;
 }
 
 .summary-stat > span:first-child {
@@ -172,7 +175,6 @@ i.cluster-no {
 
 .summary-stat strong {
     color: #2b2847;
-    font-size: 1.1em;
 }
 
 .summary-stat:last-child {
@@ -193,4 +195,14 @@ i.cluster-no {
     color: #2b2847;
     border-radius: 1em;
     font-weight: 600;
+}
+
+.seizures-table th:first-child,
+.seizures-table td:first-child {
+    min-width: 8em;
+}
+
+.seizures-table th:nth-child(2),
+.seizures-table td:nth-child(2) {
+    min-width: 5em;
 }

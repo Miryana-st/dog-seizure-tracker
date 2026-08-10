@@ -1,6 +1,7 @@
 package app.web.medication;
 
 import app.exception.MedicationMicroserviceUnavailableException;
+import app.model.dto.medication.MedicationRequest;
 import app.model.dto.medication.MedicationResponse;
 import app.model.entity.dog.Dog;
 import app.model.entity.dog.GenderDog;
@@ -23,10 +24,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MedicationController.class)
@@ -105,7 +109,7 @@ public class MedicationControllerApiTest {
         when(medicationService.getMedicationsByDogId(dog.getId())).thenReturn(medications);
 
         MockHttpServletRequestBuilder httpRequest = get("/medications/{dogId}", dog.getId())
-                        .with(user(authentication));
+                .with(user(authentication));
 
         Integer dogAge = LocalDate.now().getYear() - dog.getDateOfBirth().getYear();
 
@@ -231,6 +235,131 @@ public class MedicationControllerApiTest {
         verify(medicationService).getMedicationByIdAndDogId(medicationId, dog.getId());
         verify(dogService).getDogById(dog.getId());
     }
+
+    @Test
+    void addMedicationEndpoint_whenValidRequest_shouldRedirectToMedicationsPage() throws Exception {
+
+        User owner = aRandomUser();
+
+        UserData authentication = new UserData(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getRole());
+
+        Dog dog = aRandomDog();
+        dog.setOwner(owner);
+
+        MedicationRequest medicationRequest = MedicationRequest.builder()
+                .name("Test Medication")
+                .startDate(LocalDate.of(2026, 8, 1))
+                .endDate(LocalDate.of(2026, 8, 31))
+                .medicationConcentrationMg(BigDecimal.valueOf(50.5))
+                .build();
+
+        when(dogService.isDogOwner(dog.getId(), authentication.getUserId()))
+                .thenReturn(true);
+
+        when(dogService.getDogById(dog.getId()))
+                .thenReturn(dog);
+
+        MockHttpServletRequestBuilder httpRequest =
+                post("/medications/{dogId}/new", dog.getId())
+                        .with(user(authentication))
+                        .with(csrf())
+                        .param("name", medicationRequest.getName())
+                        .param("startDate", medicationRequest.getStartDate().toString())
+                        .param("endDate", medicationRequest.getEndDate().toString())
+                        .param("medicationConcentrationMg", medicationRequest.getMedicationConcentrationMg().toString());
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/medications/" + dog.getId()));
+
+        verify(dogService).isDogOwner(dog.getId(), authentication.getUserId());
+        verify(dogService).getDogById(dog.getId());
+        verify(medicationService).addMedication(
+                eq(dog.getId()),
+                eq(medicationRequest.getName()),
+                eq(medicationRequest.getStartDate()),
+                eq(medicationRequest.getEndDate()),
+                eq(medicationRequest.getMedicationConcentrationMg()));
+    }
+
+    @Test
+    void addMedicationEndpoint_whenInvalidRequest_shouldReturnAddMedicationViewWithErrors() throws Exception {
+
+        User owner = aRandomUser();
+
+        UserData authentication = new UserData(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getRole());
+
+        Dog dog = aRandomDog();
+        dog.setOwner(owner);
+
+        when(dogService.isDogOwner(dog.getId(), authentication.getUserId())).thenReturn(true);
+        when(dogService.getDogById(dog.getId())).thenReturn(dog);
+
+        MockHttpServletRequestBuilder httpRequest =
+                post("/medications/{dogId}/new", dog.getId())
+                        .with(user(authentication))
+                        .with(csrf())
+                        .param("name", "")
+                        .param("startDate", "")
+                        .param("endDate", "")
+                        .param("medicationConcentrationMg", "");
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().isOk())
+                .andExpect(view().name("add-medication"))
+                .andExpect(model().attribute("dog", dog))
+                .andExpect(model().attributeExists("addMedicationRequest"))
+                .andExpect(model().attributeHasFieldErrors(
+                        "addMedicationRequest",
+                        "name",
+                        "startDate",
+                        "medicationConcentrationMg"));
+
+        verify(dogService).isDogOwner(dog.getId(), authentication.getUserId());
+        verify(dogService).getDogById(dog.getId());
+        verifyNoInteractions(medicationService);
+    }
+
+    @Test
+    void deleteMedicationEndpoint_whenAuthenticatedUser_shouldRedirectToMedicationsPage() throws Exception {
+
+        User owner = aRandomUser();
+
+        UserData authentication = new UserData(
+                owner.getId(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getRole());
+
+        Dog dog = aRandomDog();
+        dog.setOwner(owner);
+
+        UUID medicationId = UUID.randomUUID();
+
+        when(dogService.isDogOwner(dog.getId(), authentication.getUserId())).thenReturn(true);
+
+        MockHttpServletRequestBuilder httpRequest =
+                delete("/medications/{dogId}/{medicationId}",
+                        dog.getId(), medicationId)
+                        .with(user(authentication))
+                        .with(csrf());
+
+        mockMvc.perform(httpRequest)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/medications/" + dog.getId()));
+
+        verify(dogService).isDogOwner(dog.getId(), authentication.getUserId());
+        verify(medicationService).deleteMedication(medicationId, dog.getId());
+    }
+
 
     public static User aRandomUser() {
 

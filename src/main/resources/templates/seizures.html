@@ -36,7 +36,7 @@
                 <tr th:each="seizure : ${seizures}">
                     <td th:text="${seizure.date!= null ? (T(java.time.format.DateTimeFormatter).ofPattern('MMMM d, yyyy').format(seizure.date)) : ''}"></td>
                     <td th:text="${seizure.time}"></td>
-                    <td th:text="${seizure.duration + ' seconds'}"></td>
+                    <td th:text="${seizure.duration + ' sec'}"></td>
                     <td>
                         <p th:if="${seizure.severity != null}"
                            th:class="${'severity-' + seizure.severity.name().toLowerCase()}"
@@ -78,11 +78,15 @@
                 <a th:href="@{/dogs/{id}/seizures/new(id=${dogId})}" class="button add-seizure">Add New Seizure</a>
             </div>
         </div>
-        <div class="button button-container-second">
+        <div class="button-container-second">
             <a th:href="@{/dogs/{id}/seizures/pdf(id=${dogId})}" class="button generate-pdf"><i
                     class="fa-solid fa-file-pdf"></i>Export PDF</a>
-            <a th:href="@{/dogs/{id}/risk-analysis(id=${dogId})}" class="button risk-analysis"><i
-                    class="fa-solid fa-chart-line"></i>Risk Analysis</a>
+            <a th:if="${monthlyReportAvailable}"
+               th:href="@{/dogs/{id}/seizures/monthly-report(id=${dogId})}"
+               class="button monthly-report">
+                <i class="fa-solid fa-file-pdf"></i>
+                Download Monthly Report
+            </a>
         </div>
     </section>
 
@@ -103,13 +107,6 @@
             <strong>
                 <span th:text="${seizureSummary.longestDuration}"></span> seconds
             </strong>
-        </div>
-        <div class="summary-stat">
-            <span>Severity: </span>
-            <div th:each="severity : ${seizureSummary.severityCount}">
-                <span th:text="${severity.key}"></span>:
-                <span th:text="${severity.value}"></span>
-            </div>
         </div>
     </section>
 

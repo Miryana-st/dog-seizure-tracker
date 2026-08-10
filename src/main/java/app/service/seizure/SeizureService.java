@@ -6,7 +6,6 @@ import app.model.dto.seizure.EditSeizureRequest;
 import app.model.dto.seizure.SeizureSummaryDto;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
-import app.model.entity.seizure.SeizureSeverity;
 import app.repository.seizure.SeizureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static app.exception.ExceptionMessages.SEIZURE_NOT_FOUND;
 
@@ -41,7 +37,8 @@ public class SeizureService {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "seizuresByDogId", allEntries = true),
-            @CacheEvict(value = "seizureById", allEntries = true)
+            @CacheEvict(value = "seizureById", allEntries = true),
+            @CacheEvict(value = "dogById", allEntries = true)
     })
     public Seizure createSeizureEntry(CreateNewSeizureRequest createNewSeizureRequest, Dog dog) {
 
@@ -66,7 +63,8 @@ public class SeizureService {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "seizureById", key = "#id"),
-            @CacheEvict(value = "seizuresByDogId", allEntries = true)
+            @CacheEvict(value = "seizuresByDogId", allEntries = true),
+            @CacheEvict(value = "dogById", allEntries = true)
     })
     public void updateSeizureEntry(UUID id, EditSeizureRequest editSeizureRequest) {
 
@@ -89,7 +87,8 @@ public class SeizureService {
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "seizureById", key = "#seizureId"),
-            @CacheEvict(value = "seizuresByDogId", allEntries = true)
+            @CacheEvict(value = "seizuresByDogId", allEntries = true),
+            @CacheEvict(value = "dogById", allEntries = true)
     })
     public void deleteSeizureById(UUID seizureId) {
 
@@ -135,7 +134,6 @@ public class SeizureService {
                     .averageDuration(0)
                     .clusterSeizures(0)
                     .longestDuration(0)
-                    .severityCount(Collections.emptyMap())
                     .build();
         }
 
@@ -150,9 +148,6 @@ public class SeizureService {
                 .max()
                 .orElse(0);
 
-        Map<SeizureSeverity, Long> severityCounts = seizuresForLastWeek.stream()
-                .collect(Collectors.groupingBy(Seizure::getSeverity, Collectors.counting()));
-
         int clusterSeizuresCount = (int) seizuresForLastWeek.stream().filter(Seizure::isCluster).count();
 
         return SeizureSummaryDto.builder()
@@ -160,7 +155,6 @@ public class SeizureService {
                 .averageDuration(averageDuration)
                 .clusterSeizures(clusterSeizuresCount)
                 .longestDuration(longestDuration)
-                .severityCount(severityCounts)
                 .build();
     }
 

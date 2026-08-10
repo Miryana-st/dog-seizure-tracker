@@ -51,9 +51,10 @@ Medication data is managed by `medication-svc` and consumed by the main app thro
 - Add seizure entry
 - Edit seizure entry
 - Delete seizure entry
+- Generate seizure summaries
 - View seizure history by dog
-- Monthly seizure summary generation (scheduled)
-- Export seizure report to PDF
+- Automatically generate a PDF report for the previous month (scheduled)
+- Export seizure reports to PDF
 
 ### Medication Integration (via `medication-svc`)
 - Create, update, delete, and view medications for a dog
@@ -123,6 +124,7 @@ Medication data is managed by `medication-svc` and consumed by the main app thro
 | PUT | `/dogs/{dogId}/seizures/{seizureId}/seizure-profile` | Update seizure entry |
 | DELETE | `/dogs/{dogId}/seizures/{seizureId}` | Delete seizure entry |
 | GET | `/dogs/{dogId}/seizures/pdf` | Export seizure report PDF |
+| GET | `/dogs/{dogId}/seizures/monthly-report` | Download generated monthly report |
 
 ### Medication UI (backed by microservice)
 
@@ -173,6 +175,30 @@ Base URL: `http://localhost:8081/api/v1`
 | PUT | `/medication-schedule/{dogId}/{medicationScheduleId}/details` | Update schedule |
 | DELETE | `/medication-schedule/{dogId}/{medicationScheduleId}` | Delete schedule |
 
+### Scheduled Jobs
+
+The main application uses Spring's @Scheduled functionality to perform automated background tasks.
+
+### Monthly Seizure Report
+
+The monthly seizure report scheduler runs on the first day of every month:
+
+@Scheduled(cron = "0 0 0 1 * *")
+
+It generates a PDF report containing the previous month's seizure records for every dog.
+
+Generated reports are stored locally in:
+
+generated-reports/
+
+Example:
+
+generated-reports/
+├── seizure-report-dog-id-2026-7.pdf
+└── seizure-report-dog-id-2026-7.pdf
+
+These reports can subsequently be downloaded through the application's monthly report endpoint.
+
 ## Project Structure
 
 ```text
@@ -208,7 +234,7 @@ medication-svc/
 
 ### Prerequisites
 
-- JDK 17+
+- JDK 21+
 - Maven 3.8+
 - MySQL
 
