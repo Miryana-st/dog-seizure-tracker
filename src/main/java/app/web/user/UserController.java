@@ -40,6 +40,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView switchUserRole(@PathVariable UUID id) {
 
         userService.switchRole(id);

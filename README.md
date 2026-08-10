@@ -62,25 +62,43 @@ _Users can record seizure events with detailed information:_
 * delete seizure log
 
 
-### **Technology Stack:**
-* Java version: 21
-* Spring Boot version: 3.4.0
-* Build tool: Maven
-* Database: MySQL
-* Backend: Spring framework
-* Front-End: Spring MVC + Thymeleaf
-* Getting Started Prerequisites
+### **Technology Stack**
+* Java 21
+* Spring Boot 3.4.0
+* Maven
+* MySQL
+* Spring MVC + Thymeleaf
+* Spring Security
+* Spring Data JPA
+* Spring Cache
+* OpenFeign
 
-_To run this project locally, you will need:
-Java Development Kit (JDK) [17+]
-Apache Maven [3.8+]
-MySQL Server
-An IDE (e.g., IntelliJ IDEA, Eclipse)
-Installation Clone the Repository: _ git clone https://github.com/Miryana-st/dog-seizure-tracker.git cd dog-seizure-tracker
-__
+### **Supported Functionalities**
+* User registration, login, profile update and account deletion
+* Admin role switch and user management
+* Dog create, update and delete
+* Seizure create, update and delete
+* Monthly seizure summary generation
+* Medication create, update, delete and view through integrated microservice
+* Medication schedule create, update, delete and due schedule view through integrated microservice
+* Seizure report export to PDF
 
-Database Setup: _ spring.datasource.url=jdbc:mysql://localhost:3306/seizure-tracker-application spring.datasource.username=[your_username] spring.datasource.password=[your_password] _
+### **Integrations**
+* `medication-svc` via OpenFeign on `http://localhost:8081/api/v1`
+* PDF generation via `openhtmltopdf`
 
-Run the Application: run Application.java as a Java application from your IDE or use the command line: mvn spring-boot:run
+### **Getting Started Prerequisites**
+* Java Development Kit (JDK) 17+
+* Apache Maven 3.8+
+* MySQL Server
+* IDE (IntelliJ IDEA, Eclipse, or similar)
 
-Access the Application: Open your web browser and navigate to http://localhost:8080/ (or the port specified in your configuration)_
+### **Run Locally**
+* Clone repository:
+  `git clone https://github.com/Miryana-st/dog-seizure-tracker.git`
+* Configure database in `application.properties`:
+  `spring.datasource.url=jdbc:mysql://localhost:3306/dog-seizure_tracker_app?createDatabaseIfNotExist=true`
+* Start application:
+  `mvn spring-boot:run`
+* Open:
+  `http://localhost:8080/`

@@ -43,4 +43,7 @@ public interface MedicationClient {
 
     @PutMapping("/medication-schedule/{dogId}/{medicationScheduleId}/details")
     ResponseEntity<MedicationScheduleResponse> updateMedicationSchedule(@PathVariable("dogId") UUID dogId, @PathVariable("medicationScheduleId") UUID medicationScheduleId, @RequestBody MedicationScheduleRequest request);
+
+    @GetMapping("/medication-schedule/{dogId}/due")
+    ResponseEntity<List<MedicationScheduleResponse>> getDueMedicationSchedules(@PathVariable UUID dogId);
 }

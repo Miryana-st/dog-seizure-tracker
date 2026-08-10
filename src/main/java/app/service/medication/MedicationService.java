@@ -8,6 +8,9 @@ import app.service.medication.client.MedicationClient;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -29,6 +32,10 @@ public class MedicationService {
         this.client = client;
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "medicationsByDogId", allEntries = true),
+            @CacheEvict(value = "medicationByDogAndId", allEntries = true)
+    })
     public void addMedication(UUID dogId, String name, LocalDate startDate, LocalDate endDate, BigDecimal medicationConcentrationMg) {
 
         MedicationRequest dto = MedicationRequest.builder()
@@ -46,6 +53,10 @@ public class MedicationService {
         }
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "medicationsByDogId", allEntries = true),
+            @CacheEvict(value = "medicationByDogAndId", allEntries = true)
+    })
     public void updateMedication(UUID medicationId, UUID dogId, String name, LocalDate startDate, LocalDate endDate, BigDecimal medicationConcentrationMg) {
 
         MedicationRequest dto = MedicationRequest.builder()
@@ -63,6 +74,10 @@ public class MedicationService {
         }
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "medicationsByDogId", allEntries = true),
+            @CacheEvict(value = "medicationByDogAndId", allEntries = true)
+    })
     public void deleteMedication(UUID medicationId, UUID dogId) {
         try {
             client.deleteMedication(dogId, medicationId);
@@ -72,6 +87,7 @@ public class MedicationService {
         }
     }
 
+    @Cacheable(value = "medicationsByDogId", key = "#dogId")
     public List<MedicationResponse> getMedicationsByDogId(UUID dogId) {
         try {
             return client.getMedicationsByDogId(dogId);
@@ -81,6 +97,7 @@ public class MedicationService {
         }
     }
 
+    @Cacheable(value = "medicationByDogAndId", key = "#dogId + ':' + #id")
     public MedicationResponse getMedicationByIdAndDogId(UUID id, UUID dogId) {
         try {
             return client.getMedicationById(dogId, id);

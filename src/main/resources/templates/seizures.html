@@ -85,6 +85,34 @@
                     class="fa-solid fa-chart-line"></i>Risk Analysis</a>
         </div>
     </section>
+
+    <section class="seizure-summary">
+        <h2 th:text="'Seizure Summary - ' + ${#temporals.format(T(java.time.LocalDate).now().minusMonths(1),'MMMM yyyy')}">Seizure Summary - July 2026</h2>
+        <div class="summary-stat">
+            <span>Total seizures: </span>
+            <strong th:text="${seizureSummary.totalSeizures}"></strong>
+        </div>
+        <div class="summary-stat">
+            <span>Average duration: </span>
+            <strong>
+                <span th:text="${seizureSummary.averageDuration}"></span> seconds
+            </strong>
+        </div>
+        <div class="summary-stat">
+            <span>Longest seizure: </span>
+            <strong>
+                <span th:text="${seizureSummary.longestDuration}"></span> seconds
+            </strong>
+        </div>
+        <div class="summary-stat">
+            <span>Severity: </span>
+            <div th:each="severity : ${seizureSummary.severityCount}">
+                <span th:text="${severity.key}"></span>:
+                <span th:text="${severity.value}"></span>
+            </div>
+        </div>
+    </section>
+
 </main>
 <footer th:insert="fragments/footer :: footer"></footer>
 </body>

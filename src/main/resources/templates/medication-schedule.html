@@ -64,7 +64,10 @@
                                 <i class="fa-solid fa-pills"></i>
                             </div>
                             <div class="medication-details">
-                                <h3 th:text="${schedule.medicationName}">Medication</h3>
+                                <div class="medication-title">
+                                    <h3 th:text="${schedule.medicationName}"></h3>
+                                    <span class="medication-due" th:each="dueMedication : ${dueMedications}" th:if="${dueMedication.id.equals(schedule.id)}">
+                                        <i class="fa-solid fa-bell"></i> Medication is due soon</span> </div>
                                 <p>
                                     <span th:text="${schedule.amount}"></span>
                                     <span th:text="${schedule.dosage}"></span>

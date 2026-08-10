@@ -7,6 +7,9 @@ import app.model.entity.dog.Dog;
 import app.model.entity.user.User;
 import app.repository.dog.DogRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,10 @@ public class DogService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "dogsByOwnerId", allEntries = true),
+            @CacheEvict(value = "allDogs", allEntries = true)
+    })
     public Dog createDog(CreateNewDogRequest createNewDogRequest, User user) {
 
         Dog dog = Dog.builder()
@@ -49,6 +56,12 @@ public class DogService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "dogById", key = "#id"),
+            @CacheEvict(value = "dogAgeById", key = "#id"),
+            @CacheEvict(value = "dogsByOwnerId", allEntries = true),
+            @CacheEvict(value = "allDogs", allEntries = true)
+    })
     public void updateDogInformation(UUID id, EditDogRequest editDogRequest) {
         Dog dog = dogRepository.findById(id)
                 .orElseThrow(
@@ -66,6 +79,12 @@ public class DogService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "dogById", key = "#id"),
+            @CacheEvict(value = "dogAgeById", key = "#id"),
+            @CacheEvict(value = "dogsByOwnerId", allEntries = true),
+            @CacheEvict(value = "allDogs", allEntries = true)
+    })
     public void deleteDogById(UUID id) {
 
         Dog dogToDelete = dogRepository.findById(id)
@@ -79,14 +98,17 @@ public class DogService {
 
     public boolean isDogOwner(UUID dogId, UUID userId) {
 
-        Dog dog = getDogById(dogId);
+        Dog dog = dogRepository.findById(dogId)
+                .orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
 
         return dog.getOwner().getId().equals(userId);
     }
 
+    @Cacheable(value = "dogAgeById", key = "#dogId")
     public Integer calculateDogAge(UUID dogId) {
 
-        Dog dog = getDogById(dogId);
+        Dog dog = dogRepository.findById(dogId)
+                .orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
 
         if (dog.getDateOfBirth() == null) {
             return null;
@@ -98,13 +120,20 @@ public class DogService {
         ).getYears();
     }
 
+    @Cacheable(value = "dogsByOwnerId", key = "#ownerId")
     public List<Dog> getAllDogsByOwnerId(UUID ownerId) {
 
         return dogRepository.findAllByOwner_Id(ownerId);
     }
 
+    @Cacheable(value = "dogById", key = "#dogId")
     public Dog getDogById(UUID dogId) {
 
         return dogRepository.findById(dogId).orElseThrow(() -> new NotFoundException(DOG_NOT_FOUND));
+    }
+
+    @Cacheable("allDogs")
+    public List<Dog> getAllDogs() {
+        return dogRepository.findAll();
     }
 }

@@ -3,6 +3,7 @@ package app.web.seizure;
 import app.model.dto.seizure.CreateNewSeizureRequest;
 import app.model.dto.seizure.EditSeizureRequest;
 import app.model.dto.seizure.SeizureDtoMapper;
+import app.model.dto.seizure.SeizureSummaryDto;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
 import app.service.dog.DogService;
@@ -41,13 +42,14 @@ public class SeizureController {
     public ModelAndView getSeizuresForDog(@PathVariable UUID dogId) {
 
         Dog dog = dogService.getDogById(dogId);
+        SeizureSummaryDto seizureSummery = seizureService.generateSeizureSummaryForDog(dog);
 
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("seizures");
         modelAndView.addObject("dog", dog);
         modelAndView.addObject("seizures", seizureService.getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dogId));
-
+        modelAndView.addObject("seizureSummary", seizureSummery);
         return modelAndView;
     }
 

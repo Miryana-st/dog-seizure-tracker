@@ -3,17 +3,26 @@ package app.service.seizure;
 import app.exception.NotFoundException;
 import app.model.dto.seizure.CreateNewSeizureRequest;
 import app.model.dto.seizure.EditSeizureRequest;
-//import app.model.dto.seizure.SeizureDto;
+import app.model.dto.seizure.SeizureSummaryDto;
 import app.model.entity.dog.Dog;
 import app.model.entity.seizure.Seizure;
+import app.model.entity.seizure.SeizureSeverity;
 import app.repository.seizure.SeizureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static app.exception.ExceptionMessages.SEIZURE_NOT_FOUND;
 
@@ -30,6 +39,10 @@ public class SeizureService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "seizuresByDogId", allEntries = true),
+            @CacheEvict(value = "seizureById", allEntries = true)
+    })
     public Seizure createSeizureEntry(CreateNewSeizureRequest createNewSeizureRequest, Dog dog) {
 
         Seizure seizure = Seizure.builder()
@@ -51,6 +64,10 @@ public class SeizureService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "seizureById", key = "#id"),
+            @CacheEvict(value = "seizuresByDogId", allEntries = true)
+    })
     public void updateSeizureEntry(UUID id, EditSeizureRequest editSeizureRequest) {
 
         Seizure seizure = seizureRepository.findById(id)
@@ -70,6 +87,10 @@ public class SeizureService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "seizureById", key = "#seizureId"),
+            @CacheEvict(value = "seizuresByDogId", allEntries = true)
+    })
     public void deleteSeizureById(UUID seizureId) {
 
         Seizure seizureToDelete = seizureRepository.findById(seizureId)
@@ -81,29 +102,66 @@ public class SeizureService {
         log.info("Deleting seizure with id: {}", seizureId);
     }
 
+    @Cacheable(value = "seizuresByDogId", key = "#dogId")
     public List<Seizure> getAllSeizuresByDog_IdOrderByDateDescTimeDesc(UUID dogId) {
 
         return seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
     }
 
+    @Cacheable(value = "seizureById", key = "#seizureId")
     public Seizure getSeizureById(UUID seizureId) {
 
         return seizureRepository.findById(seizureId)
                 .orElseThrow(() -> new NotFoundException(SEIZURE_NOT_FOUND));
     }
 
-//    public List<SeizureDto> getSeizuresByDogId(UUID dogId) {
-//
-//        List<Seizure> seizures = seizureRepository.findAllByDog_IdOrderByDateDescTimeDesc(dogId);
-//
-//        return seizures.stream()
-//                .map(seizure -> SeizureDto.builder()
-//                        .date(seizure.getDate())
-//                        .duration(seizure.getDuration())
-//                        .severity(seizure.getSeverity())
-//                        .recovery(seizure.getRecovery())
-//                        .cluster(seizure.isCluster())
-//                        .build())
-//                .toList();
-//    }
+    public SeizureSummaryDto generateSeizureSummaryForDog(Dog dog) {
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate startOfLastWeek = today.minusMonths(1).withDayOfMonth(1);
+
+        LocalDate endOfLastWeek = today.minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
+
+        List<Seizure> seizuresForLastWeek = dog.getSeizures()
+                .stream()
+                .filter(seizure ->
+                        !seizure.getDate().isBefore(startOfLastWeek) && !seizure.getDate().isAfter(endOfLastWeek))
+                .toList();
+
+        if (seizuresForLastWeek.isEmpty()) {
+            return SeizureSummaryDto.builder()
+                    .totalSeizures(0)
+                    .averageDuration(0)
+                    .clusterSeizures(0)
+                    .longestDuration(0)
+                    .severityCount(Collections.emptyMap())
+                    .build();
+        }
+
+        double averageDuration = seizuresForLastWeek.stream()
+                .mapToInt(Seizure::getDuration)
+                .average()
+                .orElse(0);
+
+        int longestDuration = seizuresForLastWeek
+                .stream()
+                .mapToInt(Seizure::getDuration)
+                .max()
+                .orElse(0);
+
+        Map<SeizureSeverity, Long> severityCounts = seizuresForLastWeek.stream()
+                .collect(Collectors.groupingBy(Seizure::getSeverity, Collectors.counting()));
+
+        int clusterSeizuresCount = (int) seizuresForLastWeek.stream().filter(Seizure::isCluster).count();
+
+        return SeizureSummaryDto.builder()
+                .totalSeizures(seizuresForLastWeek.size())
+                .averageDuration(averageDuration)
+                .clusterSeizures(clusterSeizuresCount)
+                .longestDuration(longestDuration)
+                .severityCount(severityCounts)
+                .build();
+    }
+
 }

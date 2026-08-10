@@ -1,5 +1,6 @@
 package app.web.seizure;
 
+import app.model.dto.seizure.SeizureSummaryDto;
 import app.model.entity.dog.Dog;
 import app.model.entity.dog.GenderDog;
 import app.model.entity.seizure.Seizure;
@@ -65,9 +66,12 @@ public class SeizureControllerApiTest {
 
         dog.setSeizures(seizures);
 
+        SeizureSummaryDto seizureSummary = new SeizureSummaryDto();
+
         when(dogService.isDogOwner(dog.getId(), authentication.getUserId())).thenReturn(true);
         when(seizureService.getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dog.getId())).thenReturn(seizures);
         when(dogService.getDogById(dog.getId())).thenReturn(dog);
+        when(seizureService.generateSeizureSummaryForDog(dog)).thenReturn(seizureSummary);
 
         MockHttpServletRequestBuilder httpRequest = get("/dogs/{dogId}/seizures", dog.getId())
                 .with(user(authentication));
@@ -76,10 +80,13 @@ public class SeizureControllerApiTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("seizures"))
                 .andExpect(model().attribute("dog", dog))
-                .andExpect(model().attribute("seizures", seizures));
+                .andExpect(model().attribute("seizures", seizures))
+                .andExpect(model().attribute("seizureSummary", seizureSummary));
 
         verify(dogService).isDogOwner(dog.getId(), authentication.getUserId());
         verify(seizureService).getAllSeizuresByDog_IdOrderByDateDescTimeDesc(dog.getId());
+        verify(dogService).getDogById(dog.getId());
+        verify(seizureService).generateSeizureSummaryForDog(dog);
     }
 
     @Test
