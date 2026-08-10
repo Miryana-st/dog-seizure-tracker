@@ -8,9 +8,9 @@ Dog Seizure Tracker is a Spring Boot web application that helps dog owners track
 
 This project is built as two independent Spring Boot applications:
 
-1. **Main application** (`dog-seizure-tracker`)  
+1. **Main application** (`[dog-seizure-tracker](https://github.com/Miryana-st/dog-seizure-tracker.git)`)  
    User-facing web app (Spring MVC + Thymeleaf), authentication, dog and seizure management, reporting.
-2. **REST microservice** (`medication-svc`)  
+2. **REST microservice** (`[medication-svc](https://github.com/Miryana-st/medication-svc.git)`)  
    Medication and medication schedule management, consumed by the main app via OpenFeign.
 
 Each app runs on its own port and uses its own database.
