@@ -194,8 +194,8 @@ generated-reports/
 Example:
 
 generated-reports/
-├── seizure-report-dog-id-2026-7.pdf
-└── seizure-report-dog-id-2026-7.pdf
+├── seizure-report-{dogId}-{year}-{month}.pdf
+└── seizure-report-{dogId}-{year}-{month}.pdf
 
 These reports can subsequently be downloaded through the application's monthly report endpoint.
 
@@ -234,7 +234,7 @@ medication-svc/
 
 ### Prerequisites
 
-- JDK 21+
+- JDK 21
 - Maven 3.8+
 - MySQL
 
