@@ -162,6 +162,7 @@ public class SeizureController {
     }
 
     @GetMapping("/monthly-report")
+    @PreAuthorize("@dogService.isDogOwner(#dogId, authentication.principal.userId)")
     public ResponseEntity<Resource> downloadMonthlyReport(
             @PathVariable UUID dogId) {
 
